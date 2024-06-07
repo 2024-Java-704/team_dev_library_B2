@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>メインページ</title>
+</head>
+<body>
+	<span><a href="/login/newuser">新規登録</a></span>
+<!--	↑ユーザ用と管理者用で会員登録ページのリンクが変わったら要チェック-->
+	
+	<span><a href="/login">ログイン</a></span>
+	
+<!--	↓ログインした時用、6/7時点では書き方わからなかった-->
+<!--	<span><a href="/login/mypage">マイページ</a></span>-->
+<!--	<span><a href="">ログアウト</a></span>-->
+
+	<form action="/library/search" method="get">
+		<input type="text" name="keyword" placeholder="フリーワード検索">
+		<button>検索</button>
+	</form>
+	
+	<br>
+	<form action="" method="get">
+		<table border="1">
+			<tr>詳細検索</tr>
+			<tr>
+				<th>タイトル</th>
+				<td><input type="text" name="title"></td>
+			</tr>
+			<tr>
+				<th>著者</th>
+				<td><input type="text" name="author"></td>
+			</tr>
+			<tr>
+				<th>出版社</th>
+				<td><input type="text" name="publisher"></td>
+			</tr>
+			<tr>
+				<th>カテゴリー</th>
+				<td>
+					<select name="category" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option value="1" label="総記"></option>
+						<option value="2" label="哲学"></option>
+						<option value="3" label="歴史"></option>
+						<option value="4" label="社会科学"></option>
+						<option value="5" label="自然科学"></option>
+						<option value="6" label="技術"></option>
+						<option value="7" label="産業"></option>
+						<option value="8" label="芸術"></option>
+						<option value="9" label="言語"></option>
+						<option value="10" label="文学"></option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<button>検索</button>
+	</form>
+</body>
+</html>

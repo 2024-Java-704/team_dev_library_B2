@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>会員新規登録</title>
+</head>
+<body>
+	<a href="" onclick="histroy.back()">戻る</a> 
+	<a href="">ログアウト</a>
+	<h1>会員登録</h1>
+	
+	<form action="/login/newuser" method="post">
+		<table>
+			<tr>
+				<th>氏名</th>
+				<td><input type="text" name="name"></td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td><input type="text" name="address"></td>
+			</tr>
+			<tr>
+				<th>電話番号</th>
+				<td><input type="text" name="tel"></td>
+			</tr>
+			<tr>
+				<th>メールアドレス</th>
+				<td><input type="email" name="email"></td>
+			</tr>
+			<tr>
+				<th>生年月日</th>
+				<td><input type="date" name="birthday"></td>
+			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td><input type="password" name="password"></td>
+			</tr>
+		</table>
+		<button>登録</button>
+	</form>
+</body>
+</html>
