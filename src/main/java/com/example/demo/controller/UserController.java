@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UsersRepository;
 
+import com.example.demo.model.Account;
+
+import jakarta.servlet.http.HttpSession;
+
+
 @Controller
 public class UserController {
+  @Autowired
+  HttpSession session;
+  @Autowired
+	Account account;
+  
 	@Autowired
 	UsersRepository usersRepository;
 	
@@ -54,5 +65,12 @@ public class UserController {
 		Users user = new Users(name, address, tel, email, birthday, password);
 		usersRepository.save(user);
 		return "login";
+	}
+}
+
+	@GetMapping({"/login/mypage"})
+	public String myPage() {
+		
+		return "mypage";
 	}
 }
