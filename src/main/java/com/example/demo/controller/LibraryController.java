@@ -26,7 +26,7 @@ public class LibraryController {
 		List<Item>Itemlist = null;
 		
 		if(keyword.length()>0) {
-			Itemlist = (List<Item>) ItemsRepository.findByNameContaining(keyword);
+//			Itemlist = (List<Item>) ItemsRepository.findByNameContaining(keyword);
 					
 		return "search";
 		}
