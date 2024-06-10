@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>詳細</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 	<h1>詳細</h1>
@@ -15,7 +16,6 @@
 	    <tr><th>あらすじ</th><td th:text="${item.summary}"></td></tr>
 	    <tr><th>カテゴリー番号</th><td th:text="${item.categoryId}"></td></tr>
 	    <tr><th>サブカテゴリー番号</th><td th:text="${item.subCategoryId}"></td></tr>
-	    <tr><th>予約数</th><td th:text="${item.rentalNumber}"></td></tr>
 	</table>
 </body>
 </html>

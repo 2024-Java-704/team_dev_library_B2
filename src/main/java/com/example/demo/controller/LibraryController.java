@@ -2,20 +2,21 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.repository.ItemsRepository;
+import com.example.demo.entity.ItemTitle;
+import com.example.demo.repository.ItemTitleRepository;
 
 @Controller
 public class LibraryController {
 	
 	@Autowired
-	ItemsRepository itemsrepository;
+	ItemTitleRepository itemtitlerepository;
 	
 	private String mypage;
 
@@ -23,10 +24,11 @@ public class LibraryController {
 	public String search(@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			Model model) {
 		
-		List<Item>Itemlist = null;
+		List<ItemTitle>itemlist = null;
 		
 		if(keyword.length()>0) {
-//			Itemlist = (List<Item>) ItemsRepository.findByNameContaining(keyword);
+			itemlist = itemtitlerepository.findByNameContaining(keyword);
+			model.addAttribute("itemlist", itemlist);
 					
 		return "search";
 		}
@@ -34,7 +36,9 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/search/{id}")
-	public String detail() {
+	public String detail(@PathVariable("id") Integer id, Model model) {
+		ItemTitle itemtitle =itemtitlerepository.findById(id).get();
+		model.addAttribute("item",itemtitle);
 		return "detail";
 	}
 
