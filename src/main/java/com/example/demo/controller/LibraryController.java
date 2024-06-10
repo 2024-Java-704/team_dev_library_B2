@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.repository.ItemsRepository;
 
+@Controller
 public class LibraryController {
 	
 	@Autowired
@@ -34,6 +36,14 @@ public class LibraryController {
 	@GetMapping("/library/search/{id}")
 	public String detail() {
 		return "detail";
+	}
+
+
+
+	// ユーザメイン画面表示
+	@GetMapping({"/", "/library"})
+	public String index() {
+		return "main";
 	}
 
 }
