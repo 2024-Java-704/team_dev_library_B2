@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>会員ログイン</title>
+</head>
+<body>
+	<h1>会員ログイン</h>
+	
+	<form action="/login" method="post">
+		<input type="email" name="email" placeholder="メールアドレス"><br>
+		<input type="password" name="password" placeholder="パスワード"><br>
+		<button>ログイン</button>
+	</form>
+	
+	<a href="/admin/login">管理者ログインはこちら</a>
+</body>
+</html>

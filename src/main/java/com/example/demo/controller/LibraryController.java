@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.repository.ItemsRepository;
 
+@Controller
 public class LibraryController {
 	
 	@Autowired
@@ -36,4 +37,11 @@ public class LibraryController {
 		return "detail";
 	}
 
+
+public class LibraryController {
+	// ユーザメイン画面表示
+	@GetMapping({"/", "/library"})
+	public String index() {
+		return "main";
+	}
 }
