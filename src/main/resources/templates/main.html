@@ -14,19 +14,21 @@
 <!--	↓ログインした時用、6/7時点では書き方わからなかった-->
 <!--	<span><a href="/login/mypage">マイページ</a></span>-->
 <!--	<span><a href="">ログアウト</a></span>-->
-
+	<br>
+	<th:block th:text="${error}"></th:block>
+	
 	<form action="/library/search" method="get">
 		<input type="text" name="keyword" placeholder="フリーワード検索">
 		<button>検索</button>
 	</form>
 	
 	<br>
-	<form action="" method="get">
+	<form action="/library/search" method="get">
 		<table border="1">
 			<tr>詳細検索</tr>
 			<tr>
 				<th>タイトル</th>
-				<td><input type="text" name="title"></td>
+				<td><input type="text" name="name"></td>
 			</tr>
 			<tr>
 				<th>著者</th>
@@ -39,7 +41,7 @@
 			<tr>
 				<th>カテゴリー</th>
 				<td>
-					<select name="category" size="1">
+					<select name="categoryId" size="1">
 						<option value="0" label="選択なし" selected></option>
 						<option value="1" label="総記"></option>
 						<option value="2" label="哲学"></option>
@@ -51,6 +53,44 @@
 						<option value="8" label="芸術"></option>
 						<option value="9" label="言語"></option>
 						<option value="10" label="文学"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>サブカテゴリー</th>
+				<td>
+					<select name="subCategoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option value="1" label="総記"></option>
+						<option value="2" label="図書館"></option>
+						<option value="3" label="百科事典"></option>
+						<option value="4" label="心理学"></option>
+						<option value="5" label="倫理学"></option>
+						<option value="6" label="宗教学"></option>
+						<option value="7" label="日本史"></option>
+						<option value="8" label="東洋史"></option>
+						<option value="9" label="西洋史"></option>
+						<option value="10" label="政治"></option>
+						<option value="11" label="法律"></option>
+						<option value="12" label="経済"></option>
+						<option value="13" label="物理学"></option>
+						<option value="14" label="化学"></option>
+						<option value="15" label="生物科学"></option>
+						<option value="16" label="土木工学"></option>
+						<option value="17" label="機械工学"></option>
+						<option value="18" label="海洋工学"></option>
+						<option value="19" label="産業"></option>
+						<option value="20" label="農業"></option>
+						<option value="21" label="通信事業"></option>
+						<option value="22" label="美術"></option>
+						<option value="23" label="音楽"></option>
+						<option value="24" label="スポーツ"></option>
+						<option value="25" label="日本語"></option>
+						<option value="26" label="英語"></option>
+						<option value="27" label="フランス語"></option>
+						<option value="28" label="日本文学"></option>
+						<option value="29" label="東洋文学"></option>
+						<option value="30" label="西洋文学"></option>
 					</select>
 				</td>
 			</tr>
