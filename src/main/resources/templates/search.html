@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>検索結果</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <h1>検索結果</h1>
 <table border="1">
-	<tr th:each="item:${items}" th:if="${itemTitle.itemId}==${item.id}">
+	<tr th:each="item:${itemlist}">
 		<td th:text="${item.name}"></td>
-		<td><button>詳細</button></td>
+		<td><form th:action="'/library/search/'+${item.id}"><button>詳細</button></form></td>
 	</tr>
 </table>
 </body>
