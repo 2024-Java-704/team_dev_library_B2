@@ -25,6 +25,7 @@ public class Users {
 	@Column(name="join_date")
 	LocalDate joinDate;
 	Integer status;
+	//0:利用可　1:利用不可　9:管理者
 	public Users() {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
