@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>検索結果</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<h1>検索結果</h1>
+<table border="1">
+	<tr><th>タイトル</th><th>著者名</th><th>出版社</th><th>出版日</th><th>詳細</th></tr>
+	<tr th:each="item:${itemlist}">
+		<td th:text="${item.name}"></td>
+		<td th:text="${item.author}"></td>
+		<td th:text="${item.publisher}"></td>
+		<td th:text="${item.publicationDate}"></td>
+		<td><form th:action="'/library/search/'+${item.id}"><button>詳細</button></form></td>
+	</tr>
+</table>
+</body>
+</html>

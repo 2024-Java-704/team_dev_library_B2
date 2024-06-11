@@ -8,17 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="sub_category")
+@Table(name="sub_categories")
 public class SubCategories {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="category_id")
-	Integer categoryId;
+	private Integer categoryId;
 	
-	String name;
+	private String name;
 	
 
 	public SubCategories() {

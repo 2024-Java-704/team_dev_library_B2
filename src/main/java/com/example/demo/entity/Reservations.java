@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,21 +17,25 @@ public class Reservations {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="item_title_id")
-	Integer itemTitleid;
+	private Integer itemTitleid;
 	
 	@Column(name="item_id")
-	Integer itemId;
+	private Integer itemId;
 	
 	@Column(name="user_id")
-	Integer userId;
+	private Integer userId;
 	
 	@Column(name="ordered_on")
-	LocalDate orderedOn;
+	private LocalDate orderedOn;
 	
-	Integer status;
+	private Integer status;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
+	ItemTitle itemTitle;
 
 	public Reservations() {
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -104,5 +110,15 @@ public class Reservations {
 		this.status = status;
 	}
 	
-	
+	public ItemTitle getItemTitle() {
+		return itemTitle;
+	}
+
+	public String getItemTitleName() {
+		if (itemTitle == null) {
+			return "null";
+		}
+		return itemTitle.getName();
+	}
+
 }

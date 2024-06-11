@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>会員ログイン</title>
+</head>
+<body>
+	<h1>会員ログイン</h1>
+	
+	<th:block th:each="error:${errorList}">
+		<div th:text="${error}"></div>
+	</th:block>
+	
+	<form action="/login" method="post">
+		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>
+		<input type="password" name="password" placeholder="パスワード"><br>
+		<button>ログイン</button>
+	</form>
+	
+	<a href="/library">メインページへ戻る</a><br>
+	<a href="/admin/login">管理者ログインはこちら</a>
+</body>
+</html>

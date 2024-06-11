@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="encording">
+<title>在庫数編集画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<h2>在庫数編集画面です</h2>
+	
+	<form th:action="'/admin/rentalcontrol/inventory/detail/item/'+${item.id}" method="post">
+		<table border="1">
+			<tr>
+				<th>状態</th>
+				<td>
+					<div>
+					      <input type="radio" name="status" value="0" th:checked="${item.status == 0}" required />
+					      <label for="statusChoice1">貸出可</label>
+					
+					      <input type="radio" name="status" value="1" th:checked="${item.status == 1}" />
+					      <label for="statusChoice2">貸出中</label>
+					
+					      <input type="radio" name="status" value="2" th:checked="${item.status == 2}" />
+					      <label for="statusChoice3">取置待ち</label>
+					
+					      <input type="radio" name="status" value="3" th:checked="${item.status == 3}" />
+					      <label for="statusChoice4">取置中</label>
+					
+					      <input type="radio" name="status" value="4" th:checked="${item.status == 4}" />
+					      <label for="statusChoice5">利用不可</label>
+					  </div>
+				</td>
+				<th>備考</th>
+				<td>
+					<input type="text" name="memo" th:value="${item.memo}">
+				</td>
+			</tr>
+		</table>
+		<br>
+		<button type="submit">更新</button>
+	</form>
+	<br>
+	<form action="/admin/rentalcontrol/inventory" method="get">
+		<button type="submit">在庫管理画面へ</button>
+	</form>
+		
+
+</body>
+</html>

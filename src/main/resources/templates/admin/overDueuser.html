@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>会員管理</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<body>
+
+	<h1>延滞者一覧</h1>
+	
+	
+	<table>
+		<tr>
+			<th>ユーザーid</th>
+			<th>名前</th>
+			<th>住所</th>
+			<th>電話番号</th>
+			<th>E-mail</th>
+			<th>生年月日</th>
+		</tr>
+		
+		<tr th:each = "user:${users}">
+			<td th:text = "${user.id}"></td>
+			<td th:text = "${user.name}"></td>
+			<td th:text = "${user.address}"></td>
+			<td th:text = "${user.tel}"></td>
+			<td th:text = "${user.email}"></td>
+			<td th:text="${#temporals.format(user.birthday, 'yyyy年MM月dd日')}"></td>
+		</tr>	
+		
+	</table>
+	
+	
+
+</body>
+
+</html>
