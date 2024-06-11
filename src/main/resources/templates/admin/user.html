@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>会員一覧</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<body>
+
+	<h1>会員一覧</h1>
+	
+	<table>
+		
+		<tr>
+			<th>ユーザーid</th>
+			<th>名前</th>
+			<th>住所</th>
+			<th>電話番号</th>
+			<th>E-mail</th>
+			<th>生年月日</th>
+			<th>変更</th>
+			<th>削除</th>
+		</tr>
+		
+		<tr th:each = "user:${users}">
+			<td th:text = "${user.id}"></td>
+			<td th:text = "${user.name}"></td>
+			<td th:text = "${user.address}"></td>
+			<td th:text = "${user.tel}"></td>
+			<td th:text = "${user.email}"></td>
+			<td th:text="${#temporals.format(user.birthday, 'yyyy年MM月dd日')}"></td>
+			
+			<td>
+				<form th:action="@{/admin/usercontrol/user/detail/{id}(id = ${user.id})}" method="get">
+					<button>変更</button>
+				</form>
+			</td>
+			
+			<td>
+				<button type="submit" class="modalOpen" th:attr="data-taskid=${user.id}">削除</button>
+				<div class="modal" th:id="'modal-'+${user.id}">
+					<div class="modal-content">
+						<div class="modal-header">
+							<span class="modalClose">×</span>
+							<h2>確認</h2>
+						</div>
+						<div class="modal-body">
+							<p>本当に削除しますか？</p>
+						</div>
+						<div class="modal-footer" display="inline-block">
+							<form th:action = "@{/admin/usercontrol/user/delete/{id}(id = ${user.id})}" method="post">
+								<button>削除</button>
+							</form>
+							<form>
+								<button>キャンセル</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</td>
+
+		</tr>
+
+	</table>
+
+<script>
+	// 各削除ボタンをクリックしたときにモーダルを表示する
+	document.querySelectorAll('.modalOpen').forEach(function (button) {
+		button.addEventListener('click', function () {
+			var taskId = button.getAttribute('data-taskid');
+			var modal = document.getElementById('modal-' + taskId);
+			modal.style.display = 'block';
+		});
+	});
+
+	// モーダルの閉じるボタンをクリックしたときにモーダルを閉じる
+	document.querySelectorAll('.modalClose').forEach(function (closeButton) {
+		closeButton.addEventListener('click', function () {
+			var modal = closeButton.closest('.modal');
+			modal.style.display = 'none';
+		});
+	});
+
+	// モーダルの外側をクリックしたときにモーダルを閉じる
+	window.addEventListener('click', function (event) {
+		document.querySelectorAll('.modal').forEach(function (modal) {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		});
+	});
+</script>
+
+</body>
+
+</html>

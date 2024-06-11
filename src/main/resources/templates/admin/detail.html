@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>会員管理</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<body>
+
+	<h1>会員情報変更</h1>
+	
+	<form th:action="@{/admin/usercontrol/user/detail/{id}(id = ${user.id})}" method="post">
+		<table>
+			<tr>
+				<th>氏名</th><td><input type="text" name="name" th:value = "${user.name}"></td>
+			</tr>
+
+			<tr>
+				<th>住所</th><td><input type="text" name="address" th:value = "${user.address}"></td>
+			</tr>
+
+			<tr>
+				<th>電話番号</th><td><input type="text" name="tel" th:value = "${user.tel}"></td>
+			</tr>
+
+			<tr>
+				<th>E-mail</th><td><input type="text" name="email" th:value = "${user.email}"></td>
+			</tr>
+
+			<tr>
+				<th>生年月日</th><td><input type="text" name="birthday" th:value = "${user.birthday}"></td>
+			</tr>
+			
+			<input type="hidden" name = "password" th:value = "${user.password}">
+			<input type="hidden" name = "joinDate" th:value = "${user.joinDate}">		
+			<input type="hidden" name = "id" th:value = "${user.id}">		
+		</table>
+		<button>登録</button>
+	</form>
+<span th:each = "error:${errorList}"th:utext = "${error}" style = "color:red" ></span>
+
+</body>
+
+</html>
