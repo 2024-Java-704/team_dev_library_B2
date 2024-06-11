@@ -7,14 +7,14 @@
 </head>
 <body>
 <!--	未ログイン時に表示		-->
-	<th:block th:if="${name.equals('ゲスト')}">
+	<th:block th:if="${@account.name} == null">
 		<span><a href="/login/newuser">新規登録</a></span>
 		<span><a href="/login">ログイン</a></span>
 	</th:block>
 	
 	
 <!--	ログインした時用に表示	-->
-	<th:block th:if="${!name.equals('ゲスト')}">
+	<th:block th:if="${@account.name}">
 		<span><a href="/login/mypage">マイページ</a></span>
 		<span><a href="/logout">ログアウト</a></span>
 	</th:block>

@@ -137,6 +137,7 @@ public class UserController {
 		Users user = userList.get(0);
 		account.setId(user.getId());
 		account.setName(user.getName());
+		account.setAuthority(user.getStatus());
 		return "redirect:/library";
 	}
 	
