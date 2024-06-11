@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Rentals;
+import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
 import com.example.demo.model.Account;
+import com.example.demo.repository.RentalsRepository;
+import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.UsersRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +27,19 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	Account account;
+
+	@Autowired
+	RentalsRepository rentalsRepository;
+	
+	@Autowired
+	ReservationsRepository reservationsRepository;
 	
 	@Autowired
 	UsersRepository usersRepository;
+
 	
 	// 管理者ログイン画面を表示する
 	@GetMapping("/admin/login")
@@ -176,12 +187,19 @@ public class UserController {
 	}
 	
 	// ユーザマイページ表示
-	@GetMapping({"/login/mypage"})
-	public String myPage() {
-		return "mypage";
+	@GetMapping({ "/login/mypage" })
+	public String myPage(Model model) {
+		List<Rentals> rentalList = rentalsRepository.findAll();
+		model.addAttribute("rentalList", rentalList);
+		
+		LocalDate currentDate = LocalDate.now();
+		List<Rentals> overList = rentalsRepository.findByStatusAndClosingDateBefore(0,currentDate);
+		model.addAttribute("overList", overList);
+		
+		List<Reservations> reservationsList = reservationsRepository.findAll();
+		model.addAttribute("reservationsList",reservationsList );
+		return "admin/mypage";
 	}
-
-  
   
 	@GetMapping("/logout")
 	public String logout() {

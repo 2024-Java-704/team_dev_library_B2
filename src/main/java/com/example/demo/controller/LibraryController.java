@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
+import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Reservations;
 import com.example.demo.entity.SubCategories;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
+import com.example.demo.repository.RentalsRepository;
 import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.SubCategoriesRepository;
 
@@ -42,6 +44,10 @@ public class LibraryController {
 	
 	@Autowired
 	SubCategoriesRepository subCategoriesRepository;
+	
+	@Autowired
+	RentalsRepository rentalsRepository;
+	
 
 	// 検索結果表示
 	@GetMapping("/library/search")
@@ -122,4 +128,14 @@ public class LibraryController {
 		model.addAttribute("name", account.getName());
 		return "main";
 	}
+
+	@PostMapping("/library/mypage/history")
+	public String lost(Model model) {
+		List<Rentals>rentalList = rentalsRepository.findAll();
+		model.addAttribute("rentalList",rentalList);
+		
+		return "/admin";
+	}
+
+	
 }
