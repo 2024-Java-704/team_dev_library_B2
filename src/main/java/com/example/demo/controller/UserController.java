@@ -42,9 +42,43 @@ public class UserController {
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model) {
-		/* ここにメールアドレスやパスワード判定処理を書く */
+		// 入力項目チェック
+		List<String> errorList = new ArrayList<>();
+		List<Users> userList = usersRepository.findByEmailAndPassword(email, password);
+		if (email == null || email.length() == 0) {
+			errorList.add("メールアドレスを入力してください" + "<br>");
+		}
+		if (password == null || password.length() == 0) {
+			errorList.add("パスワードを入力してください" + "<br>");
+		}
+		if ((email.length() != 0 && password.length() != 0) && (userList.size() == 0 || userList == null)) {
+			errorList.add("メールアドレスとパスワードが一致しませんでした");
+		}
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("email", email);
+			return "admin/login";
+		}
 		
+		Users user = userList.get(0);
+		// 管理者権限チェック
+		if (user.getStatus() != 9) {
+			errorList.add("管理者権限がありません");
+			model.addAttribute("errorList", errorList);
+			return "admin/login";
+		}
+		
+		account.setId(user.getId());
+		account.setName(user.getName());
+		account.setAuthority(user.getStatus());
 		return "admin/main";
+	}
+	
+	// 管理者ログアウト
+	@GetMapping("/admin/logout")
+	public String adminLogout() {
+		session.invalidate();
+		return "redirect:/admin/login";
 	}
 	
 	
