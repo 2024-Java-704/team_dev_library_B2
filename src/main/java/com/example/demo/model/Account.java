@@ -39,6 +39,9 @@ public class Account {
 		this.id = id;
 	}
 	public Integer getAuthority() {
+		if(authority == null) {
+			return 0;
+		}
 		return authority;
 	}
 	public void setAuthority(Integer authority) {
