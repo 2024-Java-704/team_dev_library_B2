@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="sub_category")
+@Table(name="sub_categories")
 public class SubCategories {
 	
 	@Id

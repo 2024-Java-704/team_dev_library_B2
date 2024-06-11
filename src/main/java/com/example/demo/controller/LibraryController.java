@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
+import com.example.demo.entity.SubCategories;
+import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
+import com.example.demo.repository.SubCategoriesRepository;
 
 @Controller
 public class LibraryController {
@@ -22,6 +26,12 @@ public class LibraryController {
 	// AND検索機能用
 	@Autowired
 	ItemTitleRepositoryB itemTitleRepositoryB;
+	
+	@Autowired
+	CategoriesRepository categoriesRepository;
+	
+	@Autowired
+	SubCategoriesRepository subCategoriesRepository;
 
 	// 検索結果表示
 	@GetMapping("/library/search")
@@ -61,8 +71,13 @@ public class LibraryController {
 	
 	// ユーザメイン画面表示
 	@GetMapping({"/", "/library"})
-	public String index() {
+	public String index(Model model) {
+		// カテゴリー表示用
+		List<Categories> categoryList = categoriesRepository.findAll();
+		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		model.addAttribute("categories", categoryList);
+		model.addAttribute("subCategories", subCategoryList);
+		
 		return "main";
 	}
-
 }
