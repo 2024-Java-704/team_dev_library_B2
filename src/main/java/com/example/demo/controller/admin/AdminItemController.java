@@ -1,4 +1,4 @@
-package com.example.demo.controller.admin牧野;
+package com.example.demo.controller.admin;
 
 import java.util.List;
 
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity牧野.Item;
-import com.example.demo.entity牧野.ItemTitle牧野;
-import com.example.demo.repository牧野.ItemRepository;
-import com.example.demo.repository牧野.ItemTitleRepository牧野;
+import com.example.demo.entity.ItemTitle;
+import com.example.demo.entity.Items;
+import com.example.demo.repository.ItemTitleRepository;
+import com.example.demo.repository.ItemsRepository;
 
 @Controller
 @RequestMapping("/admin/rentalcontrol/")
-public class AdminItemController牧野 {
+public class AdminItemController {
 
 	@Autowired
-	ItemRepository itemRepository;
+	ItemsRepository itemsRepository;
 
 	@Autowired
-	ItemTitleRepository牧野 itemTitleRepository;
+	ItemTitleRepository itemTitleRepository;
 
 	// 在庫管理画面を表示する
 	@GetMapping("/inventory")
@@ -32,7 +32,7 @@ public class AdminItemController牧野 {
 			Model model) {
 
 		// 全資料テーブル一覧を取得
-		List<ItemTitle牧野> itemTitleList = itemTitleRepository.findAll();
+		List<ItemTitle> itemTitleList = itemTitleRepository.findAll();
 		model.addAttribute("itemTitles", itemTitleList);
 
 		return "admin/inventory";
@@ -45,7 +45,7 @@ public class AdminItemController牧野 {
 			Model model) {
 
 		// ItemTitleテーブルを主キーで検索
-		ItemTitle牧野 itemTitle = itemTitleRepository.findById(id).get();
+		ItemTitle itemTitle = itemTitleRepository.findById(id).get();
 		model.addAttribute("itemTitle", itemTitle);
 
 		// editItem.htmlを出力
@@ -61,7 +61,7 @@ public class AdminItemController牧野 {
 			Model model) {
 
 		// ItemTitleオブジェクトの生成
-		ItemTitle牧野 itemTitle = itemTitleRepository.findById(id).get();
+		ItemTitle itemTitle = itemTitleRepository.findById(id).get();
 		itemTitle.setName(name);
 		itemTitle.setSummary(summary);
 
@@ -77,11 +77,11 @@ public class AdminItemController牧野 {
 			Model model) {
 
 		// 主キーで検索する
-		ItemTitle牧野 itemTitle = itemTitleRepository.findById(id).get();
+		ItemTitle itemTitle = itemTitleRepository.findById(id).get();
 		model.addAttribute("itemTitle", itemTitle);
 
 		// テーブルでitemTitleIdを検索する
-		List<Item> items = itemRepository.findByItemTitleId(id);
+		List<Items> items = itemsRepository.findByItemTitleId(id);
 		model.addAttribute("items", items);
 
 		return "admin/editInventory";
@@ -95,7 +95,7 @@ public class AdminItemController牧野 {
 			Model model) {
 
 		// テーブルでitemTitleIdを検索する
-		Item item = itemRepository.findById(id).get();
+		Items item = itemsRepository.findById(id).get();
 		model.addAttribute("item", item);
 
 		return "admin/editInventoryDetail";
@@ -112,12 +112,12 @@ public class AdminItemController牧野 {
 
 		// ItemTitleオブジェクトの生成
 		//ItemTitle itemTitle = new ItemTitle(id, name, summary);
-		Item item = itemRepository.findById(id).get();
+		Items item = itemsRepository.findById(id).get();
 		item.setStatus(status);
 		item.setMemo(memo);
 
 		// ItemTitleテーブルへの反映（UPDATE）
-		itemRepository.save(item);
+		itemsRepository.save(item);
 		return "redirect:/admin/rentalcontrol/inventory/detail/" + item.getItemTitleId();
 	}
 
