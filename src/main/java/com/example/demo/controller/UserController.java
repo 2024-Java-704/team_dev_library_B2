@@ -60,13 +60,42 @@ public class UserController {
 	// 会員登録処理
 	@PostMapping("/login/newuser")
 	public String addPost(
-			@RequestParam("name") String name,
-			@RequestParam("address") String address,
-			@RequestParam("tel") String tel,
-			@RequestParam("email") String email,
-			@RequestParam("birthday") LocalDate birthday,
-			@RequestParam("password") String password,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "address", defaultValue = "") String address,
+			@RequestParam(name = "tel", defaultValue = "") String tel,
+			@RequestParam(name = "email", defaultValue = "") String email,
+			@RequestParam(name = "birthday", defaultValue = "") LocalDate birthday,
+			@RequestParam(name = "password", defaultValue = "") String password,
 			Model model) {
+		List<String> errorList = new ArrayList<String>();
+		
+		if(name.equals("") ||address.equals("") ||tel.equals("") ||tel.length()!=11 ||email.equals("") ||birthday== null||password.equals("") ||emailCheck(email)){
+			if(name.equals("")){
+				errorList.add("名前は必須です" + "<br>");}
+			if(address.equals("")) {
+				errorList.add("住所は必須です" + "<br>");}
+			if(tel.equals("")) {
+				errorList.add("電話番号は必須です" + "<br>");}
+			if(tel.length()!=11) {
+				errorList.add("電話番号はハイフン抜きの11桁で入力してください" + "<br>");}
+			if(email.equals("")) {
+				errorList.add("メールアドレスは必須です" + "<br>");}
+			if (emailCheck(email)) {
+				errorList.add("登録済みのメールアドレスです" + "<br>");}
+			if(birthday==null) {
+				errorList.add("生年月日は必須です" + "<br>");}
+			if(password.equals("")) {
+				errorList.add("パスワードは必須です" + "<br>");}
+			model.addAttribute("name",name);
+			model.addAttribute("address",address);
+			model.addAttribute("tel",tel);
+			model.addAttribute("email",email);
+			model.addAttribute("birthday",birthday);
+			model.addAttribute("errorList",errorList);
+			return "addUser";
+		}
+		
+		// 登録成功
 		Users user = new Users(name, address, tel, email, birthday, password);
 		usersRepository.save(user);
 		return "login";
@@ -116,11 +145,25 @@ public class UserController {
 	public String myPage() {
 		return "mypage";
 	}
-	
+  
+  
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";
 	}
+
+	private boolean emailCheck(String el) {
+		List<Users> users = usersRepository.findAll();
+		boolean check = false;
+		for(Users c:users) {
+			if(c.getEmail().equals(el)) {
+				check = true;
+				break;
+			}
+		}
+		return check;
+	}
+
 	
 }
