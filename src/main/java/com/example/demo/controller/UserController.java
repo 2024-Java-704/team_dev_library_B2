@@ -145,7 +145,14 @@ public class UserController {
 	public String myPage() {
 		return "mypage";
 	}
-	
+  
+  
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
+
 	private boolean emailCheck(String el) {
 		List<Users> users = usersRepository.findAll();
 		boolean check = false;
@@ -157,4 +164,6 @@ public class UserController {
 		}
 		return check;
 	}
+
+	
 }
