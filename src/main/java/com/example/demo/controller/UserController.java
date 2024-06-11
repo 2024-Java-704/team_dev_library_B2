@@ -146,6 +146,7 @@ public class UserController {
 	public String myPage() {
 		return "mypage";
 	}
+
   
   
 	@GetMapping("/logout")
@@ -165,6 +166,4 @@ public class UserController {
 		}
 		return check;
 	}
-
-	
 }
