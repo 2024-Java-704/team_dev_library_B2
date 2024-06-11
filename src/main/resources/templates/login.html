@@ -6,10 +6,14 @@
 <title>会員ログイン</title>
 </head>
 <body>
-	<h1>会員ログイン</h>
+	<h1>会員ログイン</h1>
+	
+	<th:block th:each="error:${errorList}">
+		<div th:text="${error}"></div>
+	</th:block>
 	
 	<form action="/login" method="post">
-		<input type="email" name="email" placeholder="メールアドレス"><br>
+		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>
 		<input type="password" name="password" placeholder="パスワード"><br>
 		<button>ログイン</button>
 	</form>
