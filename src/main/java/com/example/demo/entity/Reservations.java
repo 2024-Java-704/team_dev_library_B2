@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +32,10 @@ public class Reservations {
 	LocalDate orderedOn;
 	
 	Integer status;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
+	ItemTitle itemTitle;
 
 	public Reservations() {
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -104,5 +110,15 @@ public class Reservations {
 		this.status = status;
 	}
 	
-	
+	public ItemTitle getItemTitle() {
+		return itemTitle;
+	}
+
+	public String getItemTitleName() {
+		if (itemTitle == null) {
+			return "null";
+		}
+		return itemTitle.getName();
+	}
+
 }

@@ -29,6 +29,26 @@ public class Items {
 
 	public Items() {
 	}
+	
+
+	public Items(Integer id, Integer itemTitleId, Integer status, LocalDate arrivalDate, String memo) {
+		this.id = id;
+		this.itemTitleId = itemTitleId;
+		this.status = status;
+		this.arrivalDate = arrivalDate;
+		this.memo = memo;
+	}
+	
+	
+
+
+	public Items(Integer itemTitleId, Integer status, LocalDate arrivalDate, String memo) {
+		this.itemTitleId = itemTitleId;
+		this.status = status;
+		this.arrivalDate = arrivalDate;
+		this.memo = memo;
+	}
+
 
 	public Integer getId() {
 		return id;

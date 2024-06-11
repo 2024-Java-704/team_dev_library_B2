@@ -1,4 +1,4 @@
-package com.example.demo.controller.admin牧野;
+package com.example.demo.controller.admin;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.entity牧野.Reservation;
-import com.example.demo.repository牧野.ReservationRepository;
+import com.example.demo.entity.Reservations;
+import com.example.demo.repository.ReservationsRepository;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminReserveController {
 
 	@Autowired
-	ReservationRepository reservationRepository;
+	ReservationsRepository reservationsRepository;
 
 	// 予約一覧画面表示
 	@GetMapping("/rentalcontrol/reserve")
@@ -26,7 +26,7 @@ public class AdminReserveController {
 			Model model) {
 
 		// 全予約情報テーブル一覧を取得
-		List<Reservation> reservationList = reservationRepository
+		List<Reservations> reservationList = reservationsRepository
 				.findAll()
 				.stream()
 				.filter(reservation -> reservation.getStatus() != 4)
@@ -43,7 +43,7 @@ public class AdminReserveController {
 			Model model) {
 
 		// 全資料テーブル一覧を取得
-		List<Reservation> reservationList = reservationRepository
+		List<Reservations> reservationList = reservationsRepository
 				.findAll()
 				.stream()
 				.filter(reservation -> reservation.getStatus() != 4)
@@ -61,11 +61,11 @@ public class AdminReserveController {
 			Model model) {
 
 		// Reservationオブジェクトの生成
-		Reservation reservation = reservationRepository.findById(id).get();
+		Reservations reservation = reservationsRepository.findById(id).get();
 		reservation.setStatus(4);
 
 		// reservationsテーブルの値を変更する
-		reservationRepository.save(reservation);
+		reservationsRepository.save(reservation);
 
 		return "redirect:/admin/rentalcontrol/reserved";
 	}
