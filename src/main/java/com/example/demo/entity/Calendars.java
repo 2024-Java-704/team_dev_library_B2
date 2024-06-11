@@ -15,13 +15,13 @@ public class Calendars {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="closed_date")
-	LocalDate closedDate;
+	private LocalDate closedDate;
 	
 	@Column(name="date_detail")
-	String dateDetail;
+	private String dateDetail;
 
 	public Calendars() {
 	}

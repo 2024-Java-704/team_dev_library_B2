@@ -17,21 +17,21 @@ public class Reservations {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="item_title_id")
-	Integer itemTitleid;
+	private Integer itemTitleid;
 	
 	@Column(name="item_id")
-	Integer itemId;
+	private Integer itemId;
 	
 	@Column(name="user_id")
-	Integer userId;
+	private Integer userId;
 	
 	@Column(name="ordered_on")
-	LocalDate orderedOn;
+	private LocalDate orderedOn;
 	
-	Integer status;
+	private Integer status;
 	
 	@ManyToOne
 	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)

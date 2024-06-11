@@ -14,29 +14,29 @@ import jakarta.persistence.Table;
 public class ItemTitle {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
-	String name;
+	private String name;
 	
-	String author;
+	private String author;
 	
-	String image;
+	private String image;
 	
-	String publisher;
+	private String publisher;
 	
 	@Column(name="publication_date")
-	LocalDate publicationDate;
+	private LocalDate publicationDate;
 	
-	String summary;
+	private String summary;
 	
 	@Column(name="category_id")
-	Integer categoryId;
+	private Integer categoryId;
 	
 	@Column(name="sub_category_id")
-	Integer subCategoryId;
+	private Integer subCategoryId;
 	
 	@Column(name="rental_number")
-	Integer rentalNumber;
+	private Integer rentalNumber;
 
 	public ItemTitle() {
 		// TODO 自動生成されたコンストラクター・スタブ
