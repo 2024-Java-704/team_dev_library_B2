@@ -6,27 +6,37 @@
 <title>メインページ</title>
 </head>
 <body>
-	<span><a href="/login/newuser">新規登録</a></span>
-<!--	↑ユーザ用と管理者用で会員登録ページのリンクが変わったら要チェック-->
+<!--	未ログイン時に表示		-->
+	<th:block th:if="${name.equals('ゲスト')}">
+		<span><a href="/login/newuser">新規登録</a></span>
+		<span><a href="/login">ログイン</a></span>
+	</th:block>
 	
-	<span><a href="/login">ログイン</a></span>
 	
-<!--	↓ログインした時用、6/7時点では書き方わからなかった-->
-<!--	<span><a href="/login/mypage">マイページ</a></span>-->
-<!--	<span><a href="">ログアウト</a></span>-->
+<!--	ログインした時用に表示	-->
+	<th:block th:if="${!name.equals('ゲスト')}">
+		<span><a href="/login/mypage">マイページ</a></span>
+		<span><a href="/logout">ログアウト</a></span>
+	</th:block>
+	
+	<br>
+	
+<!--	検索エラー文	-->
+	<th:block th:text="${error}"></th:block>
 
+<!--	検索欄		-->
 	<form action="/library/search" method="get">
 		<input type="text" name="keyword" placeholder="フリーワード検索">
 		<button>検索</button>
 	</form>
 	
 	<br>
-	<form action="" method="get">
+	<form action="/library/search" method="get">
 		<table border="1">
 			<tr>詳細検索</tr>
 			<tr>
 				<th>タイトル</th>
-				<td><input type="text" name="title"></td>
+				<td><input type="text" name="name"></td>
 			</tr>
 			<tr>
 				<th>著者</th>
@@ -39,18 +49,18 @@
 			<tr>
 				<th>カテゴリー</th>
 				<td>
-					<select name="category" size="1">
+					<select name="categoryId" size="1">
 						<option value="0" label="選択なし" selected></option>
-						<option value="1" label="総記"></option>
-						<option value="2" label="哲学"></option>
-						<option value="3" label="歴史"></option>
-						<option value="4" label="社会科学"></option>
-						<option value="5" label="自然科学"></option>
-						<option value="6" label="技術"></option>
-						<option value="7" label="産業"></option>
-						<option value="8" label="芸術"></option>
-						<option value="9" label="言語"></option>
-						<option value="10" label="文学"></option>
+						<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>サブカテゴリー</th>
+				<td>
+					<select name="subCategoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">[[${subCategory.name}]]</option>
 					</select>
 				</td>
 			</tr>

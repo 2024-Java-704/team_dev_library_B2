@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +21,12 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
-  @Autowired
-  HttpSession session;
-  @Autowired
+	@Autowired
+	HttpSession session;
+	
+	@Autowired
 	Account account;
-  
+	
 	@Autowired
 	UsersRepository usersRepository;
 	
@@ -43,6 +46,9 @@ public class UserController {
 		
 		return "admin/main";
 	}
+	
+	
+	/*  以下ユーザ関連の処理  */
 	
 	// 新規会員登録画面表示
 	/* 会員が自分で行う登録画面(パッケージtemplates内)を表示しています */
@@ -65,10 +71,56 @@ public class UserController {
 		usersRepository.save(user);
 		return "login";
 	}
-
+	
+	// ユーザログイン画面表示
+	@GetMapping("/login")
+	public String loginIndex() {
+		return "login";
+	}
+	
+	// ユーザログイン処理
+	@PostMapping("/login")
+	public String login(
+			@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			Model model) {
+		// 入力されたメールアドレスとパスワードチェック
+		List<String> errorList = new ArrayList<>();
+		List<Users> userList = usersRepository.findByEmailAndPassword(email, password);
+		if (email == null || email.length() == 0) {
+			errorList.add("メールアドレスを入力してください");
+		}
+		if (password == null || password.length() == 0) {
+			errorList.add("パスワードを入力してください");
+		}
+		if ((email.length() != 0 && password.length() != 0) && (userList.size() == 0 || userList == null)) {
+			errorList.add("メールアドレスとパスワードが一致しませんでした");
+		}
+		
+		if (errorList.size() > 0) {
+			// ログイン失敗
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("email", email);
+			return "login";
+		}
+		
+		// ログイン成功
+		Users user = userList.get(0);
+		account.setId(user.getId());
+		account.setName(user.getName());
+		return "redirect:/library";
+	}
+	
+	// ユーザマイページ表示
 	@GetMapping({"/login/mypage"})
 	public String myPage() {
-		
 		return "mypage";
 	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 }
