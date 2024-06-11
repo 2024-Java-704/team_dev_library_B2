@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
-
 import com.example.demo.entity.Reservations;
-import com.example.demo.model.Account;
-import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.entity.SubCategories;
+import com.example.demo.model.Account;
 import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
+import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.SubCategoriesRepository;
 
 @Controller
@@ -34,9 +33,6 @@ public class LibraryController {
 	@Autowired
 	ItemTitleRepository itemtitlerepository;
 
-	@Autowired
-	Account account;
-	
 	// AND検索機能用
 	@Autowired
 	ItemTitleRepositoryB itemTitleRepositoryB;
@@ -57,9 +53,9 @@ public class LibraryController {
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
 			Model model) {
-// sasaki-16-a
-  /*
 
+		// sasaki-16-a
+  /*
 		List<ItemTitle> itemlist = null;
 
 		if (keyword.length() > 0) {
@@ -67,7 +63,7 @@ public class LibraryController {
 			model.addAttribute("itemlist", itemlist);
 
 			return "search";
-    */ 
+  */ 
 		
 		// 項目入力なしで検索をクリックした時
 		if (keyword.length() == 0 || keyword == null) {
