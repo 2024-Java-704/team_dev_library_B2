@@ -116,4 +116,11 @@ public class UserController {
 	public String myPage() {
 		return "mypage";
 	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 }
