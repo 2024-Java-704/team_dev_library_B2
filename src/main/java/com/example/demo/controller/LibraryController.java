@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
 import com.example.demo.entity.SubCategories;
+import com.example.demo.model.Account;
 import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
@@ -19,6 +20,8 @@ import com.example.demo.repository.SubCategoriesRepository;
 
 @Controller
 public class LibraryController {
+	@Autowired
+	Account account;
 	
 	@Autowired
 	ItemTitleRepository itemtitlerepository;
@@ -78,6 +81,14 @@ public class LibraryController {
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
 		
+		// 未ログインの場合処理
+		if (account.getName() == null) {
+			model.addAttribute("name", "ゲスト");
+			return "main";
+		}
+		
+		// ログイン後の場合処理
+		model.addAttribute("name", account.getName());
 		return "main";
 	}
 }
