@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="encording">
+<title>在庫管理画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<h1>在庫管理画面です</h1>
+	<br>
+		<table border="1">
+		<tr>
+			<th>資料名</th>
+			<th>著者名</th>
+			<th>出版社</th>
+			<th>出版日</th>
+			<th>あらすじ</th>
+			<th>タイトル編集</th>
+			<th>在庫編集</th>
+		</tr>
+		<tr th:each="itemTitle:${itemTitles}">
+			<td th:text="${itemTitle.name}"></td>
+			<td th:text="${itemTitle.author}"></td>
+			<td th:text="${itemTitle.publisher}"></td>
+			<td th:text="${itemTitle.publicationDate}"></td>
+			<td th:text="${itemTitle.summary}"></td>
+			<td>
+				<form th:action="'/admin/rentalcontrol/inventory/detail/title/'+${itemTitle.id}" method="get">
+					<button type="submit">タイトル編集画面へ</button>
+				</form>
+			</td>
+			<td>
+				<form th:action="'/admin/rentalcontrol/inventory/detail/'+${itemTitle.id}" method="get">
+					<button type="submit">在庫数編集画面へ</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<form action="/admin/rentalcontrol" method="get">
+		<button type="submit">貸出管理画面へ</button>
+	</form>
+
+</body>
+</html>
