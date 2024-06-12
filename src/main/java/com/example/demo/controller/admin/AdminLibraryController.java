@@ -51,18 +51,27 @@ public class AdminLibraryController {
 			Users user = usersRepository.findById(user_id).get();
 		}catch(Exception e) {
 			errorList.add("存在しないユーザーidです");
-
 		}
 
 		try {
 			Items item = itemsRepository.findById(id).get();
 			Users user = usersRepository.findById(user_id).get();
 		}catch(Exception e) {
-
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-
+		
+		
+		Items item = itemsRepository.findById(id).get();
+		if(item.getStatus() != 0) {
+			errorList.add("この本は貸出できません");
+			model.addAttribute("errorList", errorList);
+			return "admin/rental";
+		}
+		
+		item.setStatus(1);
+		itemsRepository.save(item);
+		
 		LocalDate nowDate = LocalDate.now();
 		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
 		Rentals rental = new Rentals(id, user_id, nowDate, twoWeeksLater);
