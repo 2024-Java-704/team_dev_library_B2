@@ -186,26 +186,42 @@ public class UserController {
 		return "redirect:/library";
 	}
 	
-	// ユーザマイページ表示
-	@GetMapping({ "/login/mypage" })
-	public String myPage(Model model) {
-		List<Rentals> rentalList = rentalsRepository.findAll();
-		model.addAttribute("rentalList", rentalList);
-		
-		LocalDate currentDate = LocalDate.now();
-		List<Rentals> overList = rentalsRepository.findByStatusAndClosingDateBefore(0,currentDate);
-		model.addAttribute("overList", overList);
-		
-		List<Reservations> reservationsList = reservationsRepository.findAll();
-		model.addAttribute("reservationsList",reservationsList );
-		return "admin/mypage";
-	}
-  
+	//ログアウト処理
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	// ユーザマイページ表示
+	@GetMapping({ "/login/mypage" })
+	public String myPage(Model model) {
+		//貸出中
+		List<Rentals> rentalList = rentalsRepository.findByUserIdAndStatusOrderByRentalDate(account.getId(),0);
+		model.addAttribute("rentalList", rentalList);
+		
+		LocalDate currentDate = LocalDate.now();
+		
+		//延滞中
+		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(account.getId(),0,currentDate);
+		model.addAttribute("overList", overList);
+		
+		//予約中
+		List<Reservations> reservationsList = reservationsRepository.findByUserIdAndStatusIn(account.getId(),new Integer[] {0,1,2});
+		model.addAttribute("reservationsList",reservationsList );
+		return "mypage";
+	}
+	
+	//履歴表示用
+	@GetMapping("/library/mypage/history")
+	public String history(Model model) {
+		
+		List<Rentals> rentalHistory = rentalsRepository.findByUserIdOrderByRentalDate(account.getId());
+		model.addAttribute("rentalHistory",rentalHistory);
+		return "history";
+	}
+	
+	
 
 	private boolean emailCheck(String el) {
 		List<Users> users = usersRepository.findAll();
