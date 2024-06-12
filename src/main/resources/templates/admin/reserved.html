@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="encording">
+<title>予約取り置き画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+	<h1>予約取り置き画面です</h1>
+	<br>
+		<table border="1">
+		<tr>
+			<th>予約ID</th>
+			<th>資料タイトルID</th>
+			<th>資料ID</th>
+			<th>会員ID</th>
+			<th>予約日</th>
+			<th>状態</th>
+			<th>取り置き解除</th>
+		</tr>
+		<tr th:each="reservation:${reservations}">
+			<td th:text="${reservation.id}"></td>
+			<td th:text="${reservation.itemTitleName}"></td>
+			<td th:text="${reservation.itemId}"></td>
+			<td th:text="${reservation.userId}"></td>
+			<td th:text="${reservation.orderedOn}"></td>
+			<td>				
+				<span th:if="${reservation.status}==0">予約中</span>
+				<span th:if="${reservation.status}==1">予約待機</span>
+				<span th:if="${reservation.status}==2">受取待機</span>
+				<span th:if="${reservation.status}==3">返却待機</span>
+				<span th:if="${reservation.status}==4">終了</span>
+			</td>
+			<form th:action="'/admin/rentalcontrol/reserved/'+${reservation.id}" method="post">
+			<td>
+				<button type="submit">
+					取り置き終了
+				</button>
+			</td>
+			</form>
+	</table>
+	<br>
+	<form action="/admin/rentalcontrol" method="get">
+		<button type="submit">貸出管理画面へ</button>
+	</form>
+</body>
+</html>

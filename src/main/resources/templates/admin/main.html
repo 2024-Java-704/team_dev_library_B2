@@ -6,15 +6,19 @@
 <title>管理者ページ</title>
 </head>
 <body>
-	<header th:replace = "header"></header>
 	
-	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
 	
 	<h1>管理者ページ</h1>
 	<button onclick="location.href='/admin/rental'">貸出</button><br>
 	<button onclick="location.href='/admin/return'">返却</button><br>
 	<button onclick="location.href='/admin/rentalcontrol'">貸出管理</button><br>
 	<button onclick="location.href='/admin/usercontrol'">会員管理</button><br>
-	<button>カレンダー</button>
+	<button onclick="location.href='/admin/calendar'">カレンダー管理</button>
 </body>
 </html>

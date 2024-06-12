@@ -59,9 +59,12 @@ button {
 button:hover {
 	background-color: #f1b2b2;
 }
+ul {
+  list-style: none;
+  padding-left: 0em;
+}
 
-/*-----------------------------------------------------------------*/
-
+/*-----------------------------------------------------------------------*/
 /* モーダルウィンドウのスタイル */
     .modal {
         display: none;
@@ -113,3 +116,4 @@ button:hover {
         font-size: 28px;
         font-weight: 800;
 	}
+	

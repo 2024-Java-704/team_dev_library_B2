@@ -43,17 +43,18 @@ public class AdminLibraryController {
 		try {
 			Items item = itemsRepository.findById(id).get();
 		} catch (Exception e) {
-			errorList.add("存在しない本のidです" + "<br>");
+			errorList.add("存在しない本のidです");
 		}
+		
 		try {
-			Users user = usersRepository.findById(id).get();
+			Users user = usersRepository.findById(user_id).get();
 		}catch(Exception e) {
-			errorList.add("存在しないユーザーidです" + "<br>");
+			errorList.add("存在しないユーザーidです");
 		}
 		
 		try {
 			Items item = itemsRepository.findById(id).get();
-			Users user = usersRepository.findById(id).get();
+			Users user = usersRepository.findById(user_id).get();
 		}catch(Exception e) {
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
@@ -66,4 +67,56 @@ public class AdminLibraryController {
 			return "admin/main";
 		
 	}
+	// 返却画面を表示する
+	@GetMapping("/admin/return")
+	public String returnBook(Model model) {
+		model.addAttribute("userId", "");
+		model.addAttribute("itemId", "");
+
+		return "admin/return";
+	}
+
+	// 返却処理を実行する
+	@PostMapping("/admin/return")
+	public String returnBookPost(
+			@RequestParam(name = "userId", defaultValue = "") Integer userId,
+			@RequestParam(name = "itemId", defaultValue = "") Integer itemId,
+			Model model) {
+
+		// エラーチェック
+		List<String> errorList = new ArrayList<String>();
+		if (userId == null) {
+			errorList.add("ユーザIDを入力してください");
+		}
+		if (itemId == null) {
+			errorList.add("資料IDを入力してください");
+		}
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("userId", userId);
+			model.addAttribute("itemId", itemId);
+			return "/admin/return";
+		}
+
+		// ID存在チェック
+		List<Rentals> rentals = rentalsRepository.findByUserIdAndItemIdAndStatus(userId, itemId, 0);
+
+		// 返却処理
+		if (rentals.size() > 0) {
+			Rentals rental = rentals.get(0);
+			LocalDate now = LocalDate.now();
+			rental.setReturnDate(now);
+			rental.setStatus(1);
+
+			// rentalsテーブルへの反映
+			rentalsRepository.save(rental);
+
+		} else {
+			// 指定したIDがrentalsテーブルに存在しない場合
+			model.addAttribute("message", "返却対象が見つかりません");
+		}
+
+		return "/admin/return";
+	}
+
 }

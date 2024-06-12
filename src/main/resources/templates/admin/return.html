@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="encording">
+<title>返却画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+	<div class="wrapper">
+		<div class="container">
+		<h2>《返却画面》</h2>
+		<form action="/admin/return" method="post">
+			<h4>ユーザID：</h4>
+			<input type="text" name="userId" placeholder="返却する会員のID" th:value="${userId}">
+			<br>
+			<h4>資料ID：</h4>
+			<input type="text" name="itemId" placeholder="返却する資料のID" th:value="${itemId}">
+			<br>
+			<br>
+				<ul th:if="${errorList}" class="error" th:each="error:${errorList}" th:text="${error}" style="color:red;padding-left: 0;"></ul>
+				<span th:text="${message}" style="color:red;"></span>
+			<br>
+			<br>
+			<button type="submit">返却</button>
+		</form>	
+		</div>
+	</div>
+</body>
+</html>
