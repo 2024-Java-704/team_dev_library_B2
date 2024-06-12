@@ -10,9 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="rentals")
+@Table(name = "rentals")
 public class Rentals {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -35,6 +35,11 @@ public class Rentals {
 	private Integer status;
 
 	public Rentals() {
+	}
+
+	public Rentals(Integer userId, Integer itemId) {
+		this.userId = userId;
+		this.itemId = itemId;
 	}
 
 	public Rentals(Integer id, Integer itemId, Integer userId, LocalDate rentalDate, LocalDate returnDate,
@@ -121,8 +126,5 @@ public class Rentals {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	
-	
-	
 
 }
