@@ -1,7 +1,20 @@
-<head>
-	<h1><a href="/main">図書館管理機能</a></h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>ToDoリスト</title>
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+	</head>
+	<body>
+		
+	<header>
+		<h1>図書館管理機能</h1>
+		<span class="header1" text="'あなたは admin としてログインしています'"></span>
+		<br>
+		 <a href="#" id="logoutButton" class="header1">ログアウト</a>
+		<br>
+	</header>
 	
-	 <a href="#" id="logoutButton" class="header1">ログアウト</a>
 	<!-- モーダルウィンドウ -->
     <div id="logoutModal" class="modal">
         <div class="modal-content">
@@ -18,7 +31,6 @@
             </div>
         </div>
     </div>
-	<hr></hr>
 	
 	 <script type="text/javascript">
         document.getElementById('logoutButton').onclick = function() {
@@ -44,5 +56,4 @@
         };
     </script>
 </body>
-	
 </head>
