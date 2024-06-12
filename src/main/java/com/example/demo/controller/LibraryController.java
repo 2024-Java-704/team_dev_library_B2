@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Calendars;
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
 import com.example.demo.entity.Items;
@@ -18,6 +19,7 @@ import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Reservations;
 import com.example.demo.entity.SubCategories;
 import com.example.demo.model.Account;
+import com.example.demo.repository.CalendarsRepository;
 import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
@@ -52,6 +54,9 @@ public class LibraryController {
 	
 	@Autowired
 	ItemsRepository itemsRepository;
+	
+	@Autowired
+	CalendarsRepository calendarsRepository;
 	
 
 	// 検索結果表示
@@ -90,6 +95,13 @@ public class LibraryController {
 				model.addAttribute("categories", categoryList);
 				model.addAttribute("subCategories", subCategoryList);
 				
+				LocalDate currentDate = LocalDate.now();
+				
+				LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
+				LocalDate last = (first.plusMonths(1)).minusDays(1);
+				List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
+				model.addAttribute("closeDates",closeDates);
+				
 				return "main";
 			}
 		}
@@ -117,7 +129,7 @@ public class LibraryController {
 		Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
 		reservationsRepository.save(reservation);
 
-		return "main";
+		return "redirect:/";
 	}
 
 	
@@ -129,6 +141,13 @@ public class LibraryController {
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
+		
+		LocalDate currentDate = LocalDate.now();
+		
+		LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
+		LocalDate last = (first.plusMonths(1)).minusDays(1);
+		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
+		model.addAttribute("closeDates",closeDates);
 		
 		return "main";
 	}
