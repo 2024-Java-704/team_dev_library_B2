@@ -1,5 +1,6 @@
 package com.example.demo.controller.admin;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,4 +67,11 @@ public class AdminLibraryController {
 			return "admin/main";
 		
 	}
+	// 返却画面を表示する
+	@GetMapping("/admin/return")
+	public String returnBook() {
+
+		return "admin/return";
+	}
+
 }
