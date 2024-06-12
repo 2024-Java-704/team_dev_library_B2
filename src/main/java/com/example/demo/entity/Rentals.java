@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +35,18 @@ public class Rentals {
 	private LocalDate closingDate;
 	
 	private Integer status;
+	/* 0:貸出中
+	 * 1:返却済み
+	 * 2:紛失申請中
+	 * */
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id", insertable = false, updatable = false)
+	Items items;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id", insertable = false, updatable = false)
+	Users users;
 
 	public Rentals() {
 	}
@@ -117,6 +131,7 @@ public class Rentals {
 
 	public void setReturnDate(LocalDate returnDate) {
 		this.returnDate = returnDate;
+		this.status = 1;
 	}
 
 	public void setClosingDate(LocalDate closingDate) {
@@ -126,5 +141,22 @@ public class Rentals {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
+	
+	public String getStatusStr() {
+		switch(this.status) {
+			case 0 : return "貸出中";
+			case 1 : return "返却済";
+			case 2 : return "紛失申請中";
+			default : return "";
+		}
+	}
+	public String getItemTitleName() {
+		return items.getItemTitleName();
+	}
+	public String getUserName() {
+		return users.getName();
+	}
+	
 
 }

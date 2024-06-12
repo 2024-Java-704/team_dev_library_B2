@@ -145,11 +145,11 @@ public class LibraryController {
 	}
 	*/
 	@PostMapping("/library/mypage/history")
-	public String lost(Integer rentals_id,Integer item_id) {
-		Rentals rental = rentalsRepository.findById(rentals_id).get();
+	public String lost(@RequestParam("rentalsId") Integer rentalsId) {
+		Rentals rental = rentalsRepository.findById(rentalsId).get();
 		if(rental == null) { return "redirect:/library/mypage/history";}
-		
-		Items item = itemsRepository.findById(item_id).get();
+		Integer itemId = rental.getItemId();
+		Items item = itemsRepository.findById(itemId).get();
 		
 		rental.setStatus(2);
 		item.setStatus(5);

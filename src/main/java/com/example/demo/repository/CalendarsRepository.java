@@ -10,4 +10,6 @@ import com.example.demo.entity.Calendars;
 public interface CalendarsRepository extends JpaRepository<Calendars,Integer>{
 	List<Calendars> findByClosedDate(LocalDate closedDate);
 	List<Calendars> findByClosedDateGreaterThanEqualOrderByClosedDate(LocalDate date);
+	
+	List<Calendars> findByClosedDateBetween(LocalDate gessi, LocalDate getumatu);
 }

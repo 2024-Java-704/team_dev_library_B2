@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="encording">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+
+	<h1>マイページ</h1>
+	<div th:if="${overList.size() > 0}">
+		<h2>延滞しています</h2>
+		<table style="width: 100%;" border="1">
+			<tr>
+				<th>アイテムID</th>
+				<th>貸出日</th>
+				<th>返却期限</th>
+			</tr>
+			<tr th:each="over:${overList}">
+				<td th:text="${over.itemId}"></td>
+				<td th:text="${over.rentalDate}"></td>
+				<td th:text="${over.closingDate}"></td>
+			</tr>
+		</table>
+	</div>
+
+	<div th:if="${rentalList.size() > 0}">
+		<h2>貸出中</h2>
+		<table style="width: 100%;" border="1">
+			<tr>
+				<th>アイテムID</th>
+				<th>貸出日</th>
+				<th>返却期限</th>
+			</tr>
+			<tr th:each="rental:${rentalList}">
+				<td th:text="${rental.itemId}"></td>
+				<td th:text="${rental.rentalDate}"></td>
+				<td th:text="${rental.closingDate}"></td>
+				
+			</tr>
+		</table>
+	</div>
+
+	<div th:if="${reservationsList.size > 0}">
+		<h2>予約中</h2>
+		<table style="width: 100%;" border="1">
+			<th>資料名</th>
+			<th>予約申込日</th>
+			<tr th:each="reservation:${reservationsList}">
+				<td th:text="${reservation.itemTitleid}"></td>
+				<td th:text="${reservation.orderedOn}"></td>
+			</tr>
+		</table>
+	</div>
+
+	<a href="/library/mypage/history">貸出履歴</a>
+	
+	
+	<div class="calendar">
+		
+	</div>
+	
+</body>
+<script>
+	// 各削除ボタンをクリックしたときにモーダルを表示する
+	document.querySelectorAll('.modalOpen').forEach(function (button) {
+		button.addEventListener('click', function () {
+			var taskId = button.getAttribute('data-taskid');
+			var modal = document.getElementById('modal-' + taskId);
+			modal.style.display = 'block';
+		});
+	});
+
+	// モーダルの閉じるボタンをクリックしたときにモーダルを閉じる
+	document.querySelectorAll('.modalClose').forEach(function (closeButton) {
+		closeButton.addEventListener('click', function () {
+			var modal = closeButton.closest('.modal');
+			modal.style.display = 'none';
+		});
+	});
+
+	// モーダルの外側をクリックしたときにモーダルを閉じる
+	window.addEventListener('click', function (event) {
+		document.querySelectorAll('.modal').forEach(function (modal) {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		});
+	});
+</script>
+
+</html>
