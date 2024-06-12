@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="encording">
-<title>在庫編集画面</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="encording">
+	<title>在庫編集画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
+
 <body>
-	<h2>在庫編集画面です</h2>
-		<table border="1">
-			<tr>
+	<h2>《在庫編集画面》</h2>
+	<table border="1">
+		<tr>
 			<th>資料ID</th>
 			<th>資料タイトルID</th>
 			<th>状態</th>
 			<th>入荷日</th>
 			<th>備考</th>
-			<th>在庫数編集画面へ</th>
+			<th>在庫状態編集</th>
 		</tr>
 		<tr th:each="item:${items}">
 			<td th:text="${item.id}"></td>
 			<td th:text="${item.itemTitleId}"></td>
-			<td th:text="${item.status}"></td>
+			<td th:text="${item.status}">
+<!--				<span th:if="${item.status}==0">予約中</span>-->
+<!--				<span th:if="${item.status}==1">予約待機</span>-->
+<!--				<span th:if="${item.status}==2">受取待機</span>-->
+<!--				<span th:if="${item.status}==3">返却待機</span>-->
+<!--				<span th:if="${item.status}==4">終了</span>-->
+<!--エンティティがうまくいかなかったとき用-->
+			</td>
 			<td th:text="${item.arrivalDate}"></td>
 			<td th:text="${item.memo}"></td>
 			<td>
 				<form th:action="'/admin/rentalcontrol/inventory/detail/item/'+${item.id}" method="get">
-					<button type="submit">在庫数編集画面へ</button>
+					<button type="submit">在庫状態編集画面へ</button>
 				</form>
 			</td>
 		</tr>
+	</table>
+	<br>
+	<h3>《この本の在庫を追加する》</h3>
+	<form action="/admin/rentalcontrol/inventory/detail" method="post">
+		<input type="hidden" name="id" th:value="${itemTitle.id}">
+		<table border="1">
+			<th>状態</th>
+			<td>
+				<input type="text" name="status">
+			</td>
+			<th>備考</th>
+			<td>
+				<input type="text" name="memo">
+			</td>
 		</table>
+		<br>
+		<button type="submit">新規在庫追加</button>
 	</form>
-	
+	<br>
 	<form action="/admin/rentalcontrol/inventory" method="get">
 		<button type="submit">在庫管理画面へ</button>
 	</form>
 
 </body>
+
 </html>
