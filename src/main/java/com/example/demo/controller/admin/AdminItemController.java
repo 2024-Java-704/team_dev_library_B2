@@ -1,5 +1,6 @@
 package com.example.demo.controller.admin;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,25 @@ public class AdminItemController {
 
 		return "admin/editInventory";
 
+	}
+
+	// 本（在庫）の新規追加を行う
+	@PostMapping("/inventory/detail")
+	public String addBooks(
+			@RequestParam(name = "id", defaultValue = "") Integer id,
+			@RequestParam(name = "status", defaultValue = "") Integer status,
+			@RequestParam(name = "arrivalDate", defaultValue = "") LocalDate arrivalDate,
+			@RequestParam(name = "memo", defaultValue = "") String memo,
+			Model model) {
+
+		// itemsテーブルへの反映
+		itemsRepository.save(new Items(id, status, LocalDate.now(), memo));
+
+		List<Items> items = itemsRepository.findByItemTitleId(id);
+		model.addAttribute("items", items);
+		ItemTitle itemTitle = itemTitleRepository.findById(id).get();
+		model.addAttribute("itemTitle", itemTitle);
+		return "admin/editInventory";
 	}
 
 	// 本（在庫）詳細編集画面を表示する
