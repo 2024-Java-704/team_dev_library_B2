@@ -9,7 +9,12 @@
 </head>
 
 <body>
+<<<<<<< makino-71-header
+	<header th:replace="header"></header>
+<!--	未ログイン時に表示		-->
+=======
 	<!--	未ログイン時に表示		-->
+>>>>>>> develop
 	<th:block th:if="${@account.name} == null">
 		<span><a href="/login/newuser">新規登録</a></span>
 		<span><a href="/login">ログイン</a></span>
