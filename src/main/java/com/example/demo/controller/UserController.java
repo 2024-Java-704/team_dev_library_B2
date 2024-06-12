@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Calendars;
 import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
@@ -215,11 +214,6 @@ public class UserController {
 		List<Reservations> reservationsList = reservationsRepository.findByUserIdAndStatusIn(account.getId(),new Integer[] {0,1,2});
 		model.addAttribute("reservationsList",reservationsList );
 		
-		LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
-		LocalDate last = (first.plusMonths(1)).minusDays(1);
-		
-		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
-		model.addAttribute("closeDates",closeDates);
 		return "mypage";
 	}
 	
