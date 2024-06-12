@@ -6,7 +6,16 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<h2>《在庫状態編集画面》</h2>
+	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+	<h2>在庫数編集画面です</h2>
+
 	
 	<form th:action="'/admin/rentalcontrol/inventory/detail/item/'+${item.id}" method="post">
 		<table border="1">

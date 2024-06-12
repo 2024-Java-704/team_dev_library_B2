@@ -43,18 +43,22 @@ public class AdminLibraryController {
 		try {
 			Items item = itemsRepository.findById(id).get();
 		} catch (Exception e) {
-			errorList.add("存在しない本のidです" + "<br>");
+			errorList.add("存在しない本のidです");
 		}
+		
 		try {
-			Users user = usersRepository.findById(id).get();
-		} catch (Exception e) {
-			errorList.add("存在しないユーザーidです" + "<br>");
+
+			Users user = usersRepository.findById(user_id).get();
+		}catch(Exception e) {
+			errorList.add("存在しないユーザーidです");
+
 		}
 
 		try {
 			Items item = itemsRepository.findById(id).get();
-			Users user = usersRepository.findById(id).get();
-		} catch (Exception e) {
+			Users user = usersRepository.findById(user_id).get();
+		}catch(Exception e) {
+
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}

@@ -6,6 +6,14 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
+	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
 	<h1>《貸出管理画面》</h1>
 	<br>
 	<form action="/admin/rentalcontrol/reserve" method="get">

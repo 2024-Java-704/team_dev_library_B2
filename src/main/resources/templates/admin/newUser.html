@@ -8,7 +8,14 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 <body>
-
+	
+	<header th:replace = "~{header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
 	<h1>アカウント新規作成</h1>
 
 
