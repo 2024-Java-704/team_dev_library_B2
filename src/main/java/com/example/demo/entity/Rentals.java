@@ -10,31 +10,36 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="rentals")
+@Table(name = "rentals")
 public class Rentals {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="item_id")
-	Integer itemId;
+	private Integer itemId;
 	
 	@Column(name="user_id")
-	Integer userId;
+	private Integer userId;
 	
 	@Column(name="rental_date")
-	LocalDate rentalDate;
+	private LocalDate rentalDate;
 	
 	@Column(name="return_date")
-	LocalDate returnDate;
+	private LocalDate returnDate;
 	
 	@Column(name="closing_date")
-	LocalDate closingDate;
+	private LocalDate closingDate;
 	
-	Integer status;
+	private Integer status;
 
 	public Rentals() {
+	}
+
+	public Rentals(Integer userId, Integer itemId) {
+		this.userId = userId;
+		this.itemId = itemId;
 	}
 
 	public Rentals(Integer id, Integer itemId, Integer userId, LocalDate rentalDate, LocalDate returnDate,
@@ -121,8 +126,5 @@ public class Rentals {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	
-	
-	
 
 }

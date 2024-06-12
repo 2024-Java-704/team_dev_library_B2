@@ -25,7 +25,7 @@ public class AdminUserController {
 	@Autowired
 	RentalsRepository rentalsRepository;
 	
-	@GetMapping("")
+	@GetMapping("/main")
 	public String main() {
 		return "admin/main";
 	}

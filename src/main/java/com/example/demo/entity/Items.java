@@ -15,20 +15,40 @@ public class Items {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name = "item_title_id")
-	Integer itemTitleId;
+	private Integer itemTitleId;
 	
-	Integer status;
+	private Integer status;
 	
 	@Column(name = "arrival_date")
-	LocalDate arrivalDate;
+	private LocalDate arrivalDate;
 	
-	String memo;
+	private String memo;
 
 	public Items() {
 	}
+	
+
+	public Items(Integer id, Integer itemTitleId, Integer status, LocalDate arrivalDate, String memo) {
+		this.id = id;
+		this.itemTitleId = itemTitleId;
+		this.status = status;
+		this.arrivalDate = arrivalDate;
+		this.memo = memo;
+	}
+	
+	
+
+
+	public Items(Integer itemTitleId, Integer status, LocalDate arrivalDate, String memo) {
+		this.itemTitleId = itemTitleId;
+		this.status = status;
+		this.arrivalDate = arrivalDate;
+		this.memo = memo;
+	}
+
 
 	public Integer getId() {
 		return id;
