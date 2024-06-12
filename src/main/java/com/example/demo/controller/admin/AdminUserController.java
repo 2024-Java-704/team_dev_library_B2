@@ -25,6 +25,11 @@ public class AdminUserController {
 	@Autowired
 	RentalsRepository rentalsRepository;
 	
+	@GetMapping("")
+	public String main() {
+		return "admin/main";
+	}
+	
 	@GetMapping("/admin/usercontrol")
 	public String index() {
 		return "admin/userControl";
