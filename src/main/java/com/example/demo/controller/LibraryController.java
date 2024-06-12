@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
+import com.example.demo.entity.Items;
 import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Reservations;
 import com.example.demo.entity.SubCategories;
@@ -20,6 +21,7 @@ import com.example.demo.model.Account;
 import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemTitleRepositoryB;
+import com.example.demo.repository.ItemsRepository;
 import com.example.demo.repository.RentalsRepository;
 import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.SubCategoriesRepository;
@@ -33,7 +35,7 @@ public class LibraryController {
 	ReservationsRepository reservationsRepository;
 
 	@Autowired
-	ItemTitleRepository itemtitlerepository;
+	ItemTitleRepository itemTitlerepository;
 
 	// AND検索機能用
 	@Autowired
@@ -48,6 +50,9 @@ public class LibraryController {
 	@Autowired
 	RentalsRepository rentalsRepository;
 	
+	@Autowired
+	ItemsRepository itemsRepository;
+	
 
 	// 検索結果表示
 	@GetMapping("/library/search")
@@ -60,16 +65,16 @@ public class LibraryController {
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
 			Model model) {
 
-		// sasaki-16-a
-  /*
-		List<ItemTitle> itemlist = null;
+		
+		//上部簡易検索欄
+		List<ItemTitle> itemList = null;
 
 		if (keyword.length() > 0) {
-			itemlist = itemtitlerepository.findByNameContaining(keyword);
-			model.addAttribute("itemlist", itemlist);
+			itemList = itemTitlerepository.findByNameContaining(keyword);
+			model.addAttribute("itemlist", itemList);
 
 			return "search";
-  */ 
+		}
 		
 		// 項目入力なしで検索をクリックした時
 		if (keyword.length() == 0 || keyword == null) {
@@ -90,15 +95,15 @@ public class LibraryController {
 		}
 		
 		// 入力項目があった時
-		List<ItemTitle> itemlist = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
-		model.addAttribute("itemlist", itemlist);
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		model.addAttribute("itemlist", itemList);
 		return "search";
 	}
   
 	// 資料の詳細画面表示
 	@GetMapping("/library/search/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
-		ItemTitle itemtitle = itemtitlerepository.findById(id).get();
+		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
 		model.addAttribute("item", itemtitle);
 		return "detail";
 	}
@@ -107,9 +112,9 @@ public class LibraryController {
 	//予約処理
 	@PostMapping("/library/search/{id}/reserve")
 	public String reserve(@PathVariable("id") Integer id, Model model) {
-		ItemTitle itemtitle = itemtitlerepository.findById(id).get();
-		 LocalDate nowDate = LocalDate.now();
-		Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate,0);
+		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
+		LocalDate nowDate = LocalDate.now();
+		Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
 		reservationsRepository.save(reservation);
 
 		return "main";
@@ -125,17 +130,12 @@ public class LibraryController {
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
 		
-		// 未ログインの場合処理
-		if (account.getName() == null) {
-			model.addAttribute("name", "ゲスト");
-			return "main";
-		}
-		
-		// ログイン後の場合処理
-		model.addAttribute("name", account.getName());
 		return "main";
 	}
-
+	
+	
+	//紛失処理
+	/*
 	@PostMapping("/library/mypage/history")
 	public String lost(Model model) {
 		List<Rentals>rentalList = rentalsRepository.findAll();
@@ -143,6 +143,22 @@ public class LibraryController {
 		
 		return "/admin";
 	}
+	*/
+	@PostMapping("/library/mypage/history")
+	public String lost(Integer rentals_id,Integer item_id) {
+		Rentals rental = rentalsRepository.findById(rentals_id).get();
+		if(rental == null) { return "redirect:/library/mypage/history";}
+		
+		Items item = itemsRepository.findById(item_id).get();
+		
+		rental.setStatus(2);
+		item.setStatus(5);
+		
+		rentalsRepository.save(rental);
+		itemsRepository.save(item);
+		
+		return "redirect:/library/mypage/history";
+	} 
 
 	
 }
