@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>貸出画面</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<body>
+
+	<h1>貸出</h1>
+
+	<form action = "rental" method = "post">
+	本のID<input type = "number" name = "id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"><br>
+	ユーザーID<input type = "number" name = "user_id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"><br>
+	<button>貸出</button>
+	</form>
+	<span th:each = "error:${errorList}"th:utext = "${error}" style = "color:red" ></span>
+</body>
+
+
+
+</html>
