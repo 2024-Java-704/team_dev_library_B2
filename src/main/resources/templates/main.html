@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/css/style.css">
-<title>メインページ</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/calendar.css">
+	<title>メインページ</title>
 </head>
+
 <body>
-<!--	未ログイン時に表示		-->
+	<!--	未ログイン時に表示		-->
 	<th:block th:if="${@account.name} == null">
 		<span><a href="/login/newuser">新規登録</a></span>
 		<span><a href="/login">ログイン</a></span>
 	</th:block>
-	
-	
-<!--	ログインした時用に表示	-->
+
+
+	<!--	ログインした時用に表示	-->
 	<th:block th:if="${@account.name}">
 		<span><a href="/login/mypage">マイページ</a></span>
 		<span><a href="/logout">ログアウト</a></span>
 	</th:block>
-	
+
 	<br>
-	
-<!--	検索エラー文	-->
+
+	<!--	検索エラー文	-->
 	<th:block th:text="${error}"></th:block>
 
-<!--	検索欄		-->
+	<!--	検索欄		-->
 	<form action="/library/search" method="get">
 		<input type="text" name="keyword" placeholder="フリーワード検索">
 		<button>検索</button>
 	</form>
-	
+
 	<br>
 	<form action="/library/search" method="get">
 		<table border="1">
@@ -60,12 +63,121 @@
 				<td>
 					<select name="subCategoryId" size="1">
 						<option value="0" label="選択なし" selected></option>
-						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">[[${subCategory.name}]]</option>
+						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
+							[[${subCategory.name}]]</option>
 					</select>
 				</td>
 			</tr>
 		</table>
 		<button>検索</button>
 	</form>
+
+	<div>
+		<h3>開館日</h3>
+		<div id="calendar" class="calendar-wrap">
+
+		</div>
+
+	</div>
+
+<script th:inline="javascript">
+	//カレンダーの表示
+
+	const date = new Date();
+	const today = date.getDate();
+	const currentMonth = date.getMonth();
+	let displayMonth = currentMonth;
+
+	//List
+	const closeDates = /*[[${closeDates}]]*/null;
+
+	function createCalendar(month) {
+		//曜日
+		const monthDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		let calendarHTML = '<table border="1" class="calendar"><thead><tr>';
+
+		for (let i = 0; i < 7; i++) {
+			if (i === 0) {
+				calendarHTML += `<th class="sun">${monthDays[i]}</th>`;
+			} else if (i === 6) {
+				calendarHTML += `<th class="sat">${monthDays[i]}</th>`;
+			} else {
+				calendarHTML += `<th>${monthDays[i]}</th>`;
+			}
+		}
+
+		calendarHTML += '</tr></thead><tbody>';
+
+		const thisYear = date.getFullYear() + Math.trunc(month / 12);
+		const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
+		const firstDay = new Date(date.getFullYear(), month, 1).getDay();
+
+		const daysInPrevMonth = new Date(date.getFullYear(), month, 0).getDate();
+
+		let dayCount = 1;
+		let prevDayCount = daysInPrevMonth - firstDay + 1;
+
+		//LocalDateとの比較のための整形
+		const yearAndMonth = String(thisYear) + '-'
+			+ ('0' + String((month % 12) + 1)).slice(-2) + '-';
+
+		for (let i = 0; i < 6; i++) {
+			calendarHTML += '<tr>';
+
+			for (let j = 0; j < 7; j++) {
+				if (i === 0 && j < firstDay) {
+					calendarHTML += `<td class="mute"></td>`;
+					prevDayCount++;
+				} else if (dayCount > daysInMonth) {
+					let nextMonthDayCount = dayCount - daysInMonth;
+					calendarHTML += `<td class="mute"></td>`;
+					dayCount++;
+				} else {
+
+					let ymd = yearAndMonth + ('0' + String(dayCount)).slice(-2);
+
+
+					calendarHTML += `<td class="date`;
+
+					for (day of closeDates) {
+						if (day.closedDate == ymd) {
+							calendarHTML += ` closed`;
+							break;
+						}
+					}
+
+
+					// 今日の日付にclassを付ける
+					if (dayCount == today) {
+						calendarHTML += ` today`;
+					}
+
+
+					calendarHTML += `"><span class="dateNum">${dayCount}</span>`;
+
+					calendarHTML += `</td>`;
+
+					dayCount++;
+				}
+			}
+
+			calendarHTML += '</tr>';
+
+			if (dayCount > daysInMonth) {
+				break;
+			}
+		}
+
+		calendarHTML += '</tbody></table>';
+
+		return calendarHTML;
+	}
+
+	document.getElementById('calendar').innerHTML = createCalendar(currentMonth);
+
+</script>
 </body>
+
+
+
 </html>
