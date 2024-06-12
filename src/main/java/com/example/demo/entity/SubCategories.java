@@ -13,12 +13,12 @@ public class SubCategories {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="category_id")
-	Integer categoryId;
+	private Integer categoryId;
 	
-	String name;
+	private String name;
 	
 
 	public SubCategories() {

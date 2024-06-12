@@ -17,21 +17,26 @@ public class Reservations {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="item_title_id")
-	Integer itemTitleid;
+	private Integer itemTitleid;
 	
 	@Column(name="item_id")
-	Integer itemId;
+	private Integer itemId;
 	
 	@Column(name="user_id")
-	Integer userId;
+	private Integer userId;
 	
 	@Column(name="ordered_on")
-	LocalDate orderedOn;
+	private LocalDate orderedOn;
 	
-	Integer status;
+	private Integer status;
+	//0:予約中
+	//1:予約待機
+	//2:受取待機
+	//3:返却待機
+	//4:終了
 	
 	@ManyToOne
 	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
@@ -58,6 +63,12 @@ public class Reservations {
 		this.userId = userId;
 		this.orderedOn = orderedOn;
 		this.status = status;
+	}
+	public Reservations(Integer itemTitleid, Integer userId, LocalDate orderedOn) {
+		this.itemTitleid = itemTitleid;
+		this.userId = userId;
+		this.orderedOn = orderedOn;
+		this.status = 0;
 	}
 
 

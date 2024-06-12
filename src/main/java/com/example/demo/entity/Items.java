@@ -15,17 +15,17 @@ public class Items {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@Column(name = "item_title_id")
-	Integer itemTitleId;
+	private Integer itemTitleId;
 	
-	Integer status;
+	private Integer status;
 	
 	@Column(name = "arrival_date")
-	LocalDate arrivalDate;
+	private LocalDate arrivalDate;
 	
-	String memo;
+	private String memo;
 
 	public Items() {
 	}

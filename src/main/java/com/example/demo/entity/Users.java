@@ -15,16 +15,16 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-	String name;
-	String address;
-	String tel;
-	String email;
-	LocalDate birthday;
-	String password;
+	private Integer id;
+	private String name;
+	private String address;
+	private String tel;
+	private String email;
+	private LocalDate birthday;
+	private String password;
 	@Column(name="join_date")
-	LocalDate joinDate;
-	Integer status;
+	private LocalDate joinDate;
+	private Integer status;
 	//0:利用可　1:利用不可　9:管理者
 	public Users() {
 		// TODO 自動生成されたコンストラクター・スタブ

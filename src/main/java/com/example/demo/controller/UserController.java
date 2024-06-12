@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Rentals;
+import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
 import com.example.demo.model.Account;
+import com.example.demo.repository.RentalsRepository;
+import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.UsersRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +27,19 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	Account account;
+
+	@Autowired
+	RentalsRepository rentalsRepository;
+	
+	@Autowired
+	ReservationsRepository reservationsRepository;
 	
 	@Autowired
 	UsersRepository usersRepository;
+
 	
 	// 管理者ログイン画面を表示する
 	@GetMapping("/admin/login")
@@ -42,9 +53,43 @@ public class UserController {
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model) {
-		/* ここにメールアドレスやパスワード判定処理を書く */
+		// 入力項目チェック
+		List<String> errorList = new ArrayList<>();
+		List<Users> userList = usersRepository.findByEmailAndPassword(email, password);
+		if (email == null || email.length() == 0) {
+			errorList.add("メールアドレスを入力してください" + "<br>");
+		}
+		if (password == null || password.length() == 0) {
+			errorList.add("パスワードを入力してください" + "<br>");
+		}
+		if ((email.length() != 0 && password.length() != 0) && (userList.size() == 0 || userList == null)) {
+			errorList.add("メールアドレスとパスワードが一致しませんでした");
+		}
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("email", email);
+			return "admin/login";
+		}
 		
+		Users user = userList.get(0);
+		// 管理者権限チェック
+		if (user.getStatus() != 9) {
+			errorList.add("管理者権限がありません");
+			model.addAttribute("errorList", errorList);
+			return "admin/login";
+		}
+		
+		account.setId(user.getId());
+		account.setName(user.getName());
+		account.setAuthority(user.getStatus());
 		return "admin/main";
+	}
+	
+	// 管理者ログアウト
+	@GetMapping("/admin/logout")
+	public String adminLogout() {
+		session.invalidate();
+		return "redirect:/admin/login";
 	}
 	
 	
@@ -142,12 +187,19 @@ public class UserController {
 	}
 	
 	// ユーザマイページ表示
-	@GetMapping({"/login/mypage"})
-	public String myPage() {
-		return "mypage";
+	@GetMapping({ "/login/mypage" })
+	public String myPage(Model model) {
+		List<Rentals> rentalList = rentalsRepository.findAll();
+		model.addAttribute("rentalList", rentalList);
+		
+		LocalDate currentDate = LocalDate.now();
+		List<Rentals> overList = rentalsRepository.findByStatusAndClosingDateBefore(0,currentDate);
+		model.addAttribute("overList", overList);
+		
+		List<Reservations> reservationsList = reservationsRepository.findAll();
+		model.addAttribute("reservationsList",reservationsList );
+		return "admin/mypage";
 	}
-
-  
   
 	@GetMapping("/logout")
 	public String logout() {

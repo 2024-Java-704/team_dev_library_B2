@@ -15,24 +15,24 @@ public class Rentals {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-
-	@Column(name = "item_id")
-	Integer itemId;
-
-	@Column(name = "user_id")
-	Integer userId;
-
-	@Column(name = "rental_date")
-	LocalDate rentalDate;
-
-	@Column(name = "return_date")
-	LocalDate returnDate;
-
-	@Column(name = "closing_date")
-	LocalDate closingDate;
-
-	Integer status;
+	private Integer id;
+	
+	@Column(name="item_id")
+	private Integer itemId;
+	
+	@Column(name="user_id")
+	private Integer userId;
+	
+	@Column(name="rental_date")
+	private LocalDate rentalDate;
+	
+	@Column(name="return_date")
+	private LocalDate returnDate;
+	
+	@Column(name="closing_date")
+	private LocalDate closingDate;
+	
+	private Integer status;
 
 	public Rentals() {
 	}
