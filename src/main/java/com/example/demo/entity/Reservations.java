@@ -32,6 +32,11 @@ public class Reservations {
 	private LocalDate orderedOn;
 	
 	private Integer status;
+	//0:予約中
+	//1:予約待機
+	//2:受取待機
+	//3:返却待機
+	//4:終了
 	
 	@ManyToOne
 	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
@@ -58,6 +63,12 @@ public class Reservations {
 		this.userId = userId;
 		this.orderedOn = orderedOn;
 		this.status = status;
+	}
+	public Reservations(Integer itemTitleid, Integer userId, LocalDate orderedOn) {
+		this.itemTitleid = itemTitleid;
+		this.userId = userId;
+		this.orderedOn = orderedOn;
+		this.status = 0;
 	}
 
 
