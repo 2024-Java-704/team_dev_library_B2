@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +28,10 @@ public class Items {
 	private LocalDate arrivalDate;
 	
 	private String memo;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
+	ItemTitle itemTitle;
 
 	public Items() {
 	}
@@ -91,6 +97,8 @@ public class Items {
 	}
 	
 	
-	
+	public String getItemTitleName() {
+		return itemTitle.getName();
+	}
 	
 }

@@ -8,62 +8,60 @@
 </head>
 
 <body>
-	<a href="/, /library">戻る</a><a href="/logout">ログアウト</a>
+
 	<h1>マイページ</h1>
-	延滞しています
-	<table style="width: 100%;" border="1">
-		<th>アイテムID</th>
-		<th>貸出日</th>
-		<th>返却期限</th>
-		<tr th:each="over:${overList}">
-			<td th:text="${over.itemId}"></td>
-			<td th:text="${over.rentalDate}"></td>
-			<td th:text="${over.closingDate}"></td>
-		</tr>
-	</table>
-	貸出中
-	<table style="width: 100%;" border="1">
-		<th>アイテムID</th>
-		<th>貸出日</th>
-		<th>返却期限</th>
-		<th>紛失申告</th>
-		<tr th:each="rental:${rentalList}">
-			<td th:text="${rental.itemId}"></td>
-			<td th:text="${rental.rentalDate}"></td>
-			<td th:text="${rental.closingDate}"></td>
-			<td><button class="modalOpen" th:attr="data-taskid=${rental.itemId}" type="button" data-toggle="modal" data-target="#sampleModal">紛失申告</button>
-				<div class="modal"  th:id="'modal-'+${rental.itemId}" tabindex="-1">
-					<div class="modal-content">
-						<div class="modal-header">
-							<span class="modalClose">×</span>
-							<h4 class="modal-title">紛失申告</h4>
-						</div>
-						<div class="modal-body">
-							<p>紛失申告を行いますか？</p>
-						</div>
-						<div class="modal-footer" display="inline-block">
-						<form th:action = "'/library/mypage'+${rental.itemId}" method="post">
-								<button>申告</button>
-							</form>
-							<form>
-								<button>キャンセル</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</td>
-		</tr>
-	</table>
-	予約中
-	<table style="width: 100%;" border="1">
-		<th>資料名</th>
-		<th>予約申込日</th>
-		<tr th:each="reservation:${reservationsList}">
-			<td th:text="${reservation.itemTitleid}"></td>
-			<td th:text="${reservation.orderedOn}"></td>
-		</tr>
-	</table>
+	<div th:if="${overList.size() > 0}">
+		<h2>延滞しています</h2>
+		<table style="width: 100%;" border="1">
+			<tr>
+				<th>アイテムID</th>
+				<th>貸出日</th>
+				<th>返却期限</th>
+			</tr>
+			<tr th:each="over:${overList}">
+				<td th:text="${over.itemId}"></td>
+				<td th:text="${over.rentalDate}"></td>
+				<td th:text="${over.closingDate}"></td>
+			</tr>
+		</table>
+	</div>
+
+	<div th:if="${rentalList.size() > 0}">
+		<h2>貸出中</h2>
+		<table style="width: 100%;" border="1">
+			<tr>
+				<th>アイテムID</th>
+				<th>貸出日</th>
+				<th>返却期限</th>
+			</tr>
+			<tr th:each="rental:${rentalList}">
+				<td th:text="${rental.itemId}"></td>
+				<td th:text="${rental.rentalDate}"></td>
+				<td th:text="${rental.closingDate}"></td>
+				
+			</tr>
+		</table>
+	</div>
+
+	<div th:if="${reservationsList.size > 0}">
+		<h2>予約中</h2>
+		<table style="width: 100%;" border="1">
+			<th>資料名</th>
+			<th>予約申込日</th>
+			<tr th:each="reservation:${reservationsList}">
+				<td th:text="${reservation.itemTitleid}"></td>
+				<td th:text="${reservation.orderedOn}"></td>
+			</tr>
+		</table>
+	</div>
+
 	<a href="/library/mypage/history">貸出履歴</a>
+	
+	
+	<div class="calendar">
+		
+	</div>
+	
 </body>
 <script>
 	// 各削除ボタンをクリックしたときにモーダルを表示する

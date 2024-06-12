@@ -22,6 +22,7 @@ public interface RentalsRepository  extends JpaRepository<Rentals,Integer>{
 	List<Rentals> findByUserIdAndStatusOrderByRentalDate(Integer userId,Integer status);
 	
 	List<Rentals> findByUserIdOrderByRentalDate(Integer userId);
+	List<Rentals> findByUserIdOrderByRentalDateDesc(Integer userId);
 	
 
 }
