@@ -39,7 +39,7 @@ public class AdminLibraryController {
 			@RequestParam(name = "user_id", defaultValue = "") Integer user_id,
 			Model model) {
 		List<String> errorList = new ArrayList<String>();
-		
+
 		try {
 			Items item = itemsRepository.findById(id).get();
 		} catch (Exception e) {
@@ -47,25 +47,26 @@ public class AdminLibraryController {
 		}
 		try {
 			Users user = usersRepository.findById(id).get();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			errorList.add("存在しないユーザーidです" + "<br>");
 		}
-		
+
 		try {
 			Items item = itemsRepository.findById(id).get();
 			Users user = usersRepository.findById(id).get();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-		
-			LocalDate nowDate = LocalDate.now();
-			LocalDate twoWeeksLater = nowDate.plusWeeks(2);
-			Rentals rental = new Rentals(id, user_id, nowDate, twoWeeksLater);
-			rentalsRepository.save(rental);
-			return "admin/main";
-		
+
+		LocalDate nowDate = LocalDate.now();
+		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
+		Rentals rental = new Rentals(id, user_id, nowDate, twoWeeksLater);
+		rentalsRepository.save(rental);
+		return "admin/main";
+
 	}
+
 	// 返却画面を表示する
 	@GetMapping("/admin/return")
 	public String returnBook(Model model) {
