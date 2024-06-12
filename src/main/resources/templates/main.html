@@ -6,6 +6,7 @@
 <title>メインページ</title>
 </head>
 <body>
+	<header th:replace="header"></header>
 <!--	未ログイン時に表示		-->
 	<th:block th:if="${@account.name} == null">
 		<span><a href="/login/newuser">新規登録</a></span>
