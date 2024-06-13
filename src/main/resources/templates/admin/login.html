@@ -8,7 +8,11 @@
 <body>
 	<h1>管理者ログイン</h1>
 	
-	<span th:each = "error:${errorList}" th:utext = "${error}" style = "color:red" ></span>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
 	
 	<form action="/admin/login" method="post">
 		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>

@@ -28,14 +28,14 @@ public class AdminCalendarController {
 		
 		
 		model.addAttribute("calendars", calendars);
-		return "admin/admincalendar";
+		
+		return "admin/adminCalendar";
 	}
 	
 	
 	@PostMapping("/admin/calendar/add")
 	public String add(@RequestParam(name="date", defaultValue="") String dateS,
-						@RequestParam(name="dateDetail",defaultValue="") String dateDetail
-						) {
+						@RequestParam(name="dateDetail",defaultValue="") String dateDetail) {
 		
 		LocalDate closedDate;
 		try {

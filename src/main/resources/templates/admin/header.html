@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>ToDoリスト</title>
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
-	</head>
-	<body>
-		
+
 	<header>
-		<h1>図書館管理機能</h1>
-		<span class="header1" text="'あなたは admin としてログインしています'"></span>
+		<h1><a href="/admin">図書館管理機能</a></h1>
+		<span th:if="${@account.name}">
+			<span class="header1" th:text="${@account.name}+'さん'"></span><br>
+		</span>
+		<span class="header1" th:text="'あなたは admin としてログインしています'"></span>
 		<br>
 		 <a href="#" id="logoutButton" class="header1">ログアウト</a>
 		<br>
@@ -55,5 +50,3 @@
             }
         };
     </script>
-</body>
-</head>

@@ -131,5 +131,20 @@ public class Reservations {
 		}
 		return itemTitle.getName();
 	}
+	public String getStatusStr() {
+		switch(status) {
+		case 0: return "予約中";
+		case 1: return "予約待機";
+		case 2: return "受取待機";
+		case 3: return "返却待機";
+		case 4: return "終了";
+		default: return "";
+		//0:予約中
+		//1:予約待機
+		//2:受取待機
+		//3:返却待機
+		//4:終了
+		}
+	}
 
 }

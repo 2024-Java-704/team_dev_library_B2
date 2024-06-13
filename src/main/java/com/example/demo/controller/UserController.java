@@ -61,10 +61,10 @@ public class UserController {
 		List<String> errorList = new ArrayList<>();
 		List<Users> userList = usersRepository.findByEmailAndPassword(email, password);
 		if (email == null || email.length() == 0) {
-			errorList.add("メールアドレスを入力してください" + "<br>");
+			errorList.add("メールアドレスを入力してください");
 		}
 		if (password == null || password.length() == 0) {
-			errorList.add("パスワードを入力してください" + "<br>");
+			errorList.add("パスワードを入力してください");
 		}
 		if ((email.length() != 0 && password.length() != 0) && (userList.size() == 0 || userList == null)) {
 			errorList.add("メールアドレスとパスワードが一致しませんでした");
@@ -120,21 +120,21 @@ public class UserController {
 		
 		if(name.equals("") ||address.equals("") ||tel.equals("") ||tel.length()!=11 ||email.equals("") ||birthday== null||password.equals("") ||emailCheck(email)){
 			if(name.equals("")){
-				errorList.add("名前は必須です" + "<br>");}
+				errorList.add("名前は必須です");}
 			if(address.equals("")) {
-				errorList.add("住所は必須です" + "<br>");}
+				errorList.add("住所は必須です");}
 			if(tel.equals("")) {
-				errorList.add("電話番号は必須です" + "<br>");}
+				errorList.add("電話番号は必須です");}
 			if(tel.length()!=11) {
-				errorList.add("電話番号はハイフン抜きの11桁で入力してください" + "<br>");}
+				errorList.add("電話番号はハイフン抜きの11桁で入力してください");}
 			if(email.equals("")) {
-				errorList.add("メールアドレスは必須です" + "<br>");}
+				errorList.add("メールアドレスは必須です");}
 			if (emailCheck(email)) {
-				errorList.add("登録済みのメールアドレスです" + "<br>");}
+				errorList.add("登録済みのメールアドレスです");}
 			if(birthday==null) {
-				errorList.add("生年月日は必須です" + "<br>");}
+				errorList.add("生年月日は必須です");}
 			if(password.equals("")) {
-				errorList.add("パスワードは必須です" + "<br>");}
+				errorList.add("パスワードは必須です");}
 			model.addAttribute("name",name);
 			model.addAttribute("address",address);
 			model.addAttribute("tel",tel);
@@ -184,6 +184,17 @@ public class UserController {
 		
 		// ログイン成功
 		Users user = userList.get(0);
+		
+		//権利変更
+		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(account.getId(),0,LocalDate.now());
+		if(overList.size() > 0) {
+			if(user.getStatus()!=9) {
+				user.setStatus(1);
+				usersRepository.save(user);
+			}
+		}
+		
+		
 		account.setId(user.getId());
 		account.setName(user.getName());
 		account.setAuthority(user.getStatus());
