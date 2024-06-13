@@ -107,6 +107,7 @@ public class Reservations {
 
 	public void setItemId(Integer itemId) {
 		this.itemId = itemId;
+		this.status = 1;
 	}
 
 	public void setUserId(Integer userId) {
