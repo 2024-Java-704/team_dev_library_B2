@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="encording">
-	<title>Insert title here</title>
+	<title>マイページ</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
@@ -15,12 +15,12 @@
 		<h2>延滞しています</h2>
 		<table style="width: 100%;" border="1">
 			<tr>
-				<th>アイテムID</th>
+				<th>資料名</th>
 				<th>貸出日</th>
 				<th>返却期限</th>
 			</tr>
 			<tr th:each="over:${overList}">
-				<td th:text="${over.itemId}"></td>
+				<td th:text="${over.itemTitleName}"></td>
 				<td th:text="${over.rentalDate}"></td>
 				<td th:text="${over.closingDate}"></td>
 			</tr>
@@ -31,12 +31,12 @@
 		<h2>貸出中</h2>
 		<table style="width: 100%;" border="1">
 			<tr>
-				<th>アイテムID</th>
+				<th>資料名</th>
 				<th>貸出日</th>
 				<th>返却期限</th>
 			</tr>
 			<tr th:each="rental:${rentalList}">
-				<td th:text="${rental.itemId}"></td>
+				<td th:text="${rental.itemTitleName}"></td>
 				<td th:text="${rental.rentalDate}"></td>
 				<td th:text="${rental.closingDate}"></td>
 
@@ -47,11 +47,15 @@
 	<div th:if="${reservationsList.size > 0}">
 		<h2>予約中</h2>
 		<table style="width: 100%;" border="1">
-			<th>資料名</th>
-			<th>予約申込日</th>
+			<tr>
+				<th>資料名</th>
+				<th>予約申込日</th>
+				<th>予約状況</th>
+			</tr>
 			<tr th:each="reservation:${reservationsList}">
-				<td th:text="${reservation.itemTitleid}"></td>
+				<td th:text="${reservation.itemTitleName}"></td>
 				<td th:text="${reservation.orderedOn}"></td>
+				<td th:text="${reservation.statusStr}"></td>
 			</tr>
 		</table>
 	</div>

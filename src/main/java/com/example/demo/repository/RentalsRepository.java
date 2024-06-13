@@ -24,5 +24,8 @@ public interface RentalsRepository  extends JpaRepository<Rentals,Integer>{
 	List<Rentals> findByUserIdOrderByRentalDate(Integer userId);
 	List<Rentals> findByUserIdOrderByRentalDateDesc(Integer userId);
 	
+	
+	List<Rentals> findByStatusInOrderByRentalDate(Integer[] status);
+	
 
 }

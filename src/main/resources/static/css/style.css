@@ -125,3 +125,7 @@ ul {
 	  	font-style: normal;
 	}
 	
+	/*エラー*/
+	.error{
+		color: red;
+	}

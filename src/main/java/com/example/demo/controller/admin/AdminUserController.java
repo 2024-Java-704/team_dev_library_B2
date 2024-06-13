@@ -54,21 +54,21 @@ public class AdminUserController {
 		
 		if(name.equals("") ||address.equals("") ||tel.equals("") ||tel.length()!=11 ||email.equals("") ||birthday== null||password.equals("") ||emailCheck(email)){
 			if(name.equals("")){
-				errorList.add("名前は必須です" + "<br>");}
+				errorList.add("名前は必須です");}
 			if(address.equals("")) {
-				errorList.add("住所は必須です" + "<br>");}
+				errorList.add("住所は必須です");}
 			if(tel.equals("")) {
-				errorList.add("電話番号は必須です" + "<br>");}
+				errorList.add("電話番号は必須です");}
 			if(tel.length()!=11) {
-				errorList.add("電話番号はハイフン抜きの11桁で入力してください" + "<br>");}
+				errorList.add("電話番号はハイフン抜きの11桁で入力してください");}
 			if(email.equals("")) {
-				errorList.add("メールアドレスは必須です" + "<br>");}
+				errorList.add("メールアドレスは必須です");}
 			if (emailCheck(email)) {
-				errorList.add("登録済みのメールアドレスです" + "<br>");}
+				errorList.add("登録済みのメールアドレスです");}
 			if(birthday==null) {
-				errorList.add("生年月日は必須です" + "<br>");}
+				errorList.add("生年月日は必須です");}
 			if(password.equals("")) {
-				errorList.add("パスワードは必須です" + "<br>");}
+				errorList.add("パスワードは必須です");}
 			model.addAttribute("name",name);
 			model.addAttribute("address",address);
 			model.addAttribute("tel",tel);
@@ -78,8 +78,8 @@ public class AdminUserController {
 			return "admin/newUser";
 			
 		}else {
-			
-		Users user = new Users(name,address,tel,email,birthday,password);
+		LocalDate joinDate = LocalDate.now();
+		Users user = new Users(name,address,tel,email,birthday,password,joinDate);
 		usersRepository.save(user);
 		return "admin/userControl";
 		}
@@ -104,7 +104,7 @@ public class AdminUserController {
 	
 	@PostMapping("/admin/usercontrol/user/detail/{id}")
 	public String editUserPost(
-			@RequestParam(name = "id",defaultValue = "")Integer id,
+			@PathVariable(name = "id")Integer id,
 			@RequestParam(name = "name",defaultValue = "")String name,
 			@RequestParam(name = "address",defaultValue = "")String address,
 			@RequestParam(name = "tel",defaultValue = "")String tel,
@@ -113,39 +113,50 @@ public class AdminUserController {
 			@RequestParam(name = "password",defaultValue = "")String password,
 			@RequestParam(name = "joinDate",defaultValue = "")LocalDate joinDate,
 			Model model) {
+		
+		
+		Users user = usersRepository.findById(id).get();
+		//エラーチェック
 		List<String> errorList = new ArrayList<String>();
 		
-		if(name.equals("") ||address.equals("") ||tel.equals("") ||tel.length()!=11 ||email.equals("") ||birthday== null||password.equals("") ||emailCheck(email)){
-			if(name.equals("")){
-				errorList.add("名前は必須です" + "<br>");}
-			if(address.equals("")) {
-				errorList.add("住所は必須です" + "<br>");}
-			if(tel.equals("")) {
-				errorList.add("電話番号は必須です" + "<br>");}
-			if(tel.length()!=11) {
-				errorList.add("電話番号はハイフン抜きの11桁で入力してください" + "<br>");}
-			if(email.equals("")) {
-				errorList.add("メールアドレスは必須です" + "<br>");}
+		if(name.equals("")){
+			errorList.add("名前は必須です");}
+		if(address.equals("")) {
+			errorList.add("住所は必須です");}
+		if(tel.equals("")) {
+			errorList.add("電話番号は必須です");}
+		if(tel.length()!=11) {
+			errorList.add("電話番号はハイフン抜きの11桁で入力してください");}
+		if(email.equals("")) {
+			errorList.add("メールアドレスは必須です");}
+		if(!email.equals(user.getEmail())) {
 			if (emailCheck(email)) {
-				errorList.add("登録済みのメールアドレスです" + "<br>");}
-			if(birthday==null) {
-				errorList.add("生年月日は必須です" + "<br>");}
-			if(password.equals("")) {
-				errorList.add("パスワードは必須です" + "<br>");}
-			
-			Users user = usersRepository.findById(id).get();
+			errorList.add("登録済みのメールアドレスです");}
+		}
+		if(birthday==null) {
+			errorList.add("生年月日は必須です");}
+		if(password.equals("")) {
+			errorList.add("パスワードは必須です" + "<br>");}
+		
+		if(errorList.size() > 0) {
 			model.addAttribute("errorList",errorList);
 			model.addAttribute("user", user);
 			return "admin/detail";
-			
-		}else {
-		
-		
-		
-		Users user = new Users(id,name,address,tel,email,birthday,password,joinDate);
-		usersRepository.save(user);
-		return "redirect:/admin/usercontrol/user";
 		}
+		
+		
+		//値のセット
+		user.setName(name);
+		user.setAddress(address);
+		user.setTel(tel);
+		user.setEmail(email);
+		user.setBirthday(birthday);
+		user.setPassword(password);
+		
+		usersRepository.save(user);
+		
+		return "redirect:/admin/usercontrol/user";
+
 	}
 	
 	@GetMapping("/admin/usercontrol/overdueuser")

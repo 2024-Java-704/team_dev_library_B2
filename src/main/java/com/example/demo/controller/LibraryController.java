@@ -87,7 +87,7 @@ public class LibraryController {
 					&& (publisher.length() == 0 || publisher == null)
 					&& (categoryId == null || categoryId == 0)
 					&& (subCategoryId == null || subCategoryId == 0)) {
-				model.addAttribute("error", "1つ以上の項目を入力してください");
+				model.addAttribute("errorList", "1つ以上の項目を入力してください");
 				
 				// カテゴリー表示用
 				List<Categories> categoryList = categoriesRepository.findAll();

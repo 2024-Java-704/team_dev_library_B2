@@ -45,33 +45,48 @@ public class AdminLibraryController {
 		} catch (Exception e) {
 			errorList.add("存在しない本のidです");
 		}
-		
+
 		try {
 
 			Users user = usersRepository.findById(user_id).get();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			errorList.add("存在しないユーザーidです");
 		}
 
 		try {
 			Items item = itemsRepository.findById(id).get();
 			Users user = usersRepository.findById(user_id).get();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-		
-		
+
 		Items item = itemsRepository.findById(id).get();
-		if(item.getStatus() != 0) {
+		if (item.getStatus() != 0) {
 			errorList.add("この本は貸出できません");
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
 		
+		
+		
+		//権限確認
+		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(user_id,0,LocalDate.now());
+		if(overList.size()>0) {
+			Users user = usersRepository.findById(user_id).get();
+			if(user.getStatus()!=9) {
+				user.setStatus(1);
+				usersRepository.save(user);
+			}
+			
+			errorList.add("延滞中のため貸出が制限されています");
+			model.addAttribute("errorList", errorList);
+			return "admin/rental";
+		}
+
 		item.setStatus(1);
 		itemsRepository.save(item);
-		
+
 		LocalDate nowDate = LocalDate.now();
 		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
 		Rentals rental = new Rentals(id, user_id, nowDate, twoWeeksLater);
@@ -123,10 +138,21 @@ public class AdminLibraryController {
 
 			// rentalsテーブルへの反映
 			rentalsRepository.save(rental);
+			
+			//制限解除処理
+			Users user = usersRepository.findById(userId).get();
+			if (user.getStatus() == 1) {
+				List<Rentals> overDate = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId, 0, LocalDate.now());
+				if (overDate == null || overDate.size() == 0) {
+					user.setStatus(0);
+					usersRepository.save(user);
+				}
+			}
 
 		} else {
 			// 指定したIDがrentalsテーブルに存在しない場合
-			model.addAttribute("message", "返却対象が見つかりません");
+			errorList.add("返却対象が見つかりません");
+			model.addAttribute("errorList", errorList);
 		}
 
 		return "/admin/return";
