@@ -8,7 +8,12 @@
 </head>
 
 <body>
-	<header th:replace="header"></header>
+	<header th:replace="~{header}"></header>
+		<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
 
 	<h1>貸出履歴</h1>
 	<table border="1">

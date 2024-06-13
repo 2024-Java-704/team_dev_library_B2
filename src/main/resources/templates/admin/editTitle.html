@@ -7,7 +7,7 @@
 </head>
 <body>
 	
-	<header th:replace="admin/header"></header>
+	<header th:replace="~{admin/header}"></header>
 	<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
