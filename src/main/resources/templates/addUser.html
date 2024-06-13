@@ -6,12 +6,20 @@
 <title>会員新規登録</title>
 </head>
 <body>
-	<header th:replace="header"></header>
-
-	<button type="button" onclick="history.back()">ホームページに戻る</button>
+	
+	<header>
+		<h1><a href="/library">図書館</a></h1>
+		<span><a href="/login">ログイン</a></span>
+	</header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+<!--	<button type="button" onclick="history.back()">ホームページに戻る</button>-->
 	<h1>会員登録</h1>
 	
-	<span th:each = "error:${errorList}" th:utext = "${error}" style = "color:red" ></span>
 	<form action="/login/newuser" method="post">
 		<table>
 			<tr>

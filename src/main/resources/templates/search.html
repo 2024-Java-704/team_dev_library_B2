@@ -6,7 +6,12 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<header th:replace="header"></header>
+	<header th:replace="~{header}"></header>
+		<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
 <h1>検索結果</h1>
 <table border="1">
 	<tr><th>タイトル</th><th>著者名</th><th>出版社</th><th>出版日</th><th>詳細</th></tr>

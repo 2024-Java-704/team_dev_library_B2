@@ -9,10 +9,7 @@
 
 <body>
 	
-	<header>
-		<h1><a href="/library">図書館</a></h1>
-	<span><a href="/login">ログイン</a></span>
-	</header>
+	<header th:replace="~{admin/header}"></header>
 	<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
