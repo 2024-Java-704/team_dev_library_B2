@@ -26,7 +26,6 @@
 			<th>返却期限</th>
 			<th>返却日</th>
 			<th>貸出状態</th>
-			<th>ぴゃー</th>
 		</tr>
 		<tr th:each="rental:${rentaling}">
 			<td th:text="${rental.userName}"></td>
@@ -36,9 +35,7 @@
 			<td th:text="${rental.closingDate}"></td>
 			<td><span th:text="${rental.returnDate}"></span></td>
 			<td th:text="${rental.statusStr}"></td>
-			<td>
-				ぴゃー
-			</td>
+
 		</tr>
 	</table>
 
