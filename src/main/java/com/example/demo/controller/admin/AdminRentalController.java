@@ -25,7 +25,7 @@ public class AdminRentalController {
 		return "admin/rentalControl";
 		*/
 
-		return "admin/rentalsControll";
+		return "admin/rentalsControl";
 	}
 
 }
