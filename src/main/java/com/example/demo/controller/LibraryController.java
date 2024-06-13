@@ -116,7 +116,18 @@ public class LibraryController {
 	@GetMapping("/library/search/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
+		
+		Categories category = categoriesRepository.findById(itemtitle.getCategoryId()).get();
+		
+		SubCategories subCategory = subCategoriesRepository.findById(itemtitle.getSubCategoryId()).get();
+		
+		List<Items> items = itemsRepository.findByItemTitleIdAndStatus(id,0);
+		
+		
 		model.addAttribute("item", itemtitle);
+		model.addAttribute("category", category.getName());
+		model.addAttribute("subCategory",subCategory.getName());
+		model.addAttribute("itemNum",items.size());
 		return "detail";
 	}
 
@@ -125,10 +136,11 @@ public class LibraryController {
 	@PostMapping("/library/search/{id}/reserve")
 	public String reserve(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
-		LocalDate nowDate = LocalDate.now();
-		Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
-		reservationsRepository.save(reservation);
-
+		if((itemsRepository.findByItemTitleIdAndStatus(id,0)).size() == 0) {
+			LocalDate nowDate = LocalDate.now();
+			Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
+			reservationsRepository.save(reservation);
+		}
 		return "redirect:/";
 	}
 

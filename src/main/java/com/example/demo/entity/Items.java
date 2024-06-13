@@ -23,6 +23,13 @@ public class Items {
 	private Integer itemTitleId;
 	
 	private Integer status;
+	/*
+	 * 0:貸し出し可(在架)
+	 * 1:貸し出し中
+	 * 2:取り置き待ち(予約対象、取り置き承認待機)
+	 * 3:取り置き中
+	 * 4:利用不可(紛失、破損等)
+	 * */
 	
 	@Column(name = "arrival_date")
 	private LocalDate arrivalDate;

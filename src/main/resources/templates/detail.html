@@ -20,11 +20,11 @@
 	    <tr><th>出版社</th><td th:text="${item.publisher}"></td></tr>
 	    <tr><th>出版日</th><td th:text="${item.publicationDate}"></td></tr>
 	    <tr><th>あらすじ</th><td th:text="${item.summary}"></td></tr>
-	    <tr><th>カテゴリー番号</th><td th:text="${item.categoryId}"></td></tr>
-	    <tr><th>サブカテゴリー番号</th><td th:text="${item.subCategoryId}"></td></tr>
+	    <tr><th>カテゴリー</th><td th:text="${category}"></td></tr>
+	    <tr><th>サブカテゴリー</th><td th:text="${subCategory}"></td></tr>
+	    <tr><th>在架数</th><td th:text="${itemNum}"></td></tr>
 	</table>
-	
-    
+	<div th:if="${itemNum} == 0">
 				<button type="submit" class="modalOpen" th:attr="data-taskid=${item.id}">予約</button>
 				<div class="modal" th:id="'modal-'+${item.id}">
 					<div class="modal-content">
@@ -45,6 +45,7 @@
 						</div>
 					</div>
 				</div>
+	</div>
 				
 			<script>
 	// 各削除ボタンをクリックしたときにモーダルを表示する
