@@ -10,4 +10,6 @@ public interface ReservationsRepository extends JpaRepository<Reservations ,Inte
 	
 	List<Reservations> findByStatus(Integer status);
 	List<Reservations> findByUserIdAndStatusIn(Integer userId,Integer[] status);
+	List<Reservations> findByItemTitleIdAndStatusOrderByOrderedOn(Integer itemTitleId,Integer status);
+	
 }

@@ -19,10 +19,13 @@
 	<h1>貸出</h1>
 
 	<form action = "rental" method = "post">
-	本のID<input type = "number" name = "id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"><br>
-	ユーザーID<input type = "number" name = "user_id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"><br>
+	<table border="1">
+	
+	<tr><th>本のID</th><td><input type = "number" name = "id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"></td></tr>
+	<tr><th>ユーザーID</th><td><input type = "number" name = "userId" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"></td></tr>
 	<button>貸出</button>
 	</form>
+	</table>
 
 </body>
 

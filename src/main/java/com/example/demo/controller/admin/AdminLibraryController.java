@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Items;
 import com.example.demo.entity.Rentals;
+import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.ItemsRepository;
 import com.example.demo.repository.RentalsRepository;
+import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.UsersRepository;
 
 @Controller
@@ -27,6 +29,8 @@ public class AdminLibraryController {
 	RentalsRepository rentalsRepository;
 	@Autowired
 	ItemsRepository itemsRepository;
+	@Autowired
+	ReservationsRepository reservationsRepository;
 
 	@GetMapping("/admin/rental")
 	public String rental() {
@@ -36,7 +40,7 @@ public class AdminLibraryController {
 	@PostMapping("/admin/rental")
 	public String rentalPost(
 			@RequestParam(name = "id", defaultValue = "") Integer id,
-			@RequestParam(name = "user_id", defaultValue = "") Integer user_id,
+			@RequestParam(name = "userId", defaultValue = "") Integer userId,
 			Model model) {
 		List<String> errorList = new ArrayList<String>();
 
@@ -48,14 +52,14 @@ public class AdminLibraryController {
 
 		try {
 
-			Users user = usersRepository.findById(user_id).get();
+			Users user = usersRepository.findById(userId).get();
 		} catch (Exception e) {
 			errorList.add("存在しないユーザーidです");
 		}
 
 		try {
 			Items item = itemsRepository.findById(id).get();
-			Users user = usersRepository.findById(user_id).get();
+			Users user = usersRepository.findById(userId).get();
 		} catch (Exception e) {
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
@@ -71,9 +75,9 @@ public class AdminLibraryController {
 		
 		
 		//権限確認
-		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(user_id,0,LocalDate.now());
+		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId,0,LocalDate.now());
 		if(overList.size()>0) {
-			Users user = usersRepository.findById(user_id).get();
+			Users user = usersRepository.findById(userId).get();
 			if(user.getStatus()!=9) {
 				user.setStatus(1);
 				usersRepository.save(user);
@@ -89,7 +93,7 @@ public class AdminLibraryController {
 
 		LocalDate nowDate = LocalDate.now();
 		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
-		Rentals rental = new Rentals(id, user_id, nowDate, twoWeeksLater);
+		Rentals rental = new Rentals(id, userId, nowDate, twoWeeksLater);
 		rentalsRepository.save(rental);
 		return "admin/main";
 
@@ -126,7 +130,7 @@ public class AdminLibraryController {
 			return "/admin/return";
 		}
 
-		// ID存在チェック
+		
 		List<Rentals> rentals = rentalsRepository.findByUserIdAndItemIdAndStatus(userId, itemId, 0);
 
 		// 返却処理
@@ -148,6 +152,23 @@ public class AdminLibraryController {
 					usersRepository.save(user);
 				}
 			}
+			
+			//返却反映
+			Items item = itemsRepository.findById(itemId).get();
+			//予約確認
+			List<Reservations> reservations = reservationsRepository.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
+			if(reservations.size() > 0) {
+				Reservations reserve = reservations.get(0);
+				reserve.setItemId(itemId);
+				item.setStatus(2);
+				reservationsRepository.save(reserve);
+				itemsRepository.save(item);
+				
+			}else {
+				item.setStatus(0);
+				itemsRepository.save(item);
+			}
+
 
 		} else {
 			// 指定したIDがrentalsテーブルに存在しない場合
