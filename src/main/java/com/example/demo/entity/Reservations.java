@@ -41,6 +41,10 @@ public class Reservations {
 	@ManyToOne
 	@JoinColumn(name = "item_title_id", insertable = false, updatable = false)
 	ItemTitle itemTitle;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id", insertable = false, updatable = false)
+	Users users;
 
 	public Reservations() {
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -132,6 +136,14 @@ public class Reservations {
 		}
 		return itemTitle.getName();
 	}
+	
+	public String getUsersName(){
+		return users.getName();
+	}
+	public Integer showUsersStatus() {
+		return users.getStatus();
+	}
+	
 	public String getStatusStr() {
 		switch(status) {
 		case 0: return "予約中";
@@ -146,6 +158,7 @@ public class Reservations {
 		//3:返却待機
 		//4:終了
 		}
+		
 	}
 
 }

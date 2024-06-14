@@ -147,7 +147,7 @@ public class Rentals {
 		switch(this.status) {
 			case 0 : return "貸出中";
 			case 1 : return "返却済";
-			case 2 : return "紛失申請中";
+			case 2 : return "紛失申告中";
 			default : return "";
 		}
 	}
@@ -156,6 +156,14 @@ public class Rentals {
 	}
 	public String getUserName() {
 		return users.getName();
+	}
+	public Integer getUserStatus() {
+		return users.getStatus();
+	}
+	
+	
+	public Users showUser() {
+		return users;
 	}
 	
 
