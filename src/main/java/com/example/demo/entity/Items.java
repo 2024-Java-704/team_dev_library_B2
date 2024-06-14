@@ -29,6 +29,7 @@ public class Items {
 	 * 2:取り置き待ち(予約対象、取り置き承認待機)
 	 * 3:取り置き中
 	 * 4:利用不可(紛失、破損等)
+	 * 5:紛失申請中
 	 * */
 	
 	@Column(name = "arrival_date")
@@ -106,6 +107,10 @@ public class Items {
 	
 	public String getItemTitleName() {
 		return itemTitle.getName();
+	}
+	
+	public ItemTitle showItemTitle() {
+		return itemTitle;
 	}
 	
 }

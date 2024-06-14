@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.ItemTitle;
 import com.example.demo.entity.Items;
 import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
+import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemsRepository;
 import com.example.demo.repository.RentalsRepository;
 import com.example.demo.repository.ReservationsRepository;
@@ -29,6 +31,8 @@ public class AdminLibraryController {
 	RentalsRepository rentalsRepository;
 	@Autowired
 	ItemsRepository itemsRepository;
+	@Autowired
+	ItemTitleRepository itemTitleRepository;
 	@Autowired
 	ReservationsRepository reservationsRepository;
 
@@ -95,6 +99,10 @@ public class AdminLibraryController {
 		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
 		Rentals rental = new Rentals(id, userId, nowDate, twoWeeksLater);
 		rentalsRepository.save(rental);
+		
+		ItemTitle itemTitle = item.showItemTitle();
+		itemTitle.setRentalNumber(itemTitle.getRentalNumber() + 1);
+		itemTitleRepository.save(itemTitle);
 		return "admin/main";
 
 	}
