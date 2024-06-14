@@ -11,5 +11,6 @@ public interface ItemsRepository extends JpaRepository<Items, Integer> {
 
 	List<Items> findByItemTitleId(Integer itemTitleId);
 	List<Items> findByItemTitleIdAndStatus(Integer itemTitleId,Integer status);
+	List<Items> findByItemTitleIdAndStatusIn(Integer itemTitleId,Integer[] status);
 
 }

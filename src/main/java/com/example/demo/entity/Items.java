@@ -113,4 +113,16 @@ public class Items {
 		return itemTitle;
 	}
 	
+	public String getStatusStr() {
+		switch(status) {
+		case 0: return "在架";
+		case 1: return "貸出中";
+		case 2: return "取置承認待機";
+		case 3: return "取置中";
+		case 4: return "利用不可";
+		case 5: return "紛失申請中";
+		default: return "";
+		}
+	}
+	
 }

@@ -1,80 +1,115 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>詳細</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="UTF-8">
+	<title>詳細</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
+
 <body>
 	<header th:replace="header"></header>
-		<div th:if="${errorList}"} >
+	<div th:if="${errorList}" }>
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
 	</div>
 	<h1>詳細</h1>
 	<table border="1">
-	    <tr><th>ID</th><td th:text="${item.id}"></td></tr>
-	    <tr><th>本のタイトル</th><td th:text="${item.name}"></td></tr>
-	    <tr><th>著者名</th><td th:text="${item.author}"></td></tr>
-	    <tr><th>出版社</th><td th:text="${item.publisher}"></td></tr>
-	    <tr><th>出版日</th><td th:text="${item.publicationDate}"></td></tr>
-	    <tr><th>あらすじ</th><td th:text="${item.summary}"></td></tr>
-	    <tr><th>カテゴリー</th><td th:text="${category}"></td></tr>
-	    <tr><th>サブカテゴリー</th><td th:text="${subCategory}"></td></tr>
-	    <tr><th>在架数</th><td th:text="${itemNum}"></td></tr>
+		<tr>
+			<th>ID</th>
+			<td th:text="${item.id}"></td>
+		</tr>
+		<tr>
+			<th>本のタイトル</th>
+			<td th:text="${item.name}"></td>
+		</tr>
+		<tr>
+			<th>著者名</th>
+			<td th:text="${item.author}"></td>
+		</tr>
+		<tr>
+			<th>出版社</th>
+			<td th:text="${item.publisher}"></td>
+		</tr>
+		<tr>
+			<th>出版日</th>
+			<td th:text="${item.publicationDate}"></td>
+		</tr>
+		<tr>
+			<th>あらすじ</th>
+			<td th:text="${item.summary}"></td>
+		</tr>
+		<tr>
+			<th>カテゴリー</th>
+			<td th:text="${category}"></td>
+		</tr>
+		<tr>
+			<th>サブカテゴリー</th>
+			<td th:text="${subCategory}"></td>
+		</tr>
+		<tr>
+			<th>在架数</th>
+			<td th:text="${itemNum}"></td>
+		</tr>
 	</table>
-	<div th:if="${itemNum} == 0">
-				<button type="submit" class="modalOpen" th:attr="data-taskid=${item.id}">予約</button>
-				<div class="modal" th:id="'modal-'+${item.id}">
-					<div class="modal-content">
-						<div class="modal-header">
-							<span class="modalClose">×</span>
-							<h2>確認</h2>
-						</div>
-						<div class="modal-body">
-							<p>予約しますか？</p>
-						</div>
-						<div class="modal-footer" display="inline-block">
-							<form th:action = "@{/library/search/{id}/reserve(id=${item.id})}" method="post">
-								<button>はい</button>
-							</form>
-							<form>
-								<button>いいえ</button>
-							</form>
-						</div>
+	<div th:if="${itemNum == 0 and itemNumNot != 0}">
+		<div th:if="${@account.name} == null">
+			<a th:href="@{/library/search/{id}/login(id=${item.id})}">予約する場合はログインしてください</a>
+		</div>
+		<div th:if="${@account.name}">
+			<button type="submit" class="modalOpen" th:attr="data-taskid=${item.id}">予約</button>
+			<div class="modal" th:id="'modal-'+${item.id}">
+				<div class="modal-content">
+					<div class="modal-header">
+						<span class="modalClose">×</span>
+						<h2>確認</h2>
+					</div>
+					<div class="modal-body">
+						<p>予約しますか？</p>
+					</div>
+					<div class="modal-footer" display="inline-block">
+						<form th:action="@{/library/search/{id}/reserve(id=${item.id})}" method="post">
+							<button>はい</button>
+						</form>
+						<form>
+							<button>いいえ</button>
+						</form>
 					</div>
 				</div>
+			</div>
+		</div>
 	</div>
-				
-			<script>
-	// 各削除ボタンをクリックしたときにモーダルを表示する
-	document.querySelectorAll('.modalOpen').forEach(function (button) {
-		button.addEventListener('click', function () {
-			var taskId = button.getAttribute('data-taskid');
-			var modal = document.getElementById('modal-' + taskId);
-			modal.style.display = 'block';
-		});
-	});
 
-	// モーダルの閉じるボタンをクリックしたときにモーダルを閉じる
-	document.querySelectorAll('.modalClose').forEach(function (closeButton) {
-		closeButton.addEventListener('click', function () {
-			var modal = closeButton.closest('.modal');
-			modal.style.display = 'none';
+	<script>
+		// 各削除ボタンをクリックしたときにモーダルを表示する
+		document.querySelectorAll('.modalOpen').forEach(function (button) {
+			button.addEventListener('click', function () {
+				var taskId = button.getAttribute('data-taskid');
+				var modal = document.getElementById('modal-' + taskId);
+				modal.style.display = 'block';
+			});
 		});
-	});
 
-	// モーダルの外側をクリックしたときにモーダルを閉じる
-	window.addEventListener('click', function (event) {
-		document.querySelectorAll('.modal').forEach(function (modal) {
-			if (event.target === modal) {
+		// モーダルの閉じるボタンをクリックしたときにモーダルを閉じる
+		document.querySelectorAll('.modalClose').forEach(function (closeButton) {
+			closeButton.addEventListener('click', function () {
+				var modal = closeButton.closest('.modal');
 				modal.style.display = 'none';
-			}
+			});
 		});
-	});
-</script>
-			
-    
+
+		// モーダルの外側をクリックしたときにモーダルを閉じる
+		window.addEventListener('click', function (event) {
+			document.querySelectorAll('.modal').forEach(function (modal) {
+				if (event.target === modal) {
+					modal.style.display = 'none';
+				}
+			});
+		});
+	</script>
+
+
 </body>
+
 </html>

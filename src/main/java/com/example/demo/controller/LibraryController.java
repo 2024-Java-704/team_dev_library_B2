@@ -122,12 +122,13 @@ public class LibraryController {
 		SubCategories subCategory = subCategoriesRepository.findById(itemtitle.getSubCategoryId()).get();
 		
 		List<Items> items = itemsRepository.findByItemTitleIdAndStatus(id,0);
-		
+		List<Items> itemsNot = itemsRepository.findByItemTitleIdAndStatusIn(id, new Integer[] {0,1,2,3});
 		
 		model.addAttribute("item", itemtitle);
 		model.addAttribute("category", category.getName());
 		model.addAttribute("subCategory",subCategory.getName());
 		model.addAttribute("itemNum",items.size());
+		model.addAttribute("itemNumNot",itemsNot.size());
 		return "detail";
 	}
 
@@ -137,13 +138,16 @@ public class LibraryController {
 	public String reserve(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
 		if((itemsRepository.findByItemTitleIdAndStatus(id,0)).size() == 0) {
-			LocalDate nowDate = LocalDate.now();
-			Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
-			reservationsRepository.save(reservation);
+			if(account.getAuthority() != 9) {
+				LocalDate nowDate = LocalDate.now();
+				Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
+				reservationsRepository.save(reservation);
+			}
 		}
 		return "redirect:/";
 	}
-
+	
+	
 	
 	// ユーザメイン画面表示
 	@GetMapping({"/", "/library"})

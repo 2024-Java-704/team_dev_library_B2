@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,13 +95,21 @@ public class AdminItemController {
 	public String addBooks(
 			@RequestParam(name = "id", defaultValue = "") Integer id,
 			@RequestParam(name = "status", defaultValue = "") Integer status,
-			@RequestParam(name = "arrivalDate", defaultValue = "") LocalDate arrivalDate,
+			@RequestParam(name = "arrivalDate", defaultValue = "") String arrivalDateS,
 			@RequestParam(name = "memo", defaultValue = "") String memo,
 			Model model) {
+		
+		LocalDate arrivalDate;
+		try {
+			arrivalDate = LocalDate.parse(arrivalDateS);
+		} catch (DateTimeParseException e) {
+			arrivalDate = LocalDate.now();
+		}
 
 		// itemsテーブルへの反映
-		itemsRepository.save(new Items(id, status, LocalDate.now(), memo));
-
+		itemsRepository.save(new Items(id, status, arrivalDate, memo));
+		
+		//表示処理
 		List<Items> items = itemsRepository.findByItemTitleId(id);
 		model.addAttribute("items", items);
 		ItemTitle itemTitle = itemTitleRepository.findById(id).get();
