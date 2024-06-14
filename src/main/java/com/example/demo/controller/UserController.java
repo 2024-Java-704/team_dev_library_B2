@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -283,6 +284,59 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	//本詳細画面からのユーザログイン処理
+	// ユーザログイン画面表示
+	@GetMapping("/library/search/{id}/login")
+	public String loginReserve(@PathVariable("id")Integer itemTitleId,
+								Model model) {
+		return "loginReserve";
+	}
+	// ユーザログイン処理
+	@PostMapping("/library/search/{id}/login")
+	public String loginReservePost(@PathVariable("id")Integer itemTitleId,
+			@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			Model model) {
+		// 入力されたメールアドレスとパスワードチェック
+		List<String> errorList = new ArrayList<>();
+		List<Users> userList = usersRepository.findByEmailAndPassword(email, password);
+		if (email == null || email.length() == 0) {
+			errorList.add("メールアドレスを入力してください");
+		}
+		if (password == null || password.length() == 0) {
+			errorList.add("パスワードを入力してください");
+		}
+		if ((email.length() != 0 && password.length() != 0) && (userList.size() == 0 || userList == null)) {
+			errorList.add("メールアドレスとパスワードが一致しませんでした");
+		}
+
+		if (errorList.size() > 0) {
+			// ログイン失敗
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("email", email);
+			return "/library/search/"+itemTitleId+"/login";
+		}
+
+		// ログイン成功
+		Users user = userList.get(0);
+
+		//権利変更
+		List<Rentals> overList = rentalsRepository
+				.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(account.getId(), 0, LocalDate.now());
+		if (overList.size() > 0) {
+			if (user.getStatus() != 9) {
+				user.setStatus(1);
+				usersRepository.save(user);
+			}
+		}
+
+		account.setId(user.getId());
+		account.setName(user.getName());
+		account.setAuthority(user.getStatus());
+		return "redirect:/library/search/"+ itemTitleId;
+	}
+	
 
 	// ユーザマイページ表示
 	@GetMapping({ "/login/mypage" })

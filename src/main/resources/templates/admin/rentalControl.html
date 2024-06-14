@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>会員管理</title>
+	<title>貸出中一覧</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
@@ -16,18 +16,20 @@
 		</ul>
 	</div>
 
-	<h1>貸出管理</h1>
+	<h1>貸出中一覧</h1>
 	<table border="1">
 		<tr>
-			<th>ユーザー</th>
-			<th>アイテム名</th>
-			<th>アイテムID</th>
+			<th>会員ID</th>
+			<th>会員名</th>
+			<th>資料名</th>
+			<th>資料ID</th>
 			<th>貸出日</th>
 			<th>返却期限</th>
 			<th>返却日</th>
 			<th>貸出状態</th>
 		</tr>
 		<tr th:each="rental:${rentaling}">
+			<td th:text="${rental.userId}"></td>
 			<td th:text="${rental.userName}"></td>
 			<td th:text="${rental.itemTitleName}"></td>
 			<td th:text="${rental.itemId}"></td>
