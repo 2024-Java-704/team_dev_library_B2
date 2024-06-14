@@ -26,11 +26,7 @@ public class AdminReserveController {
 			Model model) {
 
 		// 全予約情報テーブル一覧を取得
-		List<Reservations> reservationList = reservationsRepository
-				.findAll()
-				.stream()
-				.filter(reservation -> reservation.getStatus() != 4)
-				.toList();
+		List<Reservations> reservationList = reservationsRepository.findByStatus(0);
 
 		model.addAttribute("reservations", reservationList);
 
@@ -43,12 +39,7 @@ public class AdminReserveController {
 			Model model) {
 
 		// 全資料テーブル一覧を取得
-		List<Reservations> reservationList = reservationsRepository
-				.findAll()
-				.stream()
-				.filter(reservation -> reservation.getStatus() != 4)
-				.toList();
-
+		List<Reservations> reservationList = reservationsRepository.findByStatusIn(new Integer[] {1,2,3});
 		model.addAttribute("reservations", reservationList);
 
 		return "admin/reserved";

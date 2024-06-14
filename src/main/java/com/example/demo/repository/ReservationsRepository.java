@@ -9,6 +9,7 @@ import com.example.demo.entity.Reservations;
 public interface ReservationsRepository extends JpaRepository<Reservations ,Integer> {
 	
 	List<Reservations> findByStatus(Integer status);
+	List<Reservations> findByStatusIn(Integer[] status);
 	List<Reservations> findByUserIdAndStatusIn(Integer userId,Integer[] status);
 	List<Reservations> findByItemTitleIdAndStatusOrderByOrderedOn(Integer itemTitleId,Integer status);
 	
