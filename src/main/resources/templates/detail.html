@@ -55,7 +55,7 @@
 	</table>
 	<div th:if="${itemNum == 0 and itemNumNot != 0}">
 		<div th:if="${@account.name} == null">
-			<a th:href="@{/library/search/{id}/login(id=${itemTitleId})}">予約する場合はログインしてください</a>
+			<a th:href="@{/library/search/{id}/login(id=${item.id})}">予約する場合はログインしてください</a>
 		</div>
 		<div th:if="${@account.name}">
 			<button type="submit" class="modalOpen" th:attr="data-taskid=${item.id}">予約</button>

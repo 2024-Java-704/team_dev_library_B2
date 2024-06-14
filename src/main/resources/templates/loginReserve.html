@@ -16,7 +16,7 @@
 		<div th:text="${error}"></div>
 	</th:block>
 	
-	<form th:action="@{/library/search/{id}/login(id=${itemTitleId})}" method="post">
+	<form th:action="@{/library/search/{id}/login (id=${itemTitleId})}" method="post">
 		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>
 		<input type="password" name="password" placeholder="パスワード"><br>
 		<button>ログイン</button>

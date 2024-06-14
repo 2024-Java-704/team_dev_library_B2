@@ -290,6 +290,8 @@ public class UserController {
 	@GetMapping("/library/search/{id}/login")
 	public String loginReserve(@PathVariable("id")Integer itemTitleId,
 								Model model) {
+		
+		model.addAttribute("itemTitleId",itemTitleId);
 		return "loginReserve";
 	}
 	// ユーザログイン処理
@@ -315,7 +317,8 @@ public class UserController {
 			// ログイン失敗
 			model.addAttribute("errorList", errorList);
 			model.addAttribute("email", email);
-			return "/library/search/"+itemTitleId+"/login";
+			model.addAttribute("itemTitleId",itemTitleId);
+			return "loginReserve";
 		}
 
 		// ログイン成功
@@ -334,7 +337,7 @@ public class UserController {
 		account.setId(user.getId());
 		account.setName(user.getName());
 		account.setAuthority(user.getStatus());
-		return "redirect:/library/search/"+ itemTitleId;
+		return "redirect:" +("/library/search/"+ itemTitleId);
 	}
 	
 
