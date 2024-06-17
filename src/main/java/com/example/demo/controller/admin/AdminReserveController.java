@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Reservations;
+import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ReservationsRepository;
 
 @Controller
@@ -20,17 +22,22 @@ public class AdminReserveController {
 	@Autowired
 	ReservationsRepository reservationsRepository;
 
+	@Autowired
+	ItemTitleRepository itemTitlerepository;
+
 	// 予約一覧画面表示
 	@GetMapping("/rentalcontrol/reserve")
 	public String index(
+			@RequestParam(name = "keyword", defaultValue = "") String keyword,
 			Model model) {
 
-		// 全予約情報テーブル一覧を取得
+		// 予約状況を取得
 		List<Reservations> reservationList = reservationsRepository.findByStatus(0);
 
 		model.addAttribute("reservations", reservationList);
 
 		return "admin/reserve";
+
 	}
 
 	// 予約取り置き画面表示
@@ -39,7 +46,7 @@ public class AdminReserveController {
 			Model model) {
 
 		// 全資料テーブル一覧を取得
-		List<Reservations> reservationList = reservationsRepository.findByStatusIn(new Integer[] {1,2,3});
+		List<Reservations> reservationList = reservationsRepository.findByStatusIn(new Integer[] { 1, 2, 3 });
 		model.addAttribute("reservations", reservationList);
 
 		return "admin/reserved";
