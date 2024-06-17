@@ -2,6 +2,7 @@ package com.example.demo.controller.admin;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Calendars;
 import com.example.demo.repository.CalendarsRepository;
@@ -35,7 +37,8 @@ public class AdminCalendarController {
 	
 	@PostMapping("/admin/calendar/add")
 	public String add(@RequestParam(name="date", defaultValue="") String dateS,
-						@RequestParam(name="dateDetail",defaultValue="") String dateDetail) {
+						@RequestParam(name="dateDetail",defaultValue="") String dateDetail,
+						RedirectAttributes attrs) {
 		
 		LocalDate closedDate;
 		try {
@@ -43,19 +46,21 @@ public class AdminCalendarController {
 		} catch (DateTimeParseException e) {
 			closedDate = null;
 		}
-		
+		List<String> errorList = new ArrayList<String>();
 		//ここにエラー処理
 		if(closedDate == null) {
-			return "redirect:/admin/calendar";
+			errorList.add("日付を入力してください");
 		}
 		
 		if(calendarsRepository.findByClosedDate(closedDate).size() > 0) {
+			errorList.add("日付が重複しています");
+		}
+		if(errorList.size() > 0) {
+			attrs.addFlashAttribute("errorList", errorList);
 			return "redirect:/admin/calendar";
 		}
-		
-		
 		calendarsRepository.save(new Calendars(closedDate,dateDetail));
-		
+		attrs.addFlashAttribute("errorList", "追加しました");
 		return "redirect:/admin/calendar";
 	}
 	
