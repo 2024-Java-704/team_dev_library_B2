@@ -170,8 +170,11 @@ public class AdminUserController {
 
 	}
 	
+	// 延滞者一覧表示
 	@GetMapping("/admin/usercontrol/overdueuser")
-	public String overdue(Model model) {
+	public String overdue(
+			@RequestParam(name = "name", defaultValue = "") String name,
+			Model model) {
 		/*
 		LocalDate ldt = LocalDate.now();
 		List<Rentals> rentalList= rentalsRepository.findByClosingDateBeforeAndStatusIs(ldt,0);
@@ -182,7 +185,17 @@ public class AdminUserController {
 			usersRepository.save(user);
 		}
 		*/
-		List<Users> userList = usersRepository.findByStatusOrderByIdAsc(1);
+		List<Users> userList = null;
+		// 検索
+		if (name.length() != 0) {
+			userList = usersRepository.findByNameContaining(name);
+			model.addAttribute("users",userList);
+			model.addAttribute("name", name);
+			return "admin/overDueuser";
+		}
+		
+		// 全延滞者一覧表示
+		userList = usersRepository.findByStatusOrderByIdAsc(1);
 		model.addAttribute("users",userList);
 		return "admin/overDueuser";
 	}
