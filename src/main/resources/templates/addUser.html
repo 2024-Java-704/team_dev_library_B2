@@ -24,27 +24,27 @@
 		<table>
 			<tr>
 				<th>氏名</th>
-				<td><input type="text" name="name" th:value="${name}"></td>
+				<td><input type="text" name="name" placeholder="氏名" th:value="${name}"></td>
 			</tr>
 			<tr>
 				<th>住所</th>
-				<td><input type="text" name="address" th:value="${address}"></td>
+				<td><input type="text" name="address" placeholder="住所" th:value="${address}"></td>
 			</tr>
 			<tr>
 				<th>電話番号</th>
-				<td><input type="text" name="tel" th:value="${tel}"></td>
+				<td><input type="text" name="tel" placeholder="電話番号" th:value="${tel}"></td>
 			</tr>
 			<tr>
 				<th>メールアドレス</th>
-				<td><input type="email" name="email" th:value="${email}"></td>
+				<td><input type="email" name="email" placeholder="E-mail" th:value="${email}"></td>
 			</tr>
 			<tr>
 				<th>生年月日</th>
-				<td><input type="date" name="birthday" th:value="${birthday}"></td>
+				<td><input type="date" name="birthday" placeholder="生年月日" value = "1990-01-01"></td>
 			</tr>
 			<tr>
 				<th>パスワード</th>
-				<td><input type="password" name="password"></td>
+				<td><input type="password" name="password"　placeholder="パスワード"></td>
 			</tr>
 		</table>
 		<button>登録</button>
