@@ -95,7 +95,11 @@ public class ItemTitle {
 	}
 
 	public String getImage() {
-		return image;
+		if(this.image == null || image.length() == 0) {
+			return "/image/no_image.png";
+		}else {
+			return image;
+		}
 	}
 
 	public String getPublisher() {
