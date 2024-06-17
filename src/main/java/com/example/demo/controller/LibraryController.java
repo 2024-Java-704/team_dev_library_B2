@@ -195,7 +195,7 @@ public class LibraryController {
 	}
 
 	// 資料の詳細画面表示
-	@GetMapping("/library/psearch/{id}")
+	@GetMapping("/library/search/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
 
