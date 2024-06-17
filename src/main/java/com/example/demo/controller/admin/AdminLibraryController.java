@@ -77,7 +77,6 @@ public class AdminLibraryController {
 		}
 		
 		
-		
 		//権限確認
 		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId,0,LocalDate.now());
 		if(overList.size()>0) {
@@ -91,7 +90,16 @@ public class AdminLibraryController {
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-
+		
+		//予約確認
+		List<Reservations> reservations = reservationsRepository.findByUserIdAndItemIdAndStatus(userId, id, 2);
+		if(reservations.size() > 0) {
+			Reservations reserve = reservations.get(0);
+			reserve.setStatus(4);
+			reservationsRepository.save(reserve);
+		}
+		
+		
 		item.setStatus(1);
 		itemsRepository.save(item);
 
