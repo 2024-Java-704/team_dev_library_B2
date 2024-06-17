@@ -27,7 +27,7 @@
 			<tr>
 				<th>あらすじ</th>
 				<td>
-					<input type="text" name="summary" th:value="${itemTitle.summary}">
+					<textarea name="summary" th:value="${itemTitle.summary}" rows="4" cols="40" required>[[${itemTitle.summary}]]</textarea>
 				</td>
 			</tr>
 		</table>
