@@ -32,7 +32,7 @@ import com.example.demo.repository.SubCategoriesRepository;
 public class LibraryController {
 	@Autowired
 	Account account;
-	
+
 	@Autowired
 	ReservationsRepository reservationsRepository;
 
@@ -42,22 +42,21 @@ public class LibraryController {
 	// AND検索機能用
 	@Autowired
 	ItemTitleRepositoryB itemTitleRepositoryB;
-	
+
 	@Autowired
 	CategoriesRepository categoriesRepository;
-	
+
 	@Autowired
 	SubCategoriesRepository subCategoriesRepository;
-	
+
 	@Autowired
 	RentalsRepository rentalsRepository;
-	
+
 	@Autowired
 	ItemsRepository itemsRepository;
-	
+
 	@Autowired
 	CalendarsRepository calendarsRepository;
-	
 
 	// 検索結果表示
 	@GetMapping("/library/search")
@@ -70,17 +69,25 @@ public class LibraryController {
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
 			Model model) {
 
-		
 		//上部簡易検索欄
 		List<ItemTitle> itemList = null;
 
 		if (keyword.length() > 0) {
-			itemList = itemTitlerepository.findByNameContaining(keyword);
+			itemList = itemTitlerepository.findByNameContainingOrAuthorContainingOrPublisherContaining(keyword, keyword,
+					keyword);
+
+			model.addAttribute("keyword", keyword);
+			// カテゴリー表示用
+			List<Categories> categoryList = categoriesRepository.findAll();
+			List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+			model.addAttribute("categories", categoryList);
+			model.addAttribute("subCategories", subCategoryList);
+
 			model.addAttribute("itemlist", itemList);
 
 			return "search";
 		}
-		
+
 		// 項目入力なしで検索をクリックした時
 		if (keyword.length() == 0 || keyword == null) {
 			if ((name.length() == 0 || name == null) && (author.length() == 0 || author == null)
@@ -88,87 +95,158 @@ public class LibraryController {
 					&& (categoryId == null || categoryId == 0)
 					&& (subCategoryId == null || subCategoryId == 0)) {
 				model.addAttribute("errorList", "1つ以上の項目を入力してください");
-				
+
 				// カテゴリー表示用
 				List<Categories> categoryList = categoriesRepository.findAll();
 				List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
 				model.addAttribute("categories", categoryList);
 				model.addAttribute("subCategories", subCategoryList);
-				
+
 				LocalDate currentDate = LocalDate.now();
-				
+
 				LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
 				LocalDate last = (first.plusMonths(1)).minusDays(1);
 				List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
-				model.addAttribute("closeDates",closeDates);
-				
+				model.addAttribute("closeDates", closeDates);
+
 				return "main";
 			}
 		}
-		
+
 		// 入力項目があった時
 		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		// カテゴリー表示用
+		List<Categories> categoryList = categoriesRepository.findAll();
+		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		model.addAttribute("categories", categoryList);
+		model.addAttribute("subCategories", subCategoryList);
+		//入力項目
+		model.addAttribute("name", name);
+		model.addAttribute("author", author);
+		model.addAttribute("publisher", publisher);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("subCategoryId", subCategoryId);
+
 		model.addAttribute("itemlist", itemList);
 		return "search";
 	}
-  
+
+	//search内から検索
+	@GetMapping("library/search/more")
+	public String moreSearch(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "author", defaultValue = "") String author,
+			@RequestParam(value = "publisher", defaultValue = "") String publisher,
+			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
+			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			Model model) {
+		//上部簡易検索欄
+		List<ItemTitle> itemList = null;
+
+		if (keyword.length() > 0) {
+			itemList = itemTitlerepository.findByNameContainingOrAuthorContainingOrPublisherContaining(keyword, keyword,
+					keyword);
+
+			model.addAttribute("keyword", keyword);
+			// カテゴリー表示用
+			List<Categories> categoryList = categoriesRepository.findAll();
+			List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+			model.addAttribute("categories", categoryList);
+			model.addAttribute("subCategories", subCategoryList);
+
+			model.addAttribute("itemlist", itemList);
+
+			return "search";
+		}
+
+		// 項目入力なしで検索をクリックした時
+		if (keyword.length() == 0 || keyword == null) {
+			if ((name.length() == 0 || name == null) && (author.length() == 0 || author == null)
+					&& (publisher.length() == 0 || publisher == null)
+					&& (categoryId == null || categoryId == 0)
+					&& (subCategoryId == null || subCategoryId == 0)) {
+				model.addAttribute("errorList", "1つ以上の項目を入力してください");
+
+				// カテゴリー表示用
+				List<Categories> categoryList = categoriesRepository.findAll();
+				List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+				model.addAttribute("categories", categoryList);
+				model.addAttribute("subCategories", subCategoryList);
+				return "search";
+			}
+		}
+
+		// 入力項目があった時
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		// カテゴリー表示用
+		List<Categories> categoryList = categoriesRepository.findAll();
+		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		model.addAttribute("categories", categoryList);
+		model.addAttribute("subCategories", subCategoryList);
+		//入力項目
+		model.addAttribute("name", name);
+		model.addAttribute("author", author);
+		model.addAttribute("publisher", publisher);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("subCategoryId", subCategoryId);
+
+		model.addAttribute("itemlist", itemList);
+		return "search";
+	}
+
 	// 資料の詳細画面表示
 	@GetMapping("/library/search/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
-		
+
 		Categories category = categoriesRepository.findById(itemtitle.getCategoryId()).get();
-		
+
 		SubCategories subCategory = subCategoriesRepository.findById(itemtitle.getSubCategoryId()).get();
-		
-		List<Items> items = itemsRepository.findByItemTitleIdAndStatus(id,0);
-		List<Items> itemsNot = itemsRepository.findByItemTitleIdAndStatusIn(id, new Integer[] {0,1,2,3});
-		
+
+		List<Items> items = itemsRepository.findByItemTitleIdAndStatus(id, 0);
+		List<Items> itemsNot = itemsRepository.findByItemTitleIdAndStatusIn(id, new Integer[] { 0, 1, 2, 3 });
+
 		model.addAttribute("item", itemtitle);
 		model.addAttribute("category", category.getName());
-		model.addAttribute("subCategory",subCategory.getName());
-		model.addAttribute("itemNum",items.size());
-		model.addAttribute("itemNumNot",itemsNot.size());
+		model.addAttribute("subCategory", subCategory.getName());
+		model.addAttribute("itemNum", items.size());
+		model.addAttribute("itemNumNot", itemsNot.size());
 		return "detail";
 	}
-
 
 	//予約処理
 	@PostMapping("/library/search/{id}/reserve")
 	public String reserve(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
-		if((itemsRepository.findByItemTitleIdAndStatus(id,0)).size() == 0) {
-			if(account.getAuthority() != 9) {
+		if ((itemsRepository.findByItemTitleIdAndStatus(id, 0)).size() == 0) {
+			if (account.getAuthority() != 9) {
 				LocalDate nowDate = LocalDate.now();
-				Reservations reservation = new Reservations(itemtitle.getId(),account.getId(),nowDate);
+				Reservations reservation = new Reservations(itemtitle.getId(), account.getId(), nowDate);
 				reservationsRepository.save(reservation);
 			}
 		}
 		return "redirect:/";
 	}
-	
-	
-	
+
 	// ユーザメイン画面表示
-	@GetMapping({"/", "/library"})
+	@GetMapping({ "/", "/library" })
 	public String index(Model model) {
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
-		
+
 		LocalDate currentDate = LocalDate.now();
-		
+
 		LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
-		model.addAttribute("closeDates",closeDates);
-		
+		model.addAttribute("closeDates", closeDates);
+
 		return "main";
 	}
-	
-	
+
 	//紛失処理
 	/*
 	@PostMapping("/library/mypage/history")
@@ -182,18 +260,19 @@ public class LibraryController {
 	@PostMapping("/library/mypage/history")
 	public String lost(@RequestParam("rentalsId") Integer rentalsId) {
 		Rentals rental = rentalsRepository.findById(rentalsId).get();
-		if(rental == null) { return "redirect:/library/mypage/history";}
+		if (rental == null) {
+			return "redirect:/library/mypage/history";
+		}
 		Integer itemId = rental.getItemId();
 		Items item = itemsRepository.findById(itemId).get();
-		
+
 		rental.setStatus(2);
 		item.setStatus(5);
-		
+
 		rentalsRepository.save(rental);
 		itemsRepository.save(item);
-		
-		return "redirect:/library/mypage/history";
-	} 
 
-	
+		return "redirect:/library/mypage/history";
+	}
+
 }

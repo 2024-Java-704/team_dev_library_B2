@@ -9,5 +9,6 @@ import com.example.demo.entity.ItemTitle;
 public interface ItemTitleRepository extends JpaRepository<ItemTitle, Integer> {
 
 	List<ItemTitle> findByNameContaining(String keyword);
+	List<ItemTitle> findByNameContainingOrAuthorContainingOrPublisherContaining(String name,String author,String publisher);
 
 }
