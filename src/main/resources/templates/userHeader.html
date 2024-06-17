@@ -1,14 +1,17 @@
 
 	<header>
+		<div>
+		<a href="/library"><img src="image/reskill.png " align="left" width="300" height="80"></a>
 		
-	<h1><a href="/library">図書館</a></h1>
 		
 	<!--	未ログイン時に表示		-->
 	<th:block th:if="${@account.name} == null">
 	<span class="header1" th:text="'こんにちは　ゲスト　さん'"></span>
 	<br>
-	<span><a href="/login/newuser">新規登録</a></span>
+	<div style="text-align: right;">
+	<span><a href="/login/newuser">新規登録</a></span><br>
 	<span><a href="/login">ログイン</a></span>
+	</div>
 	</th:block>
 
 
@@ -18,11 +21,12 @@
 	<span class="header1" th:text="'こんにちは　'+${@account.name}+'　さん'"></span>
 	<br>
 	<span><a href="/login/mypage">マイページ</a></span>
-	</th:block>
+	
 		
 		<br>
 		 <a href="#" id="logoutButton" class="header1">ログアウト</a>
 		<br>
+	</th:block>
 	</header>
 	
 <!--	 モーダルウィンドウ -->

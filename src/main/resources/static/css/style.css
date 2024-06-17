@@ -6,14 +6,14 @@ body {
 }
 /* ヘッダー、ナビゲーションメニュー、フッター */
 header, nav, footer {
-	background-color: #45496a; /* 背景色 */
+	/* 背景色 */
 	color: #ffffff; /* 文字色 */
 	padding-top: 5px; /* 内側余白(上) */
 	padding-bottom: 5px; /* 内側余白(下) */
 }
 /* ヘッダー、ナビゲーション内リンク */
 header a, nav a {
-	color: #ffffff;
+	color: rgb(0, 0, 0);
 }
 /* ヘッダー内見出し */
 header h1 {
@@ -64,6 +64,17 @@ ul {
   list-style: none;
   padding-left: 0em;
 }
+
+
+/* テキストボックス */
+.RoundedCornerTextBox {
+  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+  border-radius:0.5rem;
+  border:2px solid #606060;
+   width: 30%;
+}
+
+
 
 /* モーダルウィンドウのスタイル */
     .modal {
@@ -129,3 +140,57 @@ ul {
 	.error{
 		color: red;
 	}
+	
+	/*アコーディオンメニューのCSS*/
+.details {
+	height: 71px;
+	transition: all ease-in-out .3s;
+	border-left: 2px solid #00a5a0;
+	border-right: 2px solid #00a5a0;
+	box-sizing: border-box;
+	&:last-of-type {
+		border-bottom: 2px solid #00a5a0;
+	}
+}
+.details[open] {
+	height: 300px;
+	background-color: #bee1de;
+}
+.details-summary {
+	display: block;
+	padding: 20px;
+	border-top: 1px solid #00a5a0;
+	font-size: 20px;
+	font-weight: bold;
+	transition: all ease-in-out .3s;
+	&:hover {
+		cursor: pointer;
+		background-color: #bee1de;
+	}
+}
+.details-summary::-webkit-details-marker {
+	display: none;
+}
+.details-content {
+	margin: 0 20px 20px;
+	padding: 20px;
+	height: 180px;
+	overflow: hidden;
+	overflow-y: auto;
+	background-color: #fff;
+}
+
+.details[open] .details-content {
+  	animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px); 
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
