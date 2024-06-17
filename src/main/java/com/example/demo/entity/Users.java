@@ -115,7 +115,9 @@ public class Users {
 		this.joinDate = joinDate;
 	}
 	public void setStatus(Integer status) {
-		this.status = status;
+		if(this.status != 9) {
+			this.status = status;
+		}
 	}
 	
 	
