@@ -10,7 +10,7 @@
 
 <body>
 
-	<header th:replace="header"></header>
+	<header th:replace="userHeader"></header>
 	
 	<br>
 	
@@ -23,25 +23,28 @@
 
 	<!--	検索欄		-->
 	<form action="/library/search" method="get">
-		<input type="text" name="keyword" placeholder="フリーワード検索">
+		<input class="RoundedCornerTextBox" type="text" name="keyword" placeholder="フリーワード検索">
 		<button>検索</button>
 	</form>
 
 	<br>
+	
+	<details  class="details">
+	<summary class="details-summary">詳細検索</summary>
+	<div class="details-content">
 	<form action="/library/search" method="get">
 		<table border="1">
-			<tr>詳細検索</tr>
 			<tr>
 				<th>タイトル</th>
-				<td><input type="text" name="name"></td>
+				<td><input  class="RoundedCornerTextBox" type="text" name="name"></td>
 			</tr>
 			<tr>
 				<th>著者</th>
-				<td><input type="text" name="author"></td>
+				<td><input class="RoundedCornerTextBox" type="text" name="author"></td>
 			</tr>
 			<tr>
 				<th>出版社</th>
-				<td><input type="text" name="publisher"></td>
+				<td><input class="RoundedCornerTextBox" type="text" name="publisher"></td>
 			</tr>
 			<tr>
 				<th>カテゴリー</th>
@@ -65,6 +68,9 @@
 		</table>
 		<button>検索</button>
 	</form>
+	</div>
+</details>
+
 
 	<div>
 		<h3>開館日</h3>
