@@ -84,10 +84,22 @@ public class AdminUserController {
 		}
 	}
 	
-	
+	// 会員一覧表示
 	@GetMapping("/admin/usercontrol/user")
-	public String user(Model model) {
-		List<Users> userList = usersRepository.findAllByOrderByIdAsc();
+	public String user(
+			@RequestParam(name = "name", defaultValue = "") String name,
+			Model model) {
+		List<Users> userList = null;
+		// 検索
+		if (name.length() != 0) {
+			userList = usersRepository.findByNameContaining(name);
+			model.addAttribute("users", userList);
+			model.addAttribute("name", name);
+			return "admin/user";
+		}
+		
+		// 全会員情報取得（画面遷移後初期表示 or 検索欄空欄）
+		userList = usersRepository.findAllByOrderByIdAsc();
 		model.addAttribute("users", userList);
 		return "admin/user";
 	}
