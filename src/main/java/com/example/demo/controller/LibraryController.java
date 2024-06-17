@@ -132,7 +132,7 @@ public class LibraryController {
 	}
 
 	//search内から検索
-	@GetMapping("library/search/more")
+	@GetMapping("/library/search/more")
 	public String moreSearch(@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "author", defaultValue = "") String author,
@@ -195,7 +195,7 @@ public class LibraryController {
 	}
 
 	// 資料の詳細画面表示
-	@GetMapping("/library/search/{id}")
+	@GetMapping("/library/psearch/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
 
@@ -243,7 +243,7 @@ public class LibraryController {
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
-
+		
 		return "main";
 	}
 
