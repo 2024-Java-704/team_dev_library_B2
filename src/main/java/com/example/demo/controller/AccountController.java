@@ -90,7 +90,17 @@ public class AccountController {
 		account.setId(user.getId());
 		account.setName(user.getName());
 		account.setAuthority(user.getStatus());
-
+		
+		//非延滞者権利処理
+		List<Users> restrictedUsers = usersRepository.findByStatus(1);
+		for(Users restUser:restrictedUsers) {
+			List<Rentals> overDates = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(restUser.getId(), 0, LocalDate.now());
+			if(overDates.size() == 0) {
+				restUser.setStatus(0);
+				usersRepository.save(restUser);
+			}
+		}
+		
 		//延滞者権利処理
 		LocalDate nowDate = LocalDate.now();
 		
