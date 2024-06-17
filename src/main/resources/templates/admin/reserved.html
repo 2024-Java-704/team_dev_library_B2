@@ -19,18 +19,20 @@
 		<table border="1">
 		<tr>
 			<th>予約ID</th>
-			<th>資料タイトル</th>
-			<th>資料ID</th>
 			<th>会員ID</th>
+			<th>会員名</th>
+			<th>資料名</th>
+			<th>資料ID</th>
 			<th>予約日</th>
 			<th>状態</th>
 			<th>取り置き解除</th>
 		</tr>
 		<tr th:each="reservation:${reservations}">
 			<td th:text="${reservation.id}"></td>
+			<td><span th:text="${reservation.userId}"></span></td>
+			<td th:text="${reservation.usersName}"></td>
 			<td th:text="${reservation.itemTitleName}"></td>
 			<td th:text="${reservation.itemId}"></td>
-			<td th:text="${reservation.userId}"></td>
 			<td th:text="${reservation.orderedOn}"></td>
 			<td>				
 				<span th:if="${reservation.status}==0">予約中</span>
