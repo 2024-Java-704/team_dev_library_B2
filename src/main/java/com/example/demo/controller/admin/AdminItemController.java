@@ -31,10 +31,21 @@ public class AdminItemController {
 	// 在庫管理画面を表示する
 	@GetMapping("/inventory")
 	public String inventory(
+			@RequestParam(name = "name", defaultValue = "") String name,
 			Model model) {
+		
+		List<ItemTitle> itemTitleList = null;
+		// 資料名検索
+		if (name.length() != 0) {
+			itemTitleList = itemTitleRepository.findByNameContaining(name);
+			model.addAttribute("itemTitles", itemTitleList);
+			model.addAttribute("name", name);
 
-		// 全資料テーブル一覧を取得
-		List<ItemTitle> itemTitleList = itemTitleRepository.findAll();
+			return "admin/inventory";
+		}
+		
+		// 全資料テーブル一覧を取得(画面遷移後の初期表示 or 検索欄が空の時)
+		itemTitleList = itemTitleRepository.findAll();
 		model.addAttribute("itemTitles", itemTitleList);
 
 		return "admin/inventory";
