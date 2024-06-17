@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Rentals;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.RentalsRepository;
 import com.example.demo.repository.UsersRepository;
@@ -161,6 +160,7 @@ public class AdminUserController {
 	
 	@GetMapping("/admin/usercontrol/overdueuser")
 	public String overdue(Model model) {
+		/*
 		LocalDate ldt = LocalDate.now();
 		List<Rentals> rentalList= rentalsRepository.findByClosingDateBeforeAndStatusIs(ldt,0);
 		
@@ -169,6 +169,7 @@ public class AdminUserController {
 			user.setStatus(1);
 			usersRepository.save(user);
 		}
+		*/
 		List<Users> userList = usersRepository.findByStatusOrderByIdAsc(1);
 		model.addAttribute("users",userList);
 		return "admin/overDueuser";
