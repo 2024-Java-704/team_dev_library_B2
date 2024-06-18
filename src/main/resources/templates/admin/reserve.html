@@ -24,7 +24,6 @@
 			<th>会員ID</th>
 			<th>会員名</th>
 			<th>資料名</th>
-			<th>資料ID</th>
 			<th>予約日</th>
 		</tr>
 		<tr th:each="reservation:${reservations}">
@@ -32,7 +31,6 @@
 			<td><span th:text="${reservation.userId}"></span></td>
 			<td th:text="${reservation.usersName}"></td>
 			<td th:text="${reservation.itemTitleName}"></td>
-			<td th:text="${reservation.itemId}"></td>
 			<td th:text="${reservation.orderedOn}"></td>
 	</table>
 	<br>
