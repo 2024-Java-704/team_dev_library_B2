@@ -50,6 +50,10 @@
 			</tr>
 		</table>
 	</div>
+	
+	<div th:if="${rentalList.size() == 0}">
+		<h2>貸出中の資料はありません</h2>
+	</div>
 
 	<div th:if="${reservationsList.size > 0}">
 		<h2>予約中</h2>

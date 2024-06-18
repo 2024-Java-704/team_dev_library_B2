@@ -132,7 +132,7 @@ public class LibraryController {
 	}
 
 	//search内から検索
-	@GetMapping("library/search/more")
+	@GetMapping("/library/search/more")
 	public String moreSearch(@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "author", defaultValue = "") String author,
@@ -234,8 +234,10 @@ public class LibraryController {
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		List<ItemTitle> itemList = itemTitlerepository.findAllByOrderByRentalNumberDesc().stream().limit(10).toList();
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
+		model.addAttribute("itemList", itemList);
 
 		LocalDate currentDate = LocalDate.now();
 

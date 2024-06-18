@@ -18,17 +18,17 @@ import com.example.demo.repository.UsersRepository;
 
 @Controller
 public class AdminUserController {
-	
+
 	@Autowired
 	UsersRepository usersRepository;
 	@Autowired
 	RentalsRepository rentalsRepository;
-	
+
 	@GetMapping("/main")
 	public String main() {
 		return "admin/main";
 	}
-	
+
 	@GetMapping("/admin/usercontrol")
 	public String index() {
 		return "admin/userControl";
@@ -38,52 +38,63 @@ public class AdminUserController {
 	public String add() {
 		return "admin/newUser";
 	}
-	
-	
+
 	@PostMapping("/admin/usercontrol/newuser")
 	public String addPost(
-			@RequestParam(name = "name",defaultValue = "")String name,
-			@RequestParam(name = "address",defaultValue = "")String address,
-			@RequestParam(name = "tel",defaultValue = "")String tel,
-			@RequestParam(name = "email",defaultValue = "")String email,
-			@RequestParam(name = "birthday",defaultValue = "")LocalDate birthday,
-			@RequestParam(name = "password",defaultValue = "")String password,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "address", defaultValue = "") String address,
+			@RequestParam(name = "tel", defaultValue = "") String tel,
+			@RequestParam(name = "email", defaultValue = "") String email,
+			@RequestParam(name = "birthday", defaultValue = "") LocalDate birthday,
+			@RequestParam(name = "password", defaultValue = "") String password,
 			Model model) {
 		List<String> errorList = new ArrayList<String>();
-		
-		if(name.equals("") ||address.equals("") ||tel.equals("") ||tel.length()!=11 ||email.equals("") ||birthday== null||password.equals("") ||emailCheck(email)){
-			if(name.equals("")){
-				errorList.add("名前は必須です");}
-			if(address.equals("")) {
-				errorList.add("住所は必須です");}
-			if(tel.equals("")) {
-				errorList.add("電話番号は必須です");}
-			if(tel.length()!=11) {
-				errorList.add("電話番号はハイフン抜きの11桁で入力してください");}
-			if(email.equals("")) {
-				errorList.add("メールアドレスは必須です");}
+
+		if (name.equals("") || address.equals("") || tel.equals("") || tel.length() != 11 || email.equals("")
+				|| birthday == null || birthday.isAfter(LocalDate.now()) || password.equals("") || emailCheck(email)) {
+			if (name.equals("")) {
+				errorList.add("名前は必須です");
+			}
+			if (address.equals("")) {
+				errorList.add("住所は必須です");
+			}
+			if (tel.equals("")) {
+				errorList.add("電話番号は必須です");
+			}
+			if (tel.length() != 11) {
+				errorList.add("電話番号はハイフン抜きの11桁で入力してください");
+			}
+			if (email.equals("")) {
+				errorList.add("メールアドレスは必須です");
+			}
 			if (emailCheck(email)) {
-				errorList.add("登録済みのメールアドレスです");}
-			if(birthday==null) {
-				errorList.add("生年月日は必須です");}
-			if(password.equals("")) {
-				errorList.add("パスワードは必須です");}
-			model.addAttribute("name",name);
-			model.addAttribute("address",address);
-			model.addAttribute("tel",tel);
-			model.addAttribute("email",email);
-			model.addAttribute("birthday",birthday);
-			model.addAttribute("errorList",errorList);
+				errorList.add("登録済みのメールアドレスです");
+			}
+			if (birthday == null) {
+				errorList.add("生年月日は必須です");
+			}
+			if (birthday.isAfter(LocalDate.now())) {
+				errorList.add("生年月日は今日以前を選択してください");
+			}
+			if (password.equals("")) {
+				errorList.add("パスワードは必須です");
+			}
+			model.addAttribute("name", name);
+			model.addAttribute("address", address);
+			model.addAttribute("tel", tel);
+			model.addAttribute("email", email);
+			model.addAttribute("birthday", birthday);
+			model.addAttribute("errorList", errorList);
 			return "admin/newUser";
-			
-		}else {
-		LocalDate joinDate = LocalDate.now();
-		Users user = new Users(name,address,tel,email,birthday,password,joinDate);
-		usersRepository.save(user);
-		return "admin/userControl";
+
+		} else {
+			LocalDate joinDate = LocalDate.now();
+			Users user = new Users(name, address, tel, email, birthday, password, joinDate);
+			usersRepository.save(user);
+			return "admin/userControl";
 		}
 	}
-	
+
 	// 会員一覧表示
 	@GetMapping("/admin/usercontrol/user")
 	public String user(
@@ -97,13 +108,13 @@ public class AdminUserController {
 			model.addAttribute("name", name);
 			return "admin/user";
 		}
-		
+
 		// 全会員情報取得（画面遷移後初期表示 or 検索欄空欄）
 		userList = usersRepository.findAllByOrderByIdAsc();
 		model.addAttribute("users", userList);
 		return "admin/user";
 	}
-	
+
 	@GetMapping("/admin/usercontrol/user/detail/{id}")
 	public String editUser(
 			@PathVariable("id") Integer id,
@@ -112,50 +123,56 @@ public class AdminUserController {
 		model.addAttribute("user", user);
 		return "admin/detail";
 	}
-	
+
 	@PostMapping("/admin/usercontrol/user/detail/{id}")
 	public String editUserPost(
-			@PathVariable(name = "id")Integer id,
-			@RequestParam(name = "name",defaultValue = "")String name,
-			@RequestParam(name = "address",defaultValue = "")String address,
-			@RequestParam(name = "tel",defaultValue = "")String tel,
-			@RequestParam(name = "email",defaultValue = "")String email,
-			@RequestParam(name = "birthday",defaultValue = "")LocalDate birthday,
-			@RequestParam(name = "password",defaultValue = "")String password,
-			@RequestParam(name = "joinDate",defaultValue = "")LocalDate joinDate,
+			@PathVariable(name = "id") Integer id,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "address", defaultValue = "") String address,
+			@RequestParam(name = "tel", defaultValue = "") String tel,
+			@RequestParam(name = "email", defaultValue = "") String email,
+			@RequestParam(name = "birthday", defaultValue = "") LocalDate birthday,
+			@RequestParam(name = "password", defaultValue = "") String password,
+			@RequestParam(name = "joinDate", defaultValue = "") LocalDate joinDate,
 			Model model) {
-		
-		
+
 		Users user = usersRepository.findById(id).get();
 		//エラーチェック
 		List<String> errorList = new ArrayList<String>();
-		
-		if(name.equals("")){
-			errorList.add("名前は必須です");}
-		if(address.equals("")) {
-			errorList.add("住所は必須です");}
-		if(tel.equals("")) {
-			errorList.add("電話番号は必須です");}
-		if(tel.length()!=11) {
-			errorList.add("電話番号はハイフン抜きの11桁で入力してください");}
-		if(email.equals("")) {
-			errorList.add("メールアドレスは必須です");}
-		if(!email.equals(user.getEmail())) {
-			if (emailCheck(email)) {
-			errorList.add("登録済みのメールアドレスです");}
+
+		if (name.equals("")) {
+			errorList.add("名前は必須です");
 		}
-		if(birthday==null) {
-			errorList.add("生年月日は必須です");}
-		if(password.equals("")) {
-			errorList.add("パスワードは必須です" + "<br>");}
-		
-		if(errorList.size() > 0) {
-			model.addAttribute("errorList",errorList);
+		if (address.equals("")) {
+			errorList.add("住所は必須です");
+		}
+		if (tel.equals("")) {
+			errorList.add("電話番号は必須です");
+		}
+		if (tel.length() != 11) {
+			errorList.add("電話番号はハイフン抜きの11桁で入力してください");
+		}
+		if (email.equals("")) {
+			errorList.add("メールアドレスは必須です");
+		}
+		if (!email.equals(user.getEmail())) {
+			if (emailCheck(email)) {
+				errorList.add("登録済みのメールアドレスです");
+			}
+		}
+		if (birthday == null) {
+			errorList.add("生年月日は必須です");
+		}
+		if (password.equals("")) {
+			errorList.add("パスワードは必須です" + "<br>");
+		}
+
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
 			model.addAttribute("user", user);
 			return "admin/detail";
 		}
-		
-		
+
 		//値のセット
 		user.setName(name);
 		user.setAddress(address);
@@ -163,15 +180,18 @@ public class AdminUserController {
 		user.setEmail(email);
 		user.setBirthday(birthday);
 		user.setPassword(password);
-		
+
 		usersRepository.save(user);
-		
+
 		return "redirect:/admin/usercontrol/user";
 
 	}
-	
+
+	// 延滞者一覧表示
 	@GetMapping("/admin/usercontrol/overdueuser")
-	public String overdue(Model model) {
+	public String overdue(
+			@RequestParam(name = "name", defaultValue = "") String name,
+			Model model) {
 		/*
 		LocalDate ldt = LocalDate.now();
 		List<Rentals> rentalList= rentalsRepository.findByClosingDateBeforeAndStatusIs(ldt,0);
@@ -182,32 +202,37 @@ public class AdminUserController {
 			usersRepository.save(user);
 		}
 		*/
-		List<Users> userList = usersRepository.findByStatusOrderByIdAsc(1);
-		model.addAttribute("users",userList);
+		List<Users> userList = null;
+		// 検索
+		if (name.length() != 0) {
+			userList = usersRepository.findByNameContaining(name);
+			model.addAttribute("users", userList);
+			model.addAttribute("name", name);
+			return "admin/overDueuser";
+		}
+
+		// 全延滞者一覧表示
+		userList = usersRepository.findByStatusOrderByIdAsc(1);
+		model.addAttribute("users", userList);
 		return "admin/overDueuser";
 	}
-	
-	
-	
-	
+
 	@PostMapping("/admin/usercontrol/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
-				usersRepository.deleteById(id);
+		usersRepository.deleteById(id);
 		return "redirect:/admin/usercontrol/user";
 	}
-	
-	
-	
+
 	private boolean emailCheck(String el) {
 		List<Users> users = usersRepository.findAll();
 		boolean check = false;
-		for(Users c:users) {
-			if(c.getEmail().equals(el)) {
+		for (Users c : users) {
+			if (c.getEmail().equals(el)) {
 				check = true;
 				break;
 			}
 		}
 		return check;
 	}
-	
+
 }

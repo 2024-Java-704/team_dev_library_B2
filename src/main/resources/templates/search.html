@@ -12,19 +12,73 @@
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
 	</div>
-<h1>検索結果</h1>
-<table border="1">
-	<tr><th>タイトル</th><th>著者名</th><th>出版社</th><th>出版日</th><th>詳細</th></tr>
-	<tr th:each="item:${itemlist}">
-		<td th:text="${item.name}"></td>
-		<td th:text="${item.author}"></td>
-		<td th:text="${item.publisher}"></td>
-		<td th:text="${item.publicationDate}"></td>
-		<td><form th:action="'/library/search/'+${item.id}"><button>詳細</button></form></td>
-	</tr>
-</table>
 
-<footer th:replace = "userFooter"></footer>
+	<!--	検索欄		-->
+	<form action="/library/search/more" method="get">
+		<input type="text" name="keyword" placeholder="フリーワード検索" th:value="${keyword}">
+		<button>検索</button>
+	</form>
 
+	<br>
+	<form action="/library/search/more" method="get">
+		<table border="1">
+			<tr>詳細検索</tr>
+			<tr>
+				<th>タイトル</th>
+				<td><input type="text" name="name" th:value="${name}"></td>
+			</tr>
+			<tr>
+				<th>著者</th>
+				<td><input type="text" name="author" th:value="${author}"></td>
+			</tr>
+			<tr>
+				<th>出版社</th>
+				<td><input type="text" name="publisher" th:value="${publisher}"></td>
+			</tr>
+			<tr>
+				<th>カテゴリー</th>
+				<td>
+					<select name="categoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="category:${categories}" th:value="${category.id}"  th:selected="${category.id == categoryId}">[[${category.name}]]</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>サブカテゴリー</th>
+				<td>
+					<select name="subCategoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}" th:selected="${subCategory.id == subCategoryId}">
+							[[${subCategory.name}]]</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<button>検索</button>
+	</form>
+
+	<h1>検索結果</h1>
+	<table border="1">
+		<tr>
+			<th>タイトル</th>
+			<th>著者名</th>
+			<th>出版社</th>
+			<th>出版日</th>
+			<th>詳細</th>
+		</tr>
+		<tr th:each="item:${itemlist}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.author}"></td>
+			<td th:text="${item.publisher}"></td>
+			<td th:text="${item.publicationDate}"></td>
+			<td>
+				<form th:action="'/library/search/'+${item.id}"><button>詳細</button></form>
+			</td>
+		</tr>
+	</table>
+  
+  <footer th:replace = "userFooter"></footer>
+  
 </body>
 </html>

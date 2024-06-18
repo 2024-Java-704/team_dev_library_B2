@@ -63,7 +63,7 @@ public class UserController {
 		List<String> errorList = new ArrayList<String>();
 
 		if (name.equals("") || address.equals("") || tel.equals("") || tel.length() != 11 || email.equals("")
-				|| birthday == null || password.equals("") || emailCheck(email)) {
+				|| birthday == null || birthday.isAfter(LocalDate.now()) || password.equals("") || emailCheck(email)) {
 			if (name.equals("")) {
 				errorList.add("名前は必須です");
 			}
@@ -84,6 +84,9 @@ public class UserController {
 			}
 			if (birthday == null) {
 				errorList.add("生年月日は必須です");
+			}
+			if (birthday.isAfter(LocalDate.now())) {
+				errorList.add("生年月日は今日以前を選択してください");
 			}
 			if (password.equals("")) {
 				errorList.add("パスワードは必須です");
@@ -133,7 +136,7 @@ public class UserController {
 		model.addAttribute("rentalHistory", rentalHistory);
 		return "history";
 	}
-	
+
 	//email重複確認用関数 trueならば存在する
 	private boolean emailCheck(String el) {
 		List<Users> users = usersRepository.findAll();

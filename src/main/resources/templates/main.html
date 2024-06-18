@@ -203,6 +203,33 @@
 
 </script>
 
+
+<h1>貸出回数ランキング</h1>
+
+<table border="1">
+		<tr>
+			<th>タイトル</th>
+			<th>著者名</th>
+			<th>出版社</th>
+			<th>出版日</th>
+			<th>貸出回数</th>
+			<th>詳細</th>
+		</tr>
+		<tr th:each="item:${itemList}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.author}"></td>
+			<td th:text="${item.publisher}"></td>
+			<td th:text="${item.publicationDate}"></td>
+			<td th:text="${item.rentalNumber}"></td>
+			<td>
+				<form th:action="'/library/search/'+${item.id}"><button>詳細</button></form>
+			</td>
+		</tr>
+	</table>
+
+</body>
+
+
 <footer th:replace = "userFooter"></footer>
 
 </body>
