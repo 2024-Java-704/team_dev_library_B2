@@ -88,6 +88,7 @@
 
 	<table border="1">
 		<tr>
+			<th>順位</th>
 			<th>タイトル</th>
 			<th>著者名</th>
 			<th>出版社</th>
@@ -96,6 +97,9 @@
 			<th>詳細</th>
 		</tr>
 		<tr th:each="item:${itemList}">
+			<td>
+				[[${item.ranking}]]
+			</td>
 			<td th:text="${item.name}"></td>
 			<td th:text="${item.author}"></td>
 			<td th:text="${item.publisher}"></td>
@@ -108,7 +112,6 @@
 	</table>
 	<br><br><br>
 </div>
-
 
 
 
