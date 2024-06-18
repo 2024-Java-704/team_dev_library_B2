@@ -12,9 +12,12 @@
 	</header>
 	<h1>会員ログイン</h1>
 	
-	<th:block th:each="error:${errorList}">
-		<div th:text="${error}"></div>
-	</th:block>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
 	
 	<form action="/login" method="post">
 		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>
