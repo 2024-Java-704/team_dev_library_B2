@@ -11,25 +11,26 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 @Component
-public class ItemTitleRepositoryBImpl implements ItemTitleRepositoryB{
-	
+public class ItemTitleRepositoryBImpl implements ItemTitleRepositoryB {
+
 	@Autowired
 	EntityManager em;
-	
+
 	// キーワードによる検索処理
 	@Override
-	public List<ItemTitle> findByKeyword(String keyword, String name, String author, String publisher, Integer categoryId, Integer subCategoryId) {
-		
+	public List<ItemTitle> findByKeyword(String keyword, String name, String author, String publisher,
+			Integer categoryId, Integer subCategoryId, String sort) {
+
 		// SQL
 		String sql = "SELECT * FROM item_titles ";
-		
+
 		// フリーワード検索用
 		if (keyword != null && keyword.length() > 0) {
 			sql += "WHERE name LIKE :keyword";
 			sql += " OR author LIKE :keyword";
 			sql += " OR publisher LIKE :keyword";
 		}
-		
+
 		// 詳細検索用
 		int count = 0;
 		if (name != null && name.length() > 0) {
@@ -71,13 +72,20 @@ public class ItemTitleRepositoryBImpl implements ItemTitleRepositoryB{
 			}
 			sql += "sub_category_id = :subCategoryId";
 		}
-		
+
+		// 出版年度順による降順昇順ソート
+		if (sort.equals("ASC")) {
+			sql += " ORDER BY publication_date ASC";
+		} else if (sort.equals("DESC")) {
+			sql += " ORDER BY publication_date DESC";
+		}
+
 		// パラメータ
 		Query query = em.createNativeQuery(sql, ItemTitle.class);
 		if (keyword != null && keyword.length() > 0) {
 			query.setParameter("keyword", "%" + keyword + "%");
 		}
-		
+
 		if (name != null && name.length() > 0) {
 			query.setParameter("name", "%" + name + "%");
 		}
@@ -93,11 +101,11 @@ public class ItemTitleRepositoryBImpl implements ItemTitleRepositoryB{
 		if (subCategoryId != null && subCategoryId != 0) {
 			query.setParameter("subCategoryId", subCategoryId);
 		}
-			
+
 		// SQL実行（参照系）
 		@SuppressWarnings("unchecked")
 		List<ItemTitle> itemTitleList = query.getResultList();
-		
+
 		return itemTitleList;
 	}
 }
