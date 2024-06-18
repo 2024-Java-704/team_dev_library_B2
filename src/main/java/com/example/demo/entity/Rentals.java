@@ -38,6 +38,7 @@ public class Rentals {
 	/* 0:貸出中
 	 * 1:返却済み
 	 * 2:紛失申請中
+	 * 3:紛失確認済
 	 * */
 	
 	@ManyToOne
@@ -148,6 +149,7 @@ public class Rentals {
 			case 0 : return "貸出中";
 			case 1 : return "返却済";
 			case 2 : return "紛失申告中";
+			case 3 : return "紛失確認済";
 			default : return "";
 		}
 	}

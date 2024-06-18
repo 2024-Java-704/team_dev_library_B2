@@ -26,6 +26,7 @@
 			<th>貸出日</th>
 			<th>返却期限</th>
 			<th>貸出状態</th>
+			<th th:each="rental:${rentaling}" th:if="${rental.status}==2">紛失申告</th>
 		</tr>
 		<tr th:each="rental:${rentaling}">
 			<td th:text="${rental.userId}"></td>
@@ -35,6 +36,12 @@
 			<td th:text="${rental.rentalDate}"></td>
 			<td th:text="${rental.closingDate}"></td>
 			<td th:text="${rental.statusStr}"></td>
+			<td><span th:if="${rental.status}==2">
+				<form th:action="@{/admin/rentalcontrol/confirm/{id}(id=${rental.id})}" method="post">
+					<button>確認</button>
+				</form>
+				</span>
+			</td>
 		</tr>
 	</table>
 	<br>
