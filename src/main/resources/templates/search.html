@@ -21,8 +21,11 @@
 
 	<br>
 	<form action="/library/search/more" method="get">
+		
+		<details class="details">
+			<summary class="details-summary">詳細検索</summary>
 		<table border="1">
-			<tr>詳細検索</tr>
+			
 			<tr>
 				<th>タイトル</th>
 				<td><input type="text" name="name" th:value="${name}"></td>
@@ -56,6 +59,8 @@
 			</tr>
 		</table>
 		<button>検索</button>
+		
+		</details>
 	</form>
 
 	<h1>検索結果</h1>
