@@ -1,13 +1,13 @@
 /* 全体 */
 body {
-	background-color: #EFF0F7; /* 背景色  */
+	background-color: rgb(255, 255, 255); /* 背景色  */
 	text-align: center; /* 中央寄せ */
     min-width: 900px; /* 最小幅 */
 }
 /* ヘッダー、ナビゲーションメニュー、フッター */
 header, nav, footer {
 	/* 背景色 */
-	color: #ffffff; /* 文字色 */
+	color: rgb(0, 0, 0); /* 文字色 */
 	padding-top: 5px; /* 内側余白(上) */
 	padding-bottom: 5px; /* 内側余白(下) */
 }
@@ -23,7 +23,7 @@ header h1 {
 }
 /* 仕切り線 */
 hr {
-	border-top: 2px dashed #7d8bae;
+	border-top: 2px solid rgb(138, 215, 162);
 }
 /* メイン */
 main {
@@ -34,7 +34,7 @@ main {
 /* 表線 */
 table, th, td {
 	border-collapse: collapse;
-	border: 1px solid #7d8bae;
+	border: 1px solid rgb(0, 0, 0);
 }
 /* 表 */
 table {
@@ -43,22 +43,23 @@ table {
 }
 /* 表見出しセル */
 table th {
-	background: #7d8bae;
+	background: rgb(138, 215, 162);
 	color: #ffffff;
 }
 /* 送信ボタン */
 button {
 	margin: 2px;
 	padding: 5px 20px;
-	background-color: #e5857b;
-	color: #ffffff;
+	background-color: rgb(138, 215, 162);
+	color: rgb(255, 255, 255);
 	border: none;
 	width:150px;
 	cursor: pointer;
+	border-radius:15px;
 }
 /* 送信ボタン(マウスオーバー時) */
 button:hover {
-	background-color: #f1b2b2;
+	background-color: rgb(131, 222, 218);
 }
 ul {
   list-style: none;
@@ -159,7 +160,7 @@ ul {
 .details-summary {
 	display: block;
 	padding: 20px;
-	border-top: 1px solid #00a5a0;
+	border-top: 1px solid rgb(138, 215, 162);
 	font-size: 20px;
 	font-weight: bold;
 	transition: all ease-in-out .3s;
@@ -193,4 +194,14 @@ ul {
     opacity: 1;
     transform: none;
   }
+}
+
+
+ /* 要素の囲い */.box {
+border: #4e7bcc 1px solid; /*境界線の指定*/
+padding:10px;
+}
+.box p {
+margin:0;
+padding:0;
 }

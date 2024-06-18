@@ -1,16 +1,26 @@
 
 	<header>
 		<div>
-		<a href="/library"><img src="image/reskill.png " align="left" width="300" height="80"></a>
+		<a href="/library"><img th:src="@{/image/reskill.png} " align="left" width="350" height="100"></a>
 		
 		
 	<!--	未ログイン時に表示		-->
 	<th:block th:if="${@account.name} == null">
-	<span class="header1" th:text="'こんにちは　ゲスト　さん'"></span>
 	<br>
 	<div style="text-align: right;">
-	<span><a href="/login/newuser">新規登録</a></span><br>
-	<span><a href="/login">ログイン</a></span>
+	
+	
+	<span>｜　　リスキル図書館について　　</span>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ　　　　</span></a>
+	
+	
+	<hr>
+	
+	<span><a href = "#openday" style="text-decoration:none;">｜　　開館日　　</a></span>
+	<span><a href = "#access" style="text-decoration:none;">｜<img src="image/ping.png"  width="15" height="15"> アクセス　</a></span>
+	<span><a href="/login/newuser" style="text-decoration:none;">｜　　新規登録　　</a></span>
+	<span><a href="/login" style="text-decoration:none;">|　　ログイン　　</a></span>
+	
 	</div>
 	</th:block>
 
@@ -18,16 +28,33 @@
 	<!--	ログインした時用に表示	-->
 	
 	<th:block th:if="${@account.name}">
-	<span class="header1" th:text="'こんにちは　'+${@account.name}+'　さん'"></span>
+		<div style="text-align: right;">
+
 	<br>
-	<span><a href="/login/mypage">マイページ</a></span>
+		<span>｜　　リスキル図書館について　　</span>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ　　　　</span></a>
 	
-		
-		<br>
-		 <a href="#" id="logoutButton" class="header1">ログアウト</a>
-		<br>
+	
+	<hr>
+	
+	<span><a href = "#openday" style="text-decoration:none;">｜　　開館日　　</a></span>
+	<span><a href = "#access" style="text-decoration:none;">｜　　<img src="image/ping.png"  width="15" height="15">アクセス　　｜</a></span>
+	<span><a href="/login/mypage" style="text-decoration:none;">　　マイページ　　｜</a></span>
+	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　　ログアウト</a></span>
 	</th:block>
+	
+	<th:block th:if="${@account.name} == null">
+	<br>
+	<div style="text-align: right;">
+	
+	
+	</div>
+	</div>
+	</th:block>
+	
+	
 	</header>
+	
 	
 <!--	 モーダルウィンドウ -->
     <div id="logoutModal" class="modal">
@@ -45,6 +72,7 @@
             </div>
         </div>
     </div>
+	<hr>
 	
 	 <script type="text/javascript">
         document.getElementById('logoutButton').onclick = function() {

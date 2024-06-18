@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<header th:replace="header"></header>
+	<header th:replace="userHeader"></header>
 		<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
@@ -23,5 +23,8 @@
 		<td><form th:action="'/library/search/'+${item.id}"><button>詳細</button></form></td>
 	</tr>
 </table>
+
+<footer th:replace = "userFooter"></footer>
+
 </body>
 </html>
