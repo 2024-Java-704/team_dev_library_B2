@@ -15,4 +15,14 @@ public interface ItemTitleRepository extends JpaRepository<ItemTitle, Integer> {
 
 	List<ItemTitle> findAllByOrderByRentalNumberDesc();
 
+	// 在庫一覧検索時使用
+
+	List<ItemTitle> findByOrderByPublicationDateAsc();
+
+	List<ItemTitle> findByOrderByPublicationDateDesc();
+
+	List<ItemTitle> findByNameContainingOrderByPublicationDateAsc(String name);
+
+	List<ItemTitle> findByNameContainingOrderByPublicationDateDesc(String name);
+
 }
