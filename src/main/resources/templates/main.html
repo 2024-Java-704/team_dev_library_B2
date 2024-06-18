@@ -6,22 +6,22 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/calendar.css">
 	<title>メインページ</title>
-	
+
 </head>
 
 <body>
 
-	<header th:replace="userHeader"></header>
-	
+	<header th:replace="userHomeHeader"></header>
+
 	<br>
-	
+
 	<img th:src="@{/image/library-1.jpg}" width="1100" height="300">
-	
-	
-	
-	
-	
-	<div th:if="${errorList}"} >
+
+
+
+
+
+	<div th:if="${errorList}" }>
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
@@ -29,184 +29,64 @@
 
 
 	<!--	検索欄		-->
+	<br><br><br>
+	<h1>本や資料を探す</h1>
 	<form action="/library/search" method="get">
 		<input class="RoundedCornerTextBox" type="text" name="keyword" placeholder="フリーワード検索">
 		<button>検索</button>
 	</form>
 
 	<br>
-	
-	<details  class="details">
-	<summary class="details-summary">詳細検索</summary>
-	<div class="details-content">
-	<form action="/library/search" method="get">
-		<table border="1">
-			<tr>
-				<th>タイトル</th>
-				<td><input  class="RoundedCornerTextBox" type="text" name="name"></td>
-			</tr>
-			<tr>
-				<th>著者</th>
-				<td><input class="RoundedCornerTextBox" type="text" name="author"></td>
-			</tr>
-			<tr>
-				<th>出版社</th>
-				<td><input class="RoundedCornerTextBox" type="text" name="publisher"></td>
-			</tr>
-			<tr>
-				<th>カテゴリー</th>
-				<td>
-					<select name="categoryId" size="1">
-						<option value="0" label="選択なし" selected></option>
-						<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>サブカテゴリー</th>
-				<td>
-					<select name="subCategoryId" size="1">
-						<option value="0" label="選択なし" selected></option>
-						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
-							[[${subCategory.name}]]</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<button>検索</button>
-	</form>
-	</div>
-</details>
 
-
-	<br><br><br><br>
-
-
-	<div style="border: rgb(0, 0, 0) solid 6px; border-radius:15px; font-size: 100%; padding: 15px; " id = "openday">
-		<h3>開館日</h3>
-		<div id="calendar" class="calendar-wrap">
-
+	<details class="details">
+		<summary class="details-summary">詳細検索</summary>
+		<div class="details-content">
+			<form action="/library/search" method="get">
+				<table border="1">
+					<tr>
+						<th>タイトル</th>
+						<td><input class="RoundedCornerTextBox" type="text" name="name"></td>
+					</tr>
+					<tr>
+						<th>著者</th>
+						<td><input class="RoundedCornerTextBox" type="text" name="author"></td>
+					</tr>
+					<tr>
+						<th>出版社</th>
+						<td><input class="RoundedCornerTextBox" type="text" name="publisher"></td>
+					</tr>
+					<tr>
+						<th>カテゴリー</th>
+						<td>
+							<select name="categoryId" size="1">
+								<option value="0" label="選択なし" selected></option>
+								<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]
+								</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>サブカテゴリー</th>
+						<td>
+							<select name="subCategoryId" size="1">
+								<option value="0" label="選択なし" selected></option>
+								<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
+									[[${subCategory.name}]]</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<button>検索</button>
+			</form>
 		</div>
+	</details>
 
-	</div>
+<br>
 
+<div style="border: rgb(0, 128, 128) solid 6px; border-radius:15px; font-size: 100%; padding: 15px; " id="openday">
+	<h1>貸出回数ランキング</h1>
 
-
-	<br><br><br><br>
-	<div  style="border: rgb(0, 0, 0) solid 6px; border-radius:15px; font-size: 100%; padding: 15px;" id = "access">
-	アクセス<br>
-	<span>〒160-0023 東京都新宿区西新宿１丁目２２−２ 新宿サンエービル 7F</span>
-	<br>
-	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d330.92145468335735!2d139.69616124064817!3d35.68870417657408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d636d9ac9c7%3A0xca3f06d8fe03ab0f!2z44OT44K444On44Oz44K744Oz44K_44O86KW_5paw5a6_!5e0!3m2!1sja!2sjp!4v1718592694747!5m2!1sja!2sjp" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-	</div>
-	
-
-
-
-
-
-
-<script th:inline="javascript">
-	//カレンダーの表示
-
-	const date = new Date();
-	const today = date.getDate();
-	const currentMonth = date.getMonth();
-	let displayMonth = currentMonth;
-
-	//List
-	const closeDates = /*[[${closeDates}]]*/null;
-
-	function createCalendar(month) {
-		//曜日
-		const monthDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-		let calendarHTML = '<table border="1" class="calendar"><thead><tr>';
-
-		for (let i = 0; i < 7; i++) {
-			if (i === 0) {
-				calendarHTML += `<th class="sun">${monthDays[i]}</th>`;
-			} else if (i === 6) {
-				calendarHTML += `<th class="sat">${monthDays[i]}</th>`;
-			} else {
-				calendarHTML += `<th>${monthDays[i]}</th>`;
-			}
-		}
-
-		calendarHTML += '</tr></thead><tbody>';
-
-		const thisYear = date.getFullYear() + Math.trunc(month / 12);
-		const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-		const firstDay = new Date(date.getFullYear(), month, 1).getDay();
-
-		const daysInPrevMonth = new Date(date.getFullYear(), month, 0).getDate();
-
-		let dayCount = 1;
-		let prevDayCount = daysInPrevMonth - firstDay + 1;
-
-		//LocalDateとの比較のための整形
-		const yearAndMonth = String(thisYear) + '-'
-			+ ('0' + String((month % 12) + 1)).slice(-2) + '-';
-
-		for (let i = 0; i < 6; i++) {
-			calendarHTML += '<tr>';
-
-			for (let j = 0; j < 7; j++) {
-				if (i === 0 && j < firstDay) {
-					calendarHTML += `<td class="mute"></td>`;
-					prevDayCount++;
-				} else if (dayCount > daysInMonth) {
-					let nextMonthDayCount = dayCount - daysInMonth;
-					calendarHTML += `<td class="mute"></td>`;
-					dayCount++;
-				} else {
-
-					let ymd = yearAndMonth + ('0' + String(dayCount)).slice(-2);
-
-
-					calendarHTML += `<td class="date`;
-
-					for (day of closeDates) {
-						if (day.closedDate == ymd) {
-							calendarHTML += ` closed`;
-							break;
-						}
-					}
-
-
-					// 今日の日付にclassを付ける
-					if (dayCount == today) {
-						calendarHTML += ` today`;
-					}
-
-
-					calendarHTML += `"><span class="dateNum">${dayCount}</span>`;
-
-					calendarHTML += `</td>`;
-
-					dayCount++;
-				}
-			}
-
-			calendarHTML += '</tr>';
-
-			if (dayCount > daysInMonth) {
-				break;
-			}
-		}
-
-		calendarHTML += '</tbody></table>';
-
-		return calendarHTML;
-	}
-
-	document.getElementById('calendar').innerHTML = createCalendar(currentMonth);
-
-</script>
-
-
-<h1>貸出回数ランキング</h1>
-
-<table border="1">
+	<table border="1">
 		<tr>
 			<th>タイトル</th>
 			<th>著者名</th>
@@ -226,6 +106,153 @@
 			</td>
 		</tr>
 	</table>
+	<br><br><br>
+</div>
+
+
+
+
+
+
+	<br><br>
+
+
+	<div style="display: flex;">
+
+		<div style="border: rgb(0, 128, 128) solid 6px; border-radius:15px; font-size: 100%; padding: 15px; " id="openday">
+			<h3>開館日</h3>
+			<div id="calendar" class="calendar-wrap">
+
+			</div>
+
+			<br>
+			<div style="display: flex;">
+				　　　　　　　　　　　　　開館日<div class="rectangle"></div>
+				　　　　閉館日<div class="rectangle" style="background-color: darkgray;"></div>
+			</div>
+			<br>
+			午前10時 開館　　　午後9時 閉館
+
+		</div>
+
+
+
+		<br><br><br><br>
+		<div style="border: rgb(0, 128, 128) solid 6px; border-radius:15px; font-size: 100%; padding: 15px;" id="access">
+			<h1>アクセス</h1>
+			<br>
+			<iframe
+				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d330.92145468335735!2d139.69616124064817!3d35.68870417657408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d636d9ac9c7%3A0xca3f06d8fe03ab0f!2z44OT44K444On44Oz44K744Oz44K_44O86KW_5paw5a6_!5e0!3m2!1sja!2sjp!4v1718592694747!5m2!1sja!2sjp"
+				width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<span>〒160-0023 東京都新宿区西新宿１丁目２２−２ 新宿サンエービル 7F</span>
+		</div>
+
+
+	</div>
+
+
+
+
+	<script th:inline="javascript">
+		//カレンダーの表示
+
+		const date = new Date();
+		const today = date.getDate();
+		const currentMonth = date.getMonth();
+		let displayMonth = currentMonth;
+
+		//List
+		const closeDates = /*[[${closeDates}]]*/null;
+
+		function createCalendar(month) {
+			//曜日
+			const monthDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+			let calendarHTML = '<table  width=”5%” border="1"  class="calendar"><thead><tr>';
+
+			for (let i = 0; i < 7; i++) {
+				if (i === 0) {
+					calendarHTML += `<th class="sun">${monthDays[i]}</th>`;
+				} else if (i === 6) {
+					calendarHTML += `<th class="sat">${monthDays[i]}</th>`;
+				} else {
+					calendarHTML += `<th>${monthDays[i]}</th>`;
+				}
+			}
+
+			calendarHTML += '</tr></thead><tbody>';
+
+			const thisYear = date.getFullYear() + Math.trunc(month / 12);
+			const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
+			const firstDay = new Date(date.getFullYear(), month, 1).getDay();
+
+			const daysInPrevMonth = new Date(date.getFullYear(), month, 0).getDate();
+
+			let dayCount = 1;
+			let prevDayCount = daysInPrevMonth - firstDay + 1;
+
+			//LocalDateとの比較のための整形
+			const yearAndMonth = String(thisYear) + '-'
+				+ ('0' + String((month % 12) + 1)).slice(-2) + '-';
+
+			for (let i = 0; i < 6; i++) {
+				calendarHTML += '<tr>';
+
+				for (let j = 0; j < 7; j++) {
+					if (i === 0 && j < firstDay) {
+						calendarHTML += `<td class="mute"></td>`;
+						prevDayCount++;
+					} else if (dayCount > daysInMonth) {
+						let nextMonthDayCount = dayCount - daysInMonth;
+						calendarHTML += `<td class="mute"></td>`;
+						dayCount++;
+					} else {
+
+						let ymd = yearAndMonth + ('0' + String(dayCount)).slice(-2);
+
+
+						calendarHTML += `<td class="date`;
+
+						for (day of closeDates) {
+							if (day.closedDate == ymd) {
+								calendarHTML += ` closed`;
+								break;
+							}
+						}
+
+
+						// 今日の日付にclassを付ける
+						if (dayCount == today) {
+							calendarHTML += ` today`;
+						}
+
+
+						calendarHTML += `"><span class="dateNum">${dayCount}</span>`;
+
+						calendarHTML += `</td>`;
+
+						dayCount++;
+					}
+				}
+
+				calendarHTML += '</tr>';
+
+				if (dayCount > daysInMonth) {
+					break;
+				}
+			}
+
+			calendarHTML += '</tbody></table>';
+
+			return calendarHTML;
+		}
+
+		document.getElementById('calendar').innerHTML = createCalendar(currentMonth);
+
+	</script>
+
+
+
 
 <h1>新作</h1>
 <table border="1">
@@ -249,7 +276,8 @@
 </body>
 
 
-<footer th:replace = "userFooter"></footer>
+<footer th:replace="userFooter"></footer>
 
 </body>
+
 </html>

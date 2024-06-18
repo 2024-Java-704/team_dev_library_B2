@@ -23,7 +23,7 @@ header h1 {
 }
 /* 仕切り線 */
 hr {
-	border-top: 2px solid rgb(138, 215, 162);
+	border-top: 2px solid rgb(0, 128, 128);
 }
 /* メイン */
 main {
@@ -41,16 +41,24 @@ table {
     margin: 5px auto;
     min-width: 800px;
 }
+
+/* 四角の作成 */
+.rectangle {
+  width: 100px;
+  height: 30px;
+  border: 2px solid black;
+}
+
 /* 表見出しセル */
 table th {
-	background: rgb(138, 215, 162);
+	background: rgb(0, 128, 128);
 	color: #ffffff;
 }
 /* 送信ボタン */
 button {
 	margin: 2px;
 	padding: 5px 20px;
-	background-color: rgb(138, 215, 162);
+	background-color: rgb(0, 128, 128);
 	color: rgb(255, 255, 255);
 	border: none;
 	width:150px;
