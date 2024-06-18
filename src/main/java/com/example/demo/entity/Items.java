@@ -30,6 +30,7 @@ public class Items {
 	 * 3:取り置き中
 	 * 4:利用不可(紛失、破損等)
 	 * 5:紛失申請中
+	 * 6:返却待機
 	 * */
 	
 	@Column(name = "arrival_date")
@@ -121,6 +122,7 @@ public class Items {
 		case 3: return "取置中";
 		case 4: return "利用不可";
 		case 5: return "紛失申請中";
+		case 6: return "返却待機";
 		default: return "";
 		}
 	}

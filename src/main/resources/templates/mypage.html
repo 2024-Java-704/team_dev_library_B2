@@ -62,11 +62,20 @@
 				<th>資料名</th>
 				<th>予約申込日</th>
 				<th>予約状況</th>
+				<th th:each="reservation:${reservationsList}" th:if="${reservation.status}==1">取置選択</th>
 			</tr>
 			<tr th:each="reservation:${reservationsList}">
 				<td th:text="${reservation.itemTitleName}"></td>
 				<td th:text="${reservation.orderedOn}"></td>
 				<td th:text="${reservation.statusStr}"></td>
+				<td th:if="${reservation.status}==1" style="width: 100px;">
+					<form th:action="'/library/mypage/reserved/'+${reservation.id}" method="post">
+						<button>取置きする</button>
+					</form>
+					<form th:action="'/library/mypage/cancel/'+${reservation.id}" method="post">
+						<button>キャンセル</button>
+					</form>
+				</td>
 			</tr>
 		</table>
 	</div>

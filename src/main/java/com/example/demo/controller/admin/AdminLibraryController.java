@@ -70,7 +70,7 @@ public class AdminLibraryController {
 		}
 
 		Items item = itemsRepository.findById(id).get();
-		if (item.getStatus() != 0) {
+		if (item.getStatus() != 0 && item.getStatus() != 3) {
 			errorList.add("この本は貸出できません");
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
