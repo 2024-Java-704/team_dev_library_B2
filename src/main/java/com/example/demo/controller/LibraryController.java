@@ -234,8 +234,10 @@ public class LibraryController {
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		List<ItemTitle> itemList = itemTitlerepository.findAllByOrderByRentalNumberDesc().stream().limit(10).toList();
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
+		model.addAttribute("itemList", itemList);
 
 		LocalDate currentDate = LocalDate.now();
 
@@ -243,7 +245,7 @@ public class LibraryController {
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
-		
+
 		return "main";
 	}
 
