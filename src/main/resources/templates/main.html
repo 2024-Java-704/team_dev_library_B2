@@ -227,6 +227,25 @@
 		</tr>
 	</table>
 
+<h1>新作</h1>
+<table border="1">
+	<tr>
+		<th>タイトル</th>
+		<th>著者名</th>
+		<th>出版社</th>
+		<th>出版日</th>
+		<th>詳細</th>
+	</tr>
+	<tr th:each="newArrival:${newArrivals}">
+		<td th:text="${newArrival.name}"></td>
+		<td th:text="${newArrival.author}"></td>
+		<td th:text="${newArrival.publisher}"></td>
+		<td th:text="${newArrival.publicationDate}"></td>
+		<td>
+			<form th:action="'/library/search/'+${newArrival.id}"><button>詳細</button></form>
+		</td>
+	</tr>
+</table>
 </body>
 
 
