@@ -245,6 +245,10 @@ public class LibraryController {
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
+		
+		// 新作本表示用(出版日から2か月以内表示)
+		List<ItemTitle> newArrivals = itemTitlerepository.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
+		model.addAttribute("newArrivals", newArrivals);
 
 		return "main";
 	}

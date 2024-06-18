@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,6 @@ public interface ItemTitleRepository extends JpaRepository<ItemTitle, Integer> {
 			String publisher);
 
 	List<ItemTitle> findAllByOrderByRentalNumberDesc();
-
+	
+	List<ItemTitle> findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(LocalDate date);
 }
