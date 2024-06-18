@@ -51,7 +51,12 @@ public class AccountController {
 
 	// 管理者ログイン画面を表示する
 	@GetMapping("/admin/login")
-	public String index() {
+	public String index(@RequestParam(name="err",defaultValue="")String err,
+			Model model) {
+		if(err.equals("login")) {
+			model.addAttribute("errorList","ログインしてください");
+		}
+
 		return "admin/login";
 	}
 
@@ -181,7 +186,12 @@ public class AccountController {
 
 	// ユーザログイン画面表示
 	@GetMapping("/login")
-	public String loginIndex() {
+	public String loginIndex(@RequestParam(name="err",defaultValue="")String err,
+			Model model) {
+		if(err.equals("login")) {
+			model.addAttribute("errorList","ログインしてください");
+		}
+			
 		return "login";
 	}
 
