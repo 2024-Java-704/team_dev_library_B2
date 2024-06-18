@@ -32,23 +32,37 @@ public class AdminItemController {
 	@GetMapping("/inventory")
 	public String inventory(
 			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "sort", defaultValue = "") String sort,
 			Model model) {
-		
+
 		List<ItemTitle> itemTitleList = null;
 		// 資料名検索
-		if (name.length() != 0) {
-			itemTitleList = itemTitleRepository.findByNameContaining(name);
-			model.addAttribute("itemTitles", itemTitleList);
-			model.addAttribute("name", name);
-
-			return "admin/inventory";
+		if (name.length() > 0) {
+			// 資料テーブル一覧を取得(検索欄がある時)
+			if (sort.equals("ASC")) {
+				itemTitleList = itemTitleRepository.findByNameContainingOrderByPublicationDateAsc(name);
+			} else if (sort.equals("DESC")) {
+				itemTitleList = itemTitleRepository.findByNameContainingOrderByPublicationDateDesc(name);
+			} else {
+				itemTitleList = itemTitleRepository.findByNameContainingOrderByPublicationDateDesc(name);
+			}
+		} else {
+			// 全資料テーブル一覧を取得(画面遷移後の初期表示 or 検索欄が空の時)
+			if (sort.equals("ASC")) {
+				itemTitleList = itemTitleRepository.findByOrderByPublicationDateAsc();
+			} else if (sort.equals("DESC")) {
+				itemTitleList = itemTitleRepository.findByOrderByPublicationDateDesc();
+			} else {
+				itemTitleList = itemTitleRepository.findAll();
+			}
 		}
-		
-		// 全資料テーブル一覧を取得(画面遷移後の初期表示 or 検索欄が空の時)
-		itemTitleList = itemTitleRepository.findAll();
+
+		model.addAttribute("name", name);
+
 		model.addAttribute("itemTitles", itemTitleList);
 
 		return "admin/inventory";
+
 	}
 
 	// 本（タイトル）詳細編集画面を表示する
@@ -109,7 +123,7 @@ public class AdminItemController {
 			@RequestParam(name = "arrivalDate", defaultValue = "") String arrivalDateS,
 			@RequestParam(name = "memo", defaultValue = "") String memo,
 			Model model) {
-		
+
 		LocalDate arrivalDate;
 		try {
 			arrivalDate = LocalDate.parse(arrivalDateS);
@@ -119,7 +133,7 @@ public class AdminItemController {
 
 		// itemsテーブルへの反映
 		itemsRepository.save(new Items(id, status, arrivalDate, memo));
-		
+
 		//表示処理
 		List<Items> items = itemsRepository.findByItemTitleId(id);
 		model.addAttribute("items", items);
