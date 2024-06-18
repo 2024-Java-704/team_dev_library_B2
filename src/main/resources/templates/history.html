@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<header th:replace="header"></header>
+	<header th:replace="userHeader"></header>
 		<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
@@ -90,5 +90,6 @@
 	});
 </script>
 
+<footer th:replace = "userFooter"></footer>
 
 </html>

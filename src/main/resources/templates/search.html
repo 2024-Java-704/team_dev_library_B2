@@ -6,12 +6,13 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<header th:replace="header"></header>
+	<header th:replace="userHeader"></header>
 		<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
 	</div>
+
 	<!--	検索欄		-->
 	<form action="/library/search/more" method="get">
 		<input type="text" name="keyword" placeholder="フリーワード検索" th:value="${keyword}">
@@ -76,6 +77,8 @@
 			</td>
 		</tr>
 	</table>
-
+  
+  <footer th:replace = "userFooter"></footer>
+  
 </body>
 </html>
