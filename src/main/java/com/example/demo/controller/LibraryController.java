@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Calendars;
 import com.example.demo.entity.Categories;
@@ -67,7 +68,8 @@ public class LibraryController {
 			@RequestParam(value = "publisher", defaultValue = "") String publisher,
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
-			Model model) {
+			Model model,
+			RedirectAttributes redirectAttributes) {
 
 		//上部簡易検索欄
 		List<ItemTitle> itemList = null;
@@ -94,22 +96,9 @@ public class LibraryController {
 					&& (publisher.length() == 0 || publisher == null)
 					&& (categoryId == null || categoryId == 0)
 					&& (subCategoryId == null || subCategoryId == 0)) {
-				model.addAttribute("errorList", "1つ以上の項目を入力してください");
+				redirectAttributes.addFlashAttribute("errorList", "1つ以上の項目を入力してください");
 
-				// カテゴリー表示用
-				List<Categories> categoryList = categoriesRepository.findAll();
-				List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
-				model.addAttribute("categories", categoryList);
-				model.addAttribute("subCategories", subCategoryList);
-
-				LocalDate currentDate = LocalDate.now();
-
-				LocalDate first = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
-				LocalDate last = (first.plusMonths(1)).minusDays(1);
-				List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
-				model.addAttribute("closeDates", closeDates);
-
-				return "main";
+				return "redirect:/library";
 			}
 		}
 
