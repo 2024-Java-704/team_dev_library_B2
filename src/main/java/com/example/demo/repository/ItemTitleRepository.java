@@ -15,6 +15,16 @@ public interface ItemTitleRepository extends JpaRepository<ItemTitle, Integer> {
 			String publisher);
 
 	List<ItemTitle> findAllByOrderByRentalNumberDesc();
+
+	// 在庫一覧検索時使用
+
+	List<ItemTitle> findByOrderByPublicationDateAsc();
+
+	List<ItemTitle> findByOrderByPublicationDateDesc();
+
+	List<ItemTitle> findByNameContainingOrderByPublicationDateAsc(String name);
+
+	List<ItemTitle> findByNameContainingOrderByPublicationDateDesc(String name);
 	
 	List<ItemTitle> findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(LocalDate date);
 }
