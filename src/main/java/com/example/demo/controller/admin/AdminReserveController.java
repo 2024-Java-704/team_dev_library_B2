@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Items;
 import com.example.demo.entity.Reservations;
 import com.example.demo.repository.ItemTitleRepository;
+import com.example.demo.repository.ItemsRepository;
 import com.example.demo.repository.ReservationsRepository;
 
 @Controller
@@ -24,6 +26,9 @@ public class AdminReserveController {
 
 	@Autowired
 	ItemTitleRepository itemTitlerepository;
+	
+	@Autowired
+	ItemsRepository itemsRepository;
 
 	// 予約一覧画面表示
 	@GetMapping("/rentalcontrol/reserve")
@@ -64,6 +69,11 @@ public class AdminReserveController {
 
 		// reservationsテーブルの値を変更する
 		reservationsRepository.save(reservation);
+		
+		// Itemオブジェクト生成
+		Items item = itemsRepository.findById(reservation.getItemId()).get();
+		item.setStatus(0);
+		itemsRepository.save(item);
 
 		return "redirect:/admin/rentalcontrol/reserved";
 	}
