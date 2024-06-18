@@ -68,6 +68,7 @@ public class LibraryController {
 			@RequestParam(value = "publisher", defaultValue = "") String publisher,
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			@RequestParam(value = "sort", defaultValue = "") String sort,
 			Model model,
 			RedirectAttributes redirectAttributes) {
 
@@ -103,7 +104,8 @@ public class LibraryController {
 		}
 
 		// 入力項目があった時
-		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId,
+				sort);
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
@@ -128,6 +130,7 @@ public class LibraryController {
 			@RequestParam(value = "publisher", defaultValue = "") String publisher,
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			@RequestParam(value = "sort", defaultValue = "") String sort,
 			Model model) {
 		//上部簡易検索欄
 		List<ItemTitle> itemList = null;
@@ -166,7 +169,8 @@ public class LibraryController {
 		}
 
 		// 入力項目があった時
-		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId,
+				sort);
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
@@ -178,6 +182,7 @@ public class LibraryController {
 		model.addAttribute("publisher", publisher);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("subCategoryId", subCategoryId);
+		model.addAttribute("sort", sort);
 
 		model.addAttribute("itemlist", itemList);
 		return "search";
@@ -234,9 +239,10 @@ public class LibraryController {
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
-		
+
 		// 新作本表示用(出版日から2か月以内表示)
-		List<ItemTitle> newArrivals = itemTitlerepository.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
+		List<ItemTitle> newArrivals = itemTitlerepository
+				.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
 		model.addAttribute("newArrivals", newArrivals);
 
 		return "main";

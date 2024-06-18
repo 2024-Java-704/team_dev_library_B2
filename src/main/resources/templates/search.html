@@ -24,6 +24,11 @@
 		
 		<details class="details">
 			<summary class="details-summary">詳細検索</summary>
+			<br>
+			<span><a th:href="@{/library/search/more?sort=ASC&name={name}(name=${name})}">出版日古い順</a></span>
+			<br>
+			<span><a th:href="@{/library/search/more?sort=DESC&name={name}(name=${name})}">出版日新しい順</a></span>
+			<br>
 		<table border="1">
 			
 			<tr>
