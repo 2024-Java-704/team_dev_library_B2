@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>検索結果</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="UTF-8">
+	<title>検索結果</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
+
 <body>
 	<header th:replace="userHeader"></header>
-		<div th:if="${errorList}"} >
+	<div th:if="${errorList}" }>
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
@@ -21,50 +23,57 @@
 
 	<br>
 	<form action="/library/search/more" method="get">
-		
+
 		<details class="details">
 			<summary class="details-summary">詳細検索</summary>
-			<br>
-			<span><a th:href="@{/library/search/more?sort=ASC&name={name}(name=${name})}">出版日古い順</a></span>
-			<br>
-			<span><a th:href="@{/library/search/more?sort=DESC&name={name}(name=${name})}">出版日新しい順</a></span>
-			<br>
-		<table border="1">
-			
-			<tr>
-				<th>タイトル</th>
-				<td><input type="text" name="name" th:value="${name}"></td>
-			</tr>
-			<tr>
-				<th>著者</th>
-				<td><input type="text" name="author" th:value="${author}"></td>
-			</tr>
-			<tr>
-				<th>出版社</th>
-				<td><input type="text" name="publisher" th:value="${publisher}"></td>
-			</tr>
-			<tr>
-				<th>カテゴリー</th>
-				<td>
-					<select name="categoryId" size="1">
-						<option value="0" label="選択なし" selected></option>
-						<option th:each="category:${categories}" th:value="${category.id}"  th:selected="${category.id == categoryId}">[[${category.name}]]</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>サブカテゴリー</th>
-				<td>
-					<select name="subCategoryId" size="1">
-						<option value="0" label="選択なし" selected></option>
-						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}" th:selected="${subCategory.id == subCategoryId}">
-							[[${subCategory.name}]]</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<button>検索</button>
-		
+			<table border="1">
+
+				<tr>
+					<th>タイトル</th>
+					<td><input type="text" name="name" th:value="${name}"></td>
+				</tr>
+				<tr>
+					<th>著者</th>
+					<td><input type="text" name="author" th:value="${author}"></td>
+				</tr>
+				<tr>
+					<th>出版社</th>
+					<td><input type="text" name="publisher" th:value="${publisher}"></td>
+				</tr>
+				<tr>
+					<th>カテゴリー</th>
+					<td>
+						<select name="categoryId" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option th:each="category:${categories}" th:value="${category.id}"
+								th:selected="${category.id == categoryId}">[[${category.name}]]</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>サブカテゴリー</th>
+					<td>
+						<select name="subCategoryId" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}"
+								th:selected="${subCategory.id == subCategoryId}">
+								[[${subCategory.name}]]</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>ソート</th>
+					<td>
+						<select name="sort" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option value="ASC" label="出版年度古い順" th:selected="${sort}=='ASC'"></option>
+							<option value="DESC" label="出版年度新しい順" th:selected="${sort}=='DESC'"></option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button>検索</button>
+
 		</details>
 	</form>
 
@@ -87,8 +96,9 @@
 			</td>
 		</tr>
 	</table>
-  
-  <footer th:replace = "userFooter"></footer>
-  
+
+	<footer th:replace="userFooter"></footer>
+
 </body>
+
 </html>

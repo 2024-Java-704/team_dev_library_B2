@@ -75,6 +75,16 @@
 							</select>
 						</td>
 					</tr>
+					<tr>
+						<th>ソート</th>
+						<td>
+							<select name="sort" size="1">
+								<option value="0" label="選択なし" selected></option>
+								<option value="ASC" label="出版年度古い順" th:selected="${sort}=='ASC'"></option>
+								<option value="DESC" label="出版年度新しい順" th:selected="${sort}=='DESC'"></option>
+							</select>
+						</td>
+					</tr>
 				</table>
 				<button>検索</button>
 			</form>

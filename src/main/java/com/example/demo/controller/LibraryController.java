@@ -117,6 +117,7 @@ public class LibraryController {
 		model.addAttribute("publisher", publisher);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("subCategoryId", subCategoryId);
+		model.addAttribute("sort", sort);
 
 		model.addAttribute("itemlist", itemList);
 		return "search";
