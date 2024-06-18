@@ -12,6 +12,10 @@
 			<li th:each="err:${errorList}" th:text="${err}"></li>
 		</ul>
 	</div>
+	<br>
+	<span><a th:href="@{/admin/rentalcontrol/inventory?sort=ASC&name={name}(name=${name})}">出版日古い順</a></span>
+	<br>
+	<span><a th:href="@{/admin/rentalcontrol/inventory?sort=DESC&name={name}(name=${name})}">出版日新しい順</a></span>
 	
 	<h1>在庫管理</h1>
 	

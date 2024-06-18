@@ -3,3 +3,18 @@
 .closed{
 	background-color: darkgrey;
 }
+
+.calendar-wrap{
+	width: 680px;
+}
+
+.calendar{
+	width: 660px;
+	height: 300px;
+}
+
+
+
+.calendar{
+	min-width: 660px;
+}

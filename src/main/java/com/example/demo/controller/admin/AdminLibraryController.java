@@ -70,36 +70,35 @@ public class AdminLibraryController {
 		}
 
 		Items item = itemsRepository.findById(id).get();
-		if (item.getStatus() != 0) {
+		if (item.getStatus() != 0 && item.getStatus() != 3) {
 			errorList.add("この本は貸出できません");
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-		
-		
+
 		//権限確認
-		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId,0,LocalDate.now());
-		if(overList.size()>0) {
+		List<Rentals> overList = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId, 0,
+				LocalDate.now());
+		if (overList.size() > 0) {
 			Users user = usersRepository.findById(userId).get();
-			if(user.getStatus()!=9) {
+			if (user.getStatus() != 9) {
 				user.setStatus(1);
 				usersRepository.save(user);
 			}
-			
+
 			errorList.add("延滞中のため貸出が制限されています");
 			model.addAttribute("errorList", errorList);
 			return "admin/rental";
 		}
-		
+
 		//予約確認
 		List<Reservations> reservations = reservationsRepository.findByUserIdAndItemIdAndStatus(userId, id, 2);
-		if(reservations.size() > 0) {
+		if (reservations.size() > 0) {
 			Reservations reserve = reservations.get(0);
 			reserve.setStatus(4);
 			reservationsRepository.save(reserve);
 		}
-		
-		
+
 		item.setStatus(1);
 		itemsRepository.save(item);
 
@@ -107,11 +106,11 @@ public class AdminLibraryController {
 		LocalDate twoWeeksLater = nowDate.plusWeeks(2);
 		Rentals rental = new Rentals(id, userId, nowDate, twoWeeksLater);
 		rentalsRepository.save(rental);
-		
+
 		ItemTitle itemTitle = item.showItemTitle();
 		itemTitle.setRentalNumber(itemTitle.getRentalNumber() + 1);
 		itemTitleRepository.save(itemTitle);
-		return "admin/main";
+		return "admin/rental";
 
 	}
 
@@ -146,7 +145,6 @@ public class AdminLibraryController {
 			return "/admin/return";
 		}
 
-		
 		List<Rentals> rentals = rentalsRepository.findByUserIdAndItemIdAndStatus(userId, itemId, 0);
 
 		// 返却処理
@@ -158,33 +156,34 @@ public class AdminLibraryController {
 
 			// rentalsテーブルへの反映
 			rentalsRepository.save(rental);
-			
+
 			//制限解除処理
 			Users user = usersRepository.findById(userId).get();
 			if (user.getStatus() == 1) {
-				List<Rentals> overDate = rentalsRepository.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId, 0, LocalDate.now());
+				List<Rentals> overDate = rentalsRepository
+						.findByUserIdAndStatusAndClosingDateBeforeOrderByRentalDate(userId, 0, LocalDate.now());
 				if (overDate == null || overDate.size() == 0) {
 					user.setStatus(0);
 					usersRepository.save(user);
 				}
 			}
-			
+
 			//返却反映
 			Items item = itemsRepository.findById(itemId).get();
 			//予約確認
-			List<Reservations> reservations = reservationsRepository.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
-			if(reservations.size() > 0) {
+			List<Reservations> reservations = reservationsRepository
+					.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
+			if (reservations.size() > 0) {
 				Reservations reserve = reservations.get(0);
 				reserve.setItemId(itemId);
 				item.setStatus(2);
 				reservationsRepository.save(reserve);
 				itemsRepository.save(item);
-				
-			}else {
+
+			} else {
 				item.setStatus(0);
 				itemsRepository.save(item);
 			}
-
 
 		} else {
 			// 指定したIDがrentalsテーブルに存在しない場合

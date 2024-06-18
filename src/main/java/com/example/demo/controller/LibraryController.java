@@ -68,6 +68,7 @@ public class LibraryController {
 			@RequestParam(value = "publisher", defaultValue = "") String publisher,
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			@RequestParam(value = "sort", defaultValue = "") String sort,
 			Model model,
 			RedirectAttributes redirectAttributes) {
 
@@ -103,7 +104,8 @@ public class LibraryController {
 		}
 
 		// 入力項目があった時
-		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId,
+				sort);
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
@@ -115,6 +117,7 @@ public class LibraryController {
 		model.addAttribute("publisher", publisher);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("subCategoryId", subCategoryId);
+		model.addAttribute("sort", sort);
 
 		model.addAttribute("itemlist", itemList);
 		return "search";
@@ -128,6 +131,7 @@ public class LibraryController {
 			@RequestParam(value = "publisher", defaultValue = "") String publisher,
 			@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(value = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			@RequestParam(value = "sort", defaultValue = "") String sort,
 			Model model) {
 		//上部簡易検索欄
 		List<ItemTitle> itemList = null;
@@ -166,7 +170,8 @@ public class LibraryController {
 		}
 
 		// 入力項目があった時
-		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId);
+		itemList = itemTitleRepositoryB.findByKeyword(keyword, name, author, publisher, categoryId, subCategoryId,
+				sort);
 		// カテゴリー表示用
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
@@ -178,6 +183,7 @@ public class LibraryController {
 		model.addAttribute("publisher", publisher);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("subCategoryId", subCategoryId);
+		model.addAttribute("sort", sort);
 
 		model.addAttribute("itemlist", itemList);
 		return "search";
@@ -224,6 +230,11 @@ public class LibraryController {
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
 		List<ItemTitle> itemList = itemTitlerepository.findAllByOrderByRentalNumberDesc().stream().limit(10).toList();
+
+		for (int i = 0; i < 10; i++) {
+			itemList.get(i).setRanking(i + 1);
+		}
+
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
 		model.addAttribute("itemList", itemList);
@@ -235,7 +246,60 @@ public class LibraryController {
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
 
+		// 新作本表示用(出版日から2か月以内表示)
+		List<ItemTitle> newArrivals = itemTitlerepository
+				.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
+		model.addAttribute("newArrivals", newArrivals);
+
 		return "main";
+	}
+	
+	// 取置ボタン押下後にstatusを変更する処理を行う
+	@PostMapping("/library/mypage/reserved/{id}")
+	public String reserved(
+			@PathVariable("id") Integer id,
+			Model model) {
+		// Reservationオブジェクトの生成
+		Reservations reservation = reservationsRepository.findById(id).get();
+		// statusを2(受取待機)に変更してテーブルに保存
+		reservation.setStatus(2);
+		reservationsRepository.save(reservation);
+		
+		// Itemsオブジェクトの生成
+		Items item = itemsRepository.findById(reservation.getItemId()).get();
+		// statusを3(取置中)に変更してテーブルに保存
+		item.setStatus(3);
+		itemsRepository.save(item);
+		
+		return "redirect:/login/mypage";
+	}
+	
+	// 取置キャンセルボタン押下後にstatusを変更する処理
+	@PostMapping("/library/mypage/cancel/{id}")
+	public String cancel(
+			@PathVariable("id") Integer id,
+			Model model) {
+		// Reservationオブジェクトの生成、statusを3(返却待機)に変更
+		Reservations reservation = reservationsRepository.findById(id).get();
+		reservation.setStatus(3);
+		reservationsRepository.save(reservation);
+		
+		// 該当資料のItemsオブジェクトを生成
+		Items item = itemsRepository.findById(reservation.getItemId()).get();
+		//予約確認
+		List<Reservations> reservations = reservationsRepository.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
+		if(reservations.size() > 0) {
+			Reservations reserve = reservations.get(0);
+			reserve.setItemId(reservation.getItemId());
+			item.setStatus(2);
+			reservationsRepository.save(reserve);
+			itemsRepository.save(item);
+			
+		} else {
+			item.setStatus(6);
+			itemsRepository.save(item);
+		}
+		return "redirect:/login/mypage";
 	}
 
 	//紛失処理
