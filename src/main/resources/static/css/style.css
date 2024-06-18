@@ -145,6 +145,25 @@ ul {
 	  	font-style: normal;
 	}
 	
+/*フッター*/	
+
+.wrapper{
+    height: 100%;
+    min-height: 85vh;
+    position: relative;/*←相対位置*/
+    padding-bottom: 120px;/*←footerの高さ*/
+    box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
+}
+
+.bottom{
+    width: 99.51%;
+    text-align: center;
+    padding: 30px 0;
+
+    position: absolute;/*←絶対位置*/
+    bottom: 0; /*下に固定*/
+}
+	
 	/*エラー*/
 	.error{
 		color: red;
@@ -152,29 +171,31 @@ ul {
 	
 	/*アコーディオンメニューのCSS*/
 .details {
+	margin: 0 auto;
 	height: 71px;
+	width: 900px;
 	transition: all ease-in-out .3s;
-	border-left: 2px solid #00a5a0;
-	border-right: 2px solid #00a5a0;
+	border-left: 2px solid rgb(0, 128, 128);
+	border-right: 2px solid rgb(0, 128, 128);
 	box-sizing: border-box;
 	&:last-of-type {
-		border-bottom: 2px solid #00a5a0;
+		border-bottom: 2px solid rgb(0, 128, 128);
 	}
 }
 .details[open] {
-	height: 300px;
-	background-color: #bee1de;
+	height: 320px;
+	background-color: rgb(0, 128, 128);
 }
 .details-summary {
 	display: block;
 	padding: 20px;
-	border-top: 1px solid rgb(138, 215, 162);
+	border-top: 1px solid rgb(0, 128, 128);
 	font-size: 20px;
 	font-weight: bold;
 	transition: all ease-in-out .3s;
 	&:hover {
 		cursor: pointer;
-		background-color: #bee1de;
+		background-color: rgb(0, 128, 128);
 	}
 }
 .details-summary::-webkit-details-marker {
@@ -183,7 +204,7 @@ ul {
 .details-content {
 	margin: 0 20px 20px;
 	padding: 20px;
-	height: 180px;
+	height: 200px;
 	overflow: hidden;
 	overflow-y: auto;
 	background-color: #fff;

@@ -8,9 +8,16 @@
 <body>
 	
 	<header>
-		<h1><a href="/library">図書館</a></h1>
+		<a href="/library"><img th:src="@{/image/reskill.png} "width="420" height="120"></a>
+		<br>
+	<hr>
 		<span><a href="/login">ログイン</a></span>
+	<hr>
 	</header>
+	
+	
+	<div class="wrapper">
+	
 	<div th:if="${errorList}"} >
 		<ul class="error">
 			<li th:each="err:${errorList}" th:text="${err}"></li>
@@ -50,5 +57,11 @@
 		<button>登録</button>
 	</form>
 	<a href="/library">メインページに戻る</a>
+	
+	<div class="bottom">
+	<footer th:replace="userFooter"></footer>
+	</div>
+	</div>
+	
 </body>
 </html>
