@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "item_titles")
@@ -15,28 +16,39 @@ public class ItemTitle {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String name;
-	
+
 	private String author;
-	
+
 	private String image;
-	
+
 	private String publisher;
-	
-	@Column(name="publication_date")
+
+	@Column(name = "publication_date")
 	private LocalDate publicationDate;
-	
+
 	private String summary;
-	
-	@Column(name="category_id")
+
+	@Column(name = "category_id")
 	private Integer categoryId;
-	
-	@Column(name="sub_category_id")
+
+	@Column(name = "sub_category_id")
 	private Integer subCategoryId;
-	
-	@Column(name="rental_number")
+
+	@Column(name = "rental_number")
 	private Integer rentalNumber;
+
+	@Transient
+	private String ranking;
+
+	public String getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(Integer ranking) {
+		this.ranking = ranking + "位";
+	}
 
 	public ItemTitle() {
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -80,8 +92,7 @@ public class ItemTitle {
 		this.subCategoryId = subCategoryId;
 		this.rentalNumber = 0;
 	}
-	
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -95,9 +106,9 @@ public class ItemTitle {
 	}
 
 	public String getImage() {
-		if(this.image == null || image.length() == 0) {
+		if (this.image == null || image.length() == 0) {
 			return "/image/no_image.png";
-		}else {
+		} else {
 			return image;
 		}
 	}
@@ -165,6 +176,5 @@ public class ItemTitle {
 	public void setRentalNumber(Integer rentalNumber) {
 		this.rentalNumber = rentalNumber;
 	}
-	
 
 }

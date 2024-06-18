@@ -224,6 +224,11 @@ public class LibraryController {
 		List<Categories> categoryList = categoriesRepository.findAll();
 		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
 		List<ItemTitle> itemList = itemTitlerepository.findAllByOrderByRentalNumberDesc().stream().limit(10).toList();
+
+		for (int i = 0; i < 10; i++) {
+			itemList.get(i).setRanking(i + 1);
+		}
+
 		model.addAttribute("categories", categoryList);
 		model.addAttribute("subCategories", subCategoryList);
 		model.addAttribute("itemList", itemList);
@@ -234,9 +239,10 @@ public class LibraryController {
 		LocalDate last = (first.plusMonths(1)).minusDays(1);
 		List<Calendars> closeDates = calendarsRepository.findByClosedDateBetween(first, last);
 		model.addAttribute("closeDates", closeDates);
-		
+
 		// 新作本表示用(出版日から2か月以内表示)
-		List<ItemTitle> newArrivals = itemTitlerepository.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
+		List<ItemTitle> newArrivals = itemTitlerepository
+				.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
 		model.addAttribute("newArrivals", newArrivals);
 
 		return "main";
