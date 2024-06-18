@@ -7,9 +7,17 @@
 </head>
 <body>
 	<header>
-		<h1><a href="/library">図書館</a></h1>
+		<a href="/library"><img th:src="@{/image/reskill.png} " width="420" height="120"></a>
+		<br>
+		
+	<hr>
 		<span><a href="/login/newuser">新規登録</a></span>
 	</header>
+	
+	<hr>
+	
+	<div class="wrapper">
+		
 	<h1>会員ログイン</h1>
 	
 	<div th:if="${errorList}"} >
@@ -27,5 +35,10 @@
 	
 	<a href="/library">メインページへ戻る</a><br>
 	<a href="/admin/login">管理者ログインはこちら</a>
+	<div class="bottom">
+	<footer th:replace="userFooter"></footer>
+	</div>
+</div>
+
 </body>
 </html>

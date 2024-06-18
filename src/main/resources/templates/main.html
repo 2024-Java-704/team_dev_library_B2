@@ -156,7 +156,7 @@
 			<br>
 			<iframe
 				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d330.92145468335735!2d139.69616124064817!3d35.68870417657408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d636d9ac9c7%3A0xca3f06d8fe03ab0f!2z44OT44K444On44Oz44K744Oz44K_44O86KW_5paw5a6_!5e0!3m2!1sja!2sjp!4v1718592694747!5m2!1sja!2sjp"
-				width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+				width="720" height="400" style="border:0;" allowfullscreen="" loading="lazy"
 				referrerpolicy="no-referrer-when-downgrade"></iframe>
 				<span>〒160-0023 東京都新宿区西新宿１丁目２２−２ 新宿サンエービル 7F</span>
 		</div>
@@ -181,7 +181,7 @@
 		function createCalendar(month) {
 			//曜日
 			const monthDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-			let calendarHTML = '<table  width=”5%” border="1"  class="calendar"><thead><tr>';
+			let calendarHTML = '<table  border="1"  class="calendar"><thead><tr>';
 
 			for (let i = 0; i < 7; i++) {
 				if (i === 0) {
@@ -189,7 +189,7 @@
 				} else if (i === 6) {
 					calendarHTML += `<th class="sat">${monthDays[i]}</th>`;
 				} else {
-					calendarHTML += `<th>${monthDays[i]}</th>`;
+					calendarHTML += `<th class="wed">${monthDays[i]}</th>`;
 				}
 			}
 
