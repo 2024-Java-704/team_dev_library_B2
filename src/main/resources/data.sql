@@ -723,7 +723,8 @@ INSERT INTO reservations(item_title_id, item_id, user_id, ordered_on, status)
 VALUES
 (4, null, 2, '2024-06-18', 0),
 (16, null, 5, '2024-06-18', 0),
-(7, null, 4, '2024-06-15', 0);
+(7, null, 4, '2024-06-15', 0),
+(1, null, 2, '2024-06-15', 0);
 
 -- 貸出情報テーブル
 INSERT INTO rentals(item_id, user_id, rental_date, return_date, closing_date, status)
@@ -750,4 +751,7 @@ VALUES
 -- 休館カレンダーテーブル
 INSERT INTO calendars(closed_date, date_detail)
 VALUES
-('2024-06-20', '');
+('2024-06-06', ''),
+('2024-06-13', ''),
+('2024-06-21', ''),
+('2024-06-27', '');

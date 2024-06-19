@@ -71,6 +71,10 @@ input[type="button"]
 	border-radius:15px;
 }
 
+input[type="button"]:hover {
+	background-color: rgb(131, 222, 218);
+}
+
 
 /* 表 */
 table {

@@ -36,10 +36,11 @@
 			<td th:text="${rental.rentalDate}"></td>
 			<td th:text="${rental.closingDate}"></td>
 			<td th:text="${rental.statusStr}"></td>
-			<td th:if="${rental.status}==2">
+			<td><span th:if="${rental.status}==2">
 				<form th:action="@{/admin/rentalcontrol/confirm/{id}(id=${rental.id})}" method="post">
 					<button>確認</button>
 				</form>
+				</span>
 			</td>
 		</tr>
 	</table>

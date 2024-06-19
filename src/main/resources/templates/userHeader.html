@@ -2,53 +2,52 @@
 	<div>
 		<a href="/library"><img th:src="@{/image/reskill.png} " align="left" width="370" height="100"></a>
 
+		
+		
+	<!--	未ログイン時に表示		-->
+	<th:block th:if="${@account.name} == null">
+	<br>
+	<div style="text-align: right;">
+	
+	
+	<a href="https://www.auntstella.co.jp/about/about_aunt/" target="_blank" style="text-decoration:none;"><span>｜　　リスキル図書館について <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);">　</span></a>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);"></span></a>
+	
+	
 
-		<!--	未ログイン時に表示		-->
-		<th:block th:if="${@account.name} == null">
-			<br>
-			<div style="text-align: right;">
-
-
-				<span>｜　　リスキル図書館について　　</span>
-				<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ
-						<img th:src="@{/image/link.png}" width="15" height="15"></span></a>
-
-
-
-
-				<hr>
-
-				<span><a href="/login/newuser" style="text-decoration:none;">｜　　新規登録　　</a></span>
-				<span><a href="/login" style="text-decoration:none;">|　　ログイン　　</a></span>
-
-			</div>
-		</th:block>
-
-
-		<!--	ログインした時用に表示	-->
-
-		<th:block th:if="${@account.name}">
-			<div style="text-align: right;">
-
-				<br>
-				<span>｜　　リスキル図書館について　　</span>
-				<a href="https://corp.reskill.jp/" target="_blank"
-					style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ　　　　</span></a>
+	
+	<hr>
+	
+	<span><a href="/login/newuser" style="text-decoration:none;">｜　<img th:src="@{/image/add.png}"  width="15" height="15" style="transform: translate(0%,10%);"> 新規登録　　</a></span>
+	<span><a href="/login" style="text-decoration:none;">|　<img th:src="@{/image/login.png}"  width="15" height="15" style="transform: translate(0%,10%);"> ログイン　　</a></span>
+	
+	</div>
+	</th:block>
 
 
+	<!--	ログインした時用に表示	-->
+	
+	<th:block th:if="${@account.name}">
+		<div style="text-align: right;">
 
-				<hr>
-
-				<span><a href="/login/mypage" style="text-decoration:none;">　　マイページ　　｜</a></span>
-				<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　　ログアウト</a></span>
-		</th:block>
-
-		<th:block th:if="${@account.name} == null">
-			<br>
-			<div style="text-align: right;">
-
-
-			</div>
+	<br>
+	<a href="https://www.auntstella.co.jp/about/about_aunt/" target="_blank" style="text-decoration:none;"><span>｜　　リスキル図書館について <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);">　</span></a>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);"></span></a>
+	
+	
+	
+	<hr>
+	
+	<span><a href="/login/mypage" style="text-decoration:none;">｜　<img th:src="@{/image/mypage.png} "width="17" height="17" style="transform: translate(0%,20%);"> マイページ　　｜</a></span>
+	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　<img th:src="@{/image/logout.png} "width="17" height="17" style="transform: translate(0%,20%);">ログアウト</a></span>
+	</th:block>
+	
+	<th:block th:if="${@account.name} == null">
+	<br>
+	<div style="text-align: right;">
+	
+	
+	</div>
 	</div>
 	</th:block>
 

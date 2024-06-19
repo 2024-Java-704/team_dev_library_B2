@@ -13,8 +13,9 @@
 	height: 300px;
 }
 
-
-
 .calendar{
 	min-width: 500px;
+}
+.calendar tr,.calendar td{
+	width:80px;
 }
