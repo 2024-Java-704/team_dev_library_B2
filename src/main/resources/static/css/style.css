@@ -283,11 +283,11 @@ padding:0;
 
 .wrapper {
 margin :0 auto;
-  max-width: 70vw;
+  max-width: 1000px;
   overflow: hidden;
-  width: 80%;
+  width: 100%;
   position: relative;
-  height: 500px;
+  height: 350px;
 }
 
 .next {
@@ -354,6 +354,7 @@ margin :0 auto;
   width: 400vw;
   display: flex;
   margin: 0 auto;
+  
 }
 
 .slider1 {
@@ -439,6 +440,7 @@ margin :0 auto;
   background-color: #000;
 }
 
+
 /*セレクトボックス*/
 .cp_ipselect {
 	overflow: hidden;
@@ -485,4 +487,17 @@ margin :0 auto;
 .cp_ipselect.cp_sl01 select {
 	padding: 8px 38px 8px 8px;
 	color: #666666;
+}
+.tuuti::after {
+  content: "！";        /* 表示する記号や文字を入れる（1文字） */
+  position: absolute;   /* 相対位置を指定 */
+  top: 72px;           /* 表示位置を上から-10pxの位置にする */
+  right: 150px;         /* 表示位置を右から-10pxの位置にする */
+  color: #FFF;          /* 文字色を白色に指定 */
+  line-height: 20px;    /* 行の高さを指定 */
+  font-weight: bold;    /* 太文字にする */
+  text-align: center;   /* 文字を中央揃えにする */
+  width: 20px;          /* 幅を20pxに指定 */
+  background: #F00;     /* 背景色を赤に指定 */
+  border-radius: 50%;   /* 角丸を50%に指定 */
 }

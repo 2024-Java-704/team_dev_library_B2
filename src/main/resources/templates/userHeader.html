@@ -1,7 +1,7 @@
-
-	<header>
-		<div>
+<header>
+	<div>
 		<a href="/library"><img th:src="@{/image/reskill.png} " align="left" width="370" height="100"></a>
+
 		
 		
 	<!--	未ログイン時に表示		-->
@@ -10,16 +10,16 @@
 	<div style="text-align: right;">
 	
 	
-	<span>｜　　リスキル図書館について　　</span>
-	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ <img th:src="@{/image/link.png}"  width="15" height="15"></span></a>
+	<a href="https://www.auntstella.co.jp/about/about_aunt/" target="_blank" style="text-decoration:none;"><span>｜　　リスキル図書館について <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);">　</span></a>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);"></span></a>
 	
 	
 
 	
 	<hr>
 	
-	<span><a href="/login/newuser" style="text-decoration:none;">｜　　新規登録　　</a></span>
-	<span><a href="/login" style="text-decoration:none;">|　　ログイン　　</a></span>
+	<span><a href="/login/newuser" style="text-decoration:none;">｜　<img th:src="@{/image/add.png}"  width="15" height="15" style="transform: translate(0%,10%);"> 新規登録　　</a></span>
+	<span><a href="/login" style="text-decoration:none;">|　<img th:src="@{/image/login.png}"  width="15" height="15" style="transform: translate(0%,10%);"> ログイン　　</a></span>
 	
 	</div>
 	</th:block>
@@ -31,15 +31,15 @@
 		<div style="text-align: right;">
 
 	<br>
-		<span>｜　　リスキル図書館について　　</span>
-	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ　　　　</span></a>
+	<a href="https://www.auntstella.co.jp/about/about_aunt/" target="_blank" style="text-decoration:none;"><span>｜　　リスキル図書館について <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);">　</span></a>
+	<a href="https://corp.reskill.jp/" target="_blank" style="text-decoration:none;"><span>｜　　株式会社リスキル公式サイトへ <img th:src="@{/image/link.png}"  width="15" height="15" style="transform: translate(0%,20%);"></span></a>
 	
 	
 	
 	<hr>
 	
-	<span><a href="/login/mypage" style="text-decoration:none;">　　マイページ　　｜</a></span>
-	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　　ログアウト</a></span>
+	<span><a href="/login/mypage" style="text-decoration:none;">｜　<img th:src="@{/image/mypage.png} "width="17" height="17" style="transform: translate(0%,20%);"> マイページ　　｜</a></span>
+	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　<img th:src="@{/image/logout.png} "width="17" height="17" style="transform: translate(0%,20%);">ログアウト</a></span>
 	</th:block>
 	
 	<th:block th:if="${@account.name} == null">
@@ -50,49 +50,49 @@
 	</div>
 	</div>
 	</th:block>
-	
-	
-	</header>
-	
-	
+
+
+</header>
+
+
 <!--	 モーダルウィンドウ -->
-    <div id="logoutModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close" id="closeModal">&times;</span>
-                <h2>確認</h2>
-            </div>
-            <div class="modal-body">
-                <p>本当にログアウトしますか？</p>
-            </div>
-            <div class="modal-footer">
-                <button id="confirmLogout">ログアウト</button>
-                <button id="cancelLogout">キャンセル</button>
-            </div>
-        </div>
-    </div>
-	<hr>
-	
-	 <script type="text/javascript">
-        document.getElementById('logoutButton').onclick = function() {
-            document.getElementById('logoutModal').style.display = "block";
-        };
+<div id="logoutModal" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close" id="closeModal">&times;</span>
+			<h2>確認</h2>
+		</div>
+		<div class="modal-body">
+			<p>本当にログアウトしますか？</p>
+		</div>
+		<div class="modal-footer">
+			<button id="confirmLogout">ログアウト</button>
+			<button id="cancelLogout">キャンセル</button>
+		</div>
+	</div>
+</div>
+<hr>
 
-        document.getElementById('closeModal').onclick = function() {
-            document.getElementById('logoutModal').style.display = "none";
-        };
+<script type="text/javascript">
+	document.getElementById('logoutButton').onclick = function () {
+		document.getElementById('logoutModal').style.display = "block";
+	};
 
-        document.getElementById('cancelLogout').onclick = function() {
-            document.getElementById('logoutModal').style.display = "none";
-        };
+	document.getElementById('closeModal').onclick = function () {
+		document.getElementById('logoutModal').style.display = "none";
+	};
 
-        document.getElementById('confirmLogout').onclick = function() {
-            window.location.href = "/logout";
-        };
+	document.getElementById('cancelLogout').onclick = function () {
+		document.getElementById('logoutModal').style.display = "none";
+	};
 
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('logoutModal')) {
-                document.getElementById('logoutModal').style.display = "none";
-            }
-        };
-    </script>
+	document.getElementById('confirmLogout').onclick = function () {
+		window.location.href = "/logout";
+	};
+
+	window.onclick = function (event) {
+		if (event.target == document.getElementById('logoutModal')) {
+			document.getElementById('logoutModal').style.display = "none";
+		}
+	};
+</script>

@@ -22,12 +22,13 @@
 	</form>
 
 	<br>
-	<form action="/library/search/more" method="get">
 
-		<details class="details">
-			<summary class="details-summary">詳細検索</summary>
-			<table border="1">
 
+	<details class="details">
+		<summary class="details-summary">詳細検索</summary>
+		<div class="details-content">
+			<form action="/library/search/more" method="get">
+				<table border="1">
 				<tr>
 					<th>タイトル</th>
 					<td><input type="text" name="name" th:value="${name}"></td>
@@ -79,9 +80,9 @@
 				</tr>
 			</table>
 			<button>検索</button>
-
-		</details>
-	</form>
+			</form>
+		</div>
+	</details>
 
 	<h1>検索結果</h1>
 	<table border="1">

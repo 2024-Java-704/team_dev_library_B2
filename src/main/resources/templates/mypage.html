@@ -8,82 +8,83 @@
 </head>
 
 <body>
-	
+
 	<header th:replace="userHeader"></header>
+	<div class="loginBody">
+		<div th:if="${errorList}" }>
+			<ul class="error">
+				<li th:each="err:${errorList}" th:text="${err}"></li>
+			</ul>
+		</div>
 
-		<div th:if="${errorList}"} >
-		<ul class="error">
-			<li th:each="err:${errorList}" th:text="${err}"></li>
-		</ul>
+		<h1>マイページ</h1>
+		<div th:if="${overList.size() > 0}">
+			<h2>延滞しています</h2>
+			<table style="width: 100%;" border="1">
+				<tr>
+					<th>資料名</th>
+					<th>貸出日</th>
+					<th>返却期限</th>
+				</tr>
+				<tr th:each="over:${overList}">
+					<td th:text="${over.itemTitleName}"></td>
+					<td th:text="${over.rentalDate}"></td>
+					<td th:text="${over.closingDate}"></td>
+				</tr>
+			</table>
+		</div>
+
+		<div th:if="${rentalList.size() > 0}">
+			<h2>貸出中</h2>
+			<table style="width: 100%;" border="1">
+				<tr>
+					<th>資料名</th>
+					<th>貸出日</th>
+					<th>返却期限</th>
+				</tr>
+				<tr th:each="rental:${rentalList}">
+					<td th:text="${rental.itemTitleName}"></td>
+					<td th:text="${rental.rentalDate}"></td>
+					<td th:text="${rental.closingDate}"></td>
+
+				</tr>
+			</table>
+		</div>
+
+		<div th:if="${rentalList.size() == 0}">
+			<h2>貸出中の資料はありません</h2>
+		</div>
+
+		<div th:if="${reservationsList.size > 0}">
+			<h2>予約中</h2>
+			<table style="width: 100%;" border="1">
+				<tr>
+					<th>資料名</th>
+					<th>予約申込日</th>
+					<th>予約状況</th>
+					<th>取置選択</th>
+				</tr>
+				<tr th:each="reservation:${reservationsList}">
+					<td th:text="${reservation.itemTitleName}"></td>
+					<td th:text="${reservation.orderedOn}"></td>
+					<td th:text="${reservation.statusStr}"></td>
+					<td><span th:if="${reservation.status}==1" style="width: 100px;">
+							<form th:action="'/library/mypage/reserved/'+${reservation.id}" method="post">
+								<button>取置きする</button>
+							</form>
+							<form th:action="'/library/mypage/cancel/'+${reservation.id}" method="post">
+								<button>キャンセル</button>
+							</form>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<a href="/library/mypage/history">貸出履歴</a>
+
+		<footer th:replace="userFooter"></footer>
 	</div>
-
-	<h1>マイページ</h1>
-	<div th:if="${overList.size() > 0}">
-		<h2>延滞しています</h2>
-		<table style="width: 100%;" border="1">
-			<tr>
-				<th>資料名</th>
-				<th>貸出日</th>
-				<th>返却期限</th>
-			</tr>
-			<tr th:each="over:${overList}">
-				<td th:text="${over.itemTitleName}"></td>
-				<td th:text="${over.rentalDate}"></td>
-				<td th:text="${over.closingDate}"></td>
-			</tr>
-		</table>
-	</div>
-
-	<div th:if="${rentalList.size() > 0}">
-		<h2>貸出中</h2>
-		<table style="width: 100%;" border="1">
-			<tr>
-				<th>資料名</th>
-				<th>貸出日</th>
-				<th>返却期限</th>
-			</tr>
-			<tr th:each="rental:${rentalList}">
-				<td th:text="${rental.itemTitleName}"></td>
-				<td th:text="${rental.rentalDate}"></td>
-				<td th:text="${rental.closingDate}"></td>
-
-			</tr>
-		</table>
-	</div>
-	
-	<div th:if="${rentalList.size() == 0}">
-		<h2>貸出中の資料はありません</h2>
-	</div>
-
-	<div th:if="${reservationsList.size > 0}">
-		<h2>予約中</h2>
-		<table style="width: 100%;" border="1">
-			<tr>
-				<th>資料名</th>
-				<th>予約申込日</th>
-				<th>予約状況</th>
-				<th th:each="reservation:${reservationsList}" th:if="${reservation.status}==1">取置選択</th>
-			</tr>
-			<tr th:each="reservation:${reservationsList}">
-				<td th:text="${reservation.itemTitleName}"></td>
-				<td th:text="${reservation.orderedOn}"></td>
-				<td th:text="${reservation.statusStr}"></td>
-				<td th:if="${reservation.status}==1" style="width: 100px;">
-					<form th:action="'/library/mypage/reserved/'+${reservation.id}" method="post">
-						<button>取置きする</button>
-					</form>
-					<form th:action="'/library/mypage/cancel/'+${reservation.id}" method="post">
-						<button>キャンセル</button>
-					</form>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<a href="/library/mypage/history">貸出履歴</a>
-
-<footer th:replace = "userFooter"></footer>
-
 </body>
 <script>
 	// 各削除ボタンをクリックしたときにモーダルを表示する

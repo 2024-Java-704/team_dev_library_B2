@@ -26,7 +26,7 @@
 			<th>貸出日</th>
 			<th>返却期限</th>
 			<th>貸出状態</th>
-			<th th:each="rental:${rentaling}" th:if="${rental.status}==2">紛失申告</th>
+			<th>紛失申告</th>
 		</tr>
 		<tr th:each="rental:${rentaling}">
 			<td th:text="${rental.userId}"></td>

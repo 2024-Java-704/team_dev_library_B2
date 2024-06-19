@@ -62,35 +62,34 @@ public class UserController {
 			Model model) {
 		List<String> errorList = new ArrayList<String>();
 
-		if (name.equals("") || address.equals("") || tel.equals("") || tel.length() != 11 || email.equals("")
-				|| birthday == null || birthday.isAfter(LocalDate.now()) || password.equals("") || emailCheck(email)) {
-			if (name.equals("")) {
-				errorList.add("名前は必須です");
-			}
-			if (address.equals("")) {
-				errorList.add("住所は必須です");
-			}
-			if (tel.equals("")) {
-				errorList.add("電話番号は必須です");
-			}
-			if (tel.length() != 11) {
-				errorList.add("電話番号はハイフン抜きの11桁で入力してください");
-			}
-			if (email.equals("")) {
-				errorList.add("メールアドレスは必須です");
-			}
-			if (emailCheck(email)) {
-				errorList.add("登録済みのメールアドレスです");
-			}
-			if (birthday == null) {
-				errorList.add("生年月日は必須です");
-			}
-			if (birthday.isAfter(LocalDate.now())) {
-				errorList.add("生年月日は今日以前を選択してください");
-			}
-			if (password.equals("")) {
-				errorList.add("パスワードは必須です");
-			}
+		if (name.equals("")) {
+			errorList.add("名前は必須です");
+		}
+		if (address.equals("")) {
+			errorList.add("住所は必須です");
+		}
+		if (tel.equals("")) {
+			errorList.add("電話番号は必須です");
+		}
+		if (tel.length() != 11) {
+			errorList.add("電話番号はハイフン抜きの11桁で入力してください");
+		}
+		if (email.equals("")) {
+			errorList.add("メールアドレスは必須です");
+		}
+		if (emailCheck(email)) {
+			errorList.add("登録済みのメールアドレスです");
+		}
+		if (birthday == null) {
+			errorList.add("生年月日は必須です");
+		} else if (birthday.isAfter(LocalDate.now())) {
+			errorList.add("生年月日は今日以前を選択してください");
+		}
+		if (password.equals("")) {
+			errorList.add("パスワードは必須です");
+		}
+
+		if (errorList.size() > 0) {
 			model.addAttribute("name", name);
 			model.addAttribute("address", address);
 			model.addAttribute("tel", tel);
@@ -139,14 +138,12 @@ public class UserController {
 
 	//email重複確認用関数 trueならば存在する
 	private boolean emailCheck(String el) {
-		List<Users> users = usersRepository.findAll();
-		boolean check = false;
-		for (Users c : users) {
-			if (c.getEmail().equals(el)) {
-				check = true;
-				break;
-			}
+		List<Users> users = usersRepository.findByEmailLike(el);
+		
+		if(users.size() > 0) {
+			return true;
 		}
-		return check;
+		
+		return false;
 	}
 }
