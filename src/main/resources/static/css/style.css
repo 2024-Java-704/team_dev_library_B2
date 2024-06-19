@@ -243,11 +243,11 @@ padding:0;
 
 .wrapper {
 margin :0 auto;
-  max-width: 70vw;
+  max-width: 1000px;
   overflow: hidden;
-  width: 80%;
+  width: 100%;
   position: relative;
-  height: 500px;
+  height: 350px;
 }
 
 .next {
@@ -314,6 +314,7 @@ margin :0 auto;
   width: 400vw;
   display: flex;
   margin: 0 auto;
+  
 }
 
 .slider1 {
@@ -398,4 +399,6 @@ margin :0 auto;
 #list1 {
   background-color: #000;
 }
+
+
 
