@@ -40,7 +40,7 @@
 
 	<span><a href = "#openday" style="text-decoration:none;">｜　　<img th:src="@{/image/libraryIcon.png}"  width="15" height="15">開館日　　</a></span>
 	<span><a href = "#access" style="text-decoration:none;">｜　　<img th:src="@{/image/ping.png}"  width="15" height="15">アクセス　　｜</a></span>
-	<span><a href="/login/mypage" style="text-decoration:none;">　　マイページ　　｜</a></span>
+	<span th:classappend="${tuuti}=='tuuti'?'tuuti'"><a href="/login/mypage" style="text-decoration:none;">　　マイページ　　｜</a></span>
 	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　　ログアウト</a></span>
 	</th:block>
 	<th:block th:if="${@account.name} == null">
