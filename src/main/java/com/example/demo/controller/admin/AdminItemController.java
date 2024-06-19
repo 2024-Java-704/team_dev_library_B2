@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
@@ -92,7 +93,7 @@ public class AdminItemController {
 			@RequestParam(name = "summary", defaultValue = "") String summary,
 			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
 			@RequestParam(name = "subCategoryId", defaultValue = "") Integer subCategoryId,
-			Model model) {
+			RedirectAttributes model) {
 
 		// エラーチェック
 		List<String> errorList = new ArrayList<>();
@@ -111,18 +112,20 @@ public class AdminItemController {
 
 		// エラー発生時は在庫一覧画面に戻す
 		if (errorList.size() > 0) {
-			model.addAttribute("errorList", errorList);
-			model.addAttribute("name", name);
-			model.addAttribute("author", author);
-			model.addAttribute("publisher", publisher);
-			model.addAttribute("summary", summary);
+			model.addFlashAttribute("errorList", errorList);
+			model.addFlashAttribute("name", name);
+			model.addFlashAttribute("author", author);
+			model.addFlashAttribute("publisher", publisher);
+			model.addFlashAttribute("summary", summary);
 
 			return "redirect:/admin/rentalcontrol/inventory";
 		}
-
+		
 		ItemTitle itemTitle = new ItemTitle(name, author, publisher, publicationDate, summary, categoryId,
 				subCategoryId);
 		itemTitleRepository.save(itemTitle);
+		
+		model.addFlashAttribute("errorList", "追加しました");
 
 		return "redirect:/admin/rentalcontrol/inventory";
 	}
