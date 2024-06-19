@@ -60,8 +60,7 @@ public class AdminUserController {
 			Model model) {
 		List<String> errorList = new ArrayList<String>();
 
-		if (name.equals("") || address.equals("") || tel.equals("") || tel.length() != 11 || email.equals("")
-				|| birthday == null || birthday.isAfter(LocalDate.now()) || password.equals("") || emailCheck(email)) {
+
 			if (name.equals("")) {
 				errorList.add("名前は必須です");
 			}
@@ -71,7 +70,7 @@ public class AdminUserController {
 			if (tel.equals("")) {
 				errorList.add("電話番号は必須です");
 			}
-			if (tel.length() != 11) {
+			if (tel.length() > 11) {
 				errorList.add("電話番号はハイフン抜きの11桁で入力してください");
 			}
 			if (email.equals("")) {
@@ -89,6 +88,7 @@ public class AdminUserController {
 			if (password.equals("")) {
 				errorList.add("パスワードは必須です");
 			}
+			if(errorList.size()>0) {
 			model.addAttribute("name", name);
 			model.addAttribute("address", address);
 			model.addAttribute("tel", tel);
@@ -96,13 +96,13 @@ public class AdminUserController {
 			model.addAttribute("birthday", birthday);
 			model.addAttribute("errorList", errorList);
 			return "admin/newUser";
+			}
 
-		} else {
 			LocalDate joinDate = LocalDate.now();
 			Users user = new Users(name, address, tel, email, birthday, password, joinDate);
 			usersRepository.save(user);
 			return "admin/userControl";
-		}
+
 	}
 
 	// 会員一覧表示
@@ -159,7 +159,7 @@ public class AdminUserController {
 		if (tel.equals("")) {
 			errorList.add("電話番号は必須です");
 		}
-		if (tel.length() != 11) {
+		if (tel.length() > 11) {
 			errorList.add("電話番号はハイフン抜きの11桁で入力してください");
 		}
 		if (email.equals("")) {

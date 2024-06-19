@@ -71,7 +71,7 @@ public class UserController {
 		if (tel.equals("")) {
 			errorList.add("電話番号は必須です");
 		}
-		if (tel.length() != 11) {
+		if (tel.length() > 11) {
 			errorList.add("電話番号はハイフン抜きの11桁で入力してください");
 		}
 		if (email.equals("")) {
