@@ -55,6 +55,57 @@
 		</tr>
 	</table>
 	<br>
+		<table border="1">
+			<tr>
+				<th>資料名</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="name" placeholder="タイトル"></td>
+			</tr>
+			<tr>
+				<th>著者名</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="author" placeholder="作者"></td>
+			</tr>
+			<tr>
+				<th>出版社</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="publisher" placeholder="出版社"></td>
+			</tr>
+			<tr>
+				<th>出版日</th>
+				<td><input type="date" name="publicationDate" value = "1990-01-01"></td>
+			</tr>
+			<tr>
+				<th>あらすじ</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="summary" placeholder="あらすじ"></td>
+			</tr>
+			<tr>
+				<th>カテゴリー</th>
+				<td>
+					<div class="cp_ipselect cp_sl01">
+					<select name="categoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]
+						</option>
+					</select>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>サブカテゴリー</th>	
+				<td>
+					<div class="cp_ipselect cp_sl01">
+					<select name="subCategoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
+							[[${subCategory.name}]]</option>
+					</select>
+					</div>
+				</td>			
+			</tr>
+		</table>
+		<br>
+		<form action="/admin/rentalcontrol/inventory" method="post">
+			<button>新規資料追加</button>
+		</form>
+	<br>
 	<form action="/admin/rentalcontrol" method="get">
 		<button type="submit">貸出管理画面へ</button>
 	</form>
