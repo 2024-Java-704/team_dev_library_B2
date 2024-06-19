@@ -36,6 +36,29 @@ table, th, td {
 	border-collapse: collapse;
 	border: 1px solid rgb(0, 0, 0);
 }
+/* テキストエリア、テキストボックス */
+/*input[type="text"],*/
+/*input[type="email"],*/
+/*input[type="password"]*/
+/*input[type="number"] */
+/*{*/
+/*  width: 93%;*/
+/*  height: 93%;*/
+/*  padding: 15px;*/
+/*  margin-bottom: 20px;*/
+/*  border: 1px solid #ccc;*/
+/*  border-radius: 18px;*/
+/*}*/
+
+/*textarea {*/
+/*	width: 93%;*/
+/*  padding: 10px;*/
+/*  margin-bottom: 10px;*/
+/*  border: 1px solid #ccc;*/
+/*  border-radius: 4px;*/
+/*}*/
+
+
 /* 表 */
 table {
     margin: 5px auto;

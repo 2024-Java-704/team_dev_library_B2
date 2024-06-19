@@ -2,6 +2,7 @@ package com.example.demo.controller.admin;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Categories;
 import com.example.demo.entity.ItemTitle;
 import com.example.demo.entity.Items;
+import com.example.demo.entity.SubCategories;
+import com.example.demo.repository.CategoriesRepository;
 import com.example.demo.repository.ItemTitleRepository;
 import com.example.demo.repository.ItemsRepository;
+import com.example.demo.repository.SubCategoriesRepository;
 
 @Controller
 @RequestMapping("/admin/rentalcontrol/")
@@ -27,6 +32,12 @@ public class AdminItemController {
 
 	@Autowired
 	ItemTitleRepository itemTitleRepository;
+
+	@Autowired
+	CategoriesRepository categoriesRepository;
+
+	@Autowired
+	SubCategoriesRepository subCategoriesRepository;
 
 	// 在庫管理画面を表示する
 	@GetMapping("/inventory")
@@ -60,9 +71,60 @@ public class AdminItemController {
 		model.addAttribute("name", name);
 
 		model.addAttribute("itemTitles", itemTitleList);
+		// カテゴリー表示用
+		List<Categories> categoryList = categoriesRepository.findAll();
+		List<SubCategories> subCategoryList = subCategoriesRepository.findAll();
+		model.addAttribute("categories", categoryList);
+		model.addAttribute("subCategories", subCategoryList);
 
 		return "admin/inventory";
 
+	}
+
+	// 新規資料の追加処理を行う
+	@PostMapping("/inventory")
+	public String newItem(
+			//			@RequestParam(name = "id", defaultValue = "") Integer id,
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "author", defaultValue = "") String author,
+			@RequestParam(name = "publisher", defaultValue = "") String publisher,
+			@RequestParam(name = "publicationDate", defaultValue = "") LocalDate publicationDate,
+			@RequestParam(name = "summary", defaultValue = "") String summary,
+			@RequestParam(name = "categoryId", defaultValue = "") Integer categoryId,
+			@RequestParam(name = "subCategoryId", defaultValue = "") Integer subCategoryId,
+			Model model) {
+
+		// エラーチェック
+		List<String> errorList = new ArrayList<>();
+		if (name.length() == 0) {
+			errorList.add("資料名は必須です");
+		}
+		if (author.length() == 0) {
+			errorList.add("作者名は必須です");
+		}
+		if (publisher.length() == 0) {
+			errorList.add("出版社名は必須です");
+		}
+		if (summary.length() == 0) {
+			errorList.add("あらすじ入力は必須です");
+		}
+
+		// エラー発生時は在庫一覧画面に戻す
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("name", name);
+			model.addAttribute("author", author);
+			model.addAttribute("publisher", publisher);
+			model.addAttribute("summary", summary);
+
+			return "redirect:/admin/rentalcontrol/inventory";
+		}
+
+		ItemTitle itemTitle = new ItemTitle(name, author, publisher, publicationDate, summary, categoryId,
+				subCategoryId);
+		itemTitleRepository.save(itemTitle);
+
+		return "redirect:/admin/rentalcontrol/inventory";
 	}
 
 	// 本（タイトル）詳細編集画面を表示する
