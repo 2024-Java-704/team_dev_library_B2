@@ -79,21 +79,25 @@
 			<tr>
 				<th>カテゴリー</th>
 				<td>
+					<div class="cp_ipselect cp_sl01">
 					<select name="categoryId" size="1">
 						<option value="0" label="選択なし" selected></option>
 						<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]
 						</option>
 					</select>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>サブカテゴリー</th>	
 				<td>
+					<div class="cp_ipselect cp_sl01">
 					<select name="subCategoryId" size="1">
 						<option value="0" label="選択なし" selected></option>
 						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
 							[[${subCategory.name}]]</option>
 					</select>
+					</div>
 				</td>			
 			</tr>
 		</table>
