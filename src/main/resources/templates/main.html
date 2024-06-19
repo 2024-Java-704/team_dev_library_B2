@@ -15,7 +15,6 @@
 
 	<br>
 	
-	
 	<div class="wrapper">
     <span id="prev" class="prev"></span>
     <span id="next" class="next"></span>
@@ -28,16 +27,16 @@
 
     <div id="slider" class="slider slider1">
       <div class="content content1">
-        <p><img th:src="@{/image/library-1.jpg}" width="1100" height="300"></p>
+        <p><img th:src="@{/image/library-1.jpg}" width="1730" height="710"></p>
       </div>
       <div class="content content2">
-        <p><img th:src="@{/image/chiyo.jpg}" width="1100" height="500"></p>
+        <p><img th:src="@{/image/chiyo.jpg}" width="1730" height="710"></p>
       </div>
       <div class="content content3">
-        <p><img th:src="@{/image/Hell.jpg}" width="1200" height="350"></p>
+        <p><img th:src="@{/image/Hell.jpg}" width="1730" height="710"></p>
       </div>
       <div class="content content4">
-        <p><img th:src="@{/image/muni.jpg}" width="1200" height="350"></p>
+        <p><img th:src="@{/image/muni.jpg}" width="1730" height="710"></p>
       </div>
     </div>
   </div>
@@ -180,6 +179,7 @@ setInterval(() => {
   </script>
 	
 	
+	</div>
 	
 	
 	<div th:if="${errorList}"} >
@@ -254,6 +254,31 @@ setInterval(() => {
 	</details>
 
 <br>
+
+
+
+<h1>新作</h1>
+<table border="1">
+	<tr>
+		<th>タイトル</th>
+		<th>著者名</th>
+		<th>出版社</th>
+		<th>出版日</th>
+		<th>詳細</th>
+	</tr>
+	<tr th:each="newArrival:${newArrivals}">
+		<td th:text="${newArrival.name}"></td>
+		<td th:text="${newArrival.author}"></td>
+		<td th:text="${newArrival.publisher}"></td>
+		<td th:text="${newArrival.publicationDate}"></td>
+		<td>
+			<form th:action="'/library/search/'+${newArrival.id}"><button>詳細</button></form>
+		</td>
+	</tr>
+</table>
+
+
+
 
 <div style="border: rgb(0, 128, 128) solid 6px; border-radius:15px; font-size: 100%; padding: 15px; " id="openday">
 	<h1>貸出回数ランキング</h1>
@@ -425,30 +450,6 @@ setInterval(() => {
 		document.getElementById('calendar').innerHTML = createCalendar(currentMonth);
 
 	</script>
-
-
-
-
-<h1>新作</h1>
-<table border="1">
-	<tr>
-		<th>タイトル</th>
-		<th>著者名</th>
-		<th>出版社</th>
-		<th>出版日</th>
-		<th>詳細</th>
-	</tr>
-	<tr th:each="newArrival:${newArrivals}">
-		<td th:text="${newArrival.name}"></td>
-		<td th:text="${newArrival.author}"></td>
-		<td th:text="${newArrival.publisher}"></td>
-		<td th:text="${newArrival.publicationDate}"></td>
-		<td>
-			<form th:action="'/library/search/'+${newArrival.id}"><button>詳細</button></form>
-		</td>
-	</tr>
-</table>
-</body>
 
 
 <footer th:replace="userFooter"></footer>
