@@ -26,14 +26,22 @@
 		</ul>
 	</div>
 
-	
+	<br>
 	<form action="/login" method="post">
-		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}"><br>
-		<input type="password" name="password" placeholder="パスワード"><br>
+		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}">
+		<br>
+		<br>
+		<input type="password" name="password" placeholder="パスワード">
+		<br>
+		<br>
 		<button>ログイン</button>
 	</form>
+	<br>
+	<br>
 	
-	<a href="/library">メインページへ戻る</a><br>
+	<a href="/library">メインページへ戻る</a>
+	<br>
+	<br>
 	<a href="/admin/login">管理者ログインはこちら</a>
 <!--	<div class="bottom">-->
 	<footer th:replace="userFooter"></footer>

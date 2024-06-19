@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
-<body>
+<button>
 	<header th:replace="userHeader"></header>
 	<div th:if="${errorList}" }>
 		<ul class="error">
@@ -81,6 +81,11 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<br>
+	<input type="button" value="検索結果に戻る" onclick="history.back();">
+	<br>
+	<br>
 
 	<script>
 		// 各削除ボタンをクリックしたときにモーダルを表示する
