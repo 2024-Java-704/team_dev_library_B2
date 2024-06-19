@@ -43,32 +43,38 @@
 				<tr>
 					<th>カテゴリー</th>
 					<td>
+						<div class="cp_ipselect cp_sl01">
 						<select name="categoryId" size="1">
 							<option value="0" label="選択なし" selected></option>
 							<option th:each="category:${categories}" th:value="${category.id}"
 								th:selected="${category.id == categoryId}">[[${category.name}]]</option>
 						</select>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th>サブカテゴリー</th>
 					<td>
+						<div class="cp_ipselect cp_sl01">
 						<select name="subCategoryId" size="1">
 							<option value="0" label="選択なし" selected></option>
 							<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}"
 								th:selected="${subCategory.id == subCategoryId}">
 								[[${subCategory.name}]]</option>
 						</select>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th>ソート</th>
 					<td>
+						<div class="cp_ipselect cp_sl01">
 						<select name="sort" size="1">
 							<option value="0" label="選択なし" selected></option>
 							<option value="ASC" label="出版年度古い順" th:selected="${sort}=='ASC'"></option>
 							<option value="DESC" label="出版年度新しい順" th:selected="${sort}=='DESC'"></option>
 						</select>
+						</div>
 					</td>
 				</tr>
 			</table>
