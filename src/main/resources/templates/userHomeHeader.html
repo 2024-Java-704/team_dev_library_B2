@@ -39,8 +39,10 @@
 	<hr>
 	<span><a href = "#openday" style="text-decoration:none;">｜　　<img th:src="@{/image/libraryIcon.png}"  width="22" height="22" style="transform: translate(0%,20%);"> 開館日　　</a></span>
 	<span><a href = "#access" style="text-decoration:none;">｜　　<img th:src="@{/image/ping.png}"  width="15" height="15">アクセス　　｜</a></span>
-	<span><a href="/login/mypage" style="text-decoration:none;">　<img th:src="@{/image/mypage.png} "width="17" height="17" style="transform: translate(0%,20%);"> マイページ　　｜</a></span>
+
+	<span　th:classappend="${tuuti}=='tuuti'?'tuuti'"><a href="/login/mypage" style="text-decoration:none;">　<img th:src="@{/image/mypage.png} "width="17" height="17" style="transform: translate(0%,20%);"> マイページ　　｜</a></span>
 	<span><a href="#" id="logoutButton" class="header1" style="text-decoration:none;">　<img th:src="@{/image/logout.png} "width="17" height="17" style="transform: translate(0%,20%);"> ログアウト</a></span>
+
 	</th:block>
 	<th:block th:if="${@account.name} == null">
 	<div style="text-align: right;">

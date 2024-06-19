@@ -250,7 +250,13 @@ public class LibraryController {
 		List<ItemTitle> newArrivals = itemTitlerepository
 				.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
 		model.addAttribute("newArrivals", newArrivals);
-
+		
+		if (reservationsRepository.findByUserIdAndStatusIn(account.getId(), new Integer[] {1}).size() > 0) {
+			model.addAttribute("tuuti", "tuuti");
+		}
+		if (account.getAuthority() == 1) {
+			model.addAttribute("tuuti", "tuuti");
+		}
 		return "main";
 	}
 	
