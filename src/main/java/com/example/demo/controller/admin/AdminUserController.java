@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Items;
+import com.example.demo.entity.Rentals;
+import com.example.demo.entity.Reservations;
 import com.example.demo.entity.Users;
+import com.example.demo.repository.ItemsRepository;
 import com.example.demo.repository.RentalsRepository;
+import com.example.demo.repository.ReservationsRepository;
 import com.example.demo.repository.UsersRepository;
 
 @Controller
@@ -23,6 +29,10 @@ public class AdminUserController {
 	UsersRepository usersRepository;
 	@Autowired
 	RentalsRepository rentalsRepository;
+	@Autowired
+	ItemsRepository itemsRepository;
+	@Autowired
+	ReservationsRepository reservationsRepository;
 
 	@GetMapping("/main")
 	public String main() {
@@ -218,8 +228,51 @@ public class AdminUserController {
 	}
 
 	@PostMapping("/admin/usercontrol/user/delete/{id}")
-	public String deleteUser(@PathVariable("id") Integer id, Model model) {
-		usersRepository.deleteById(id);
+	public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes attr) {
+		List<String> errorList = new ArrayList<String>();
+		Users user =  usersRepository.findById(id).get();
+		if(user != null){
+			if(user.getStatus() != 9) {
+				List<Rentals> rentals = rentalsRepository.findByUserIdAndStatusOrderByRentalDate(user.getId(), 0);
+				if(rentals.size() > 0) {
+					for(Rentals r : rentals) {
+						r.setStatus(3);
+						Items item = itemsRepository.findById(r.getItemId()).get();
+						item.setStatus(4);
+						item.addMemo("id:"+id+"の退会処理により紛失");
+						itemsRepository.save(item);
+					}
+					rentalsRepository.saveAll(rentals);
+					errorList.add("貸し出し中の資料を紛失扱いにしました");
+				}
+				List<Reservations> reservations = reservationsRepository.findByUserIdAndStatusIn(id, new Integer[]{0,1,2});
+				if(reservations.size()>0) {
+					for(Reservations r:reservations) {
+						if(r.getStatus() == 0) {
+							r.setStatus(4);
+						}else {
+							Items item = itemsRepository.findById(r.getItemId()).get();
+							item.setStatus(6);
+							itemsRepository.save(item);
+							r.setStatus(3);
+						}
+					}
+					reservationsRepository.saveAll(reservations);
+					errorList.add("予約をキャンセルしました");
+				}
+				user.setName("退会ユーザ");
+				user.setAddress("-");
+				user.setTel("-");
+				user.setEmail(user.getId().toString());
+				user.setBirthday(LocalDate.parse("0001-01-01"));
+				user.setStatus(2);
+				user.setPassword(user.getId().toString());
+				usersRepository.save(user);
+				
+			}else {errorList.add("管理者です");}
+		}
+		
+		attr.addFlashAttribute("errorList", errorList);
 		return "redirect:/admin/usercontrol/user";
 	}
 
