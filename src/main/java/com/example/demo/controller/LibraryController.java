@@ -211,13 +211,16 @@ public class LibraryController {
 
 	//予約処理
 	@PostMapping("/library/search/{id}/reserve")
-	public String reserve(@PathVariable("id") Integer id, Model model) {
+	public String reserve(@PathVariable("id") Integer id, RedirectAttributes attr) {
 		ItemTitle itemtitle = itemTitlerepository.findById(id).get();
 		if ((itemsRepository.findByItemTitleIdAndStatus(id, 0)).size() == 0) {
-			if (account.getAuthority() != 9) {
-				LocalDate nowDate = LocalDate.now();
-				Reservations reservation = new Reservations(itemtitle.getId(), account.getId(), nowDate);
-				reservationsRepository.save(reservation);
+			if(reservationsRepository.findByUserIdAndItemTitleIdAndStatusIn(account.getId(), itemtitle.getId(),new Integer[] {0,1,2}).size() == 0) {
+				if (account.getAuthority() == 0) {
+					LocalDate nowDate = LocalDate.now();
+					Reservations reservation = new Reservations(itemtitle.getId(), account.getId(), nowDate);
+					reservationsRepository.save(reservation);
+					attr.addFlashAttribute("errorList", "予約しました");
+				}
 			}
 		}
 		return "redirect:/";
@@ -250,8 +253,8 @@ public class LibraryController {
 		List<ItemTitle> newArrivals = itemTitlerepository
 				.findByPublicationDateGreaterThanEqualOrderByPublicationDateDesc(currentDate.minusMonths(2));
 		model.addAttribute("newArrivals", newArrivals);
-		
-		if (reservationsRepository.findByUserIdAndStatusIn(account.getId(), new Integer[] {1}).size() > 0) {
+
+		if (reservationsRepository.findByUserIdAndStatusIn(account.getId(), new Integer[] { 1 }).size() > 0) {
 			model.addAttribute("tuuti", "tuuti");
 		}
 		if (account.getAuthority() == 1) {
@@ -259,7 +262,7 @@ public class LibraryController {
 		}
 		return "main";
 	}
-	
+
 	// 取置ボタン押下後にstatusを変更する処理を行う
 	@PostMapping("/library/mypage/reserved/{id}")
 	public String reserved(
@@ -270,16 +273,16 @@ public class LibraryController {
 		// statusを2(受取待機)に変更してテーブルに保存
 		reservation.setStatus(2);
 		reservationsRepository.save(reservation);
-		
+
 		// Itemsオブジェクトの生成
 		Items item = itemsRepository.findById(reservation.getItemId()).get();
 		// statusを3(取置中)に変更してテーブルに保存
 		item.setStatus(3);
 		itemsRepository.save(item);
-		
+
 		return "redirect:/login/mypage";
 	}
-	
+
 	// 取置キャンセルボタン押下後にstatusを変更する処理
 	@PostMapping("/library/mypage/cancel/{id}")
 	public String cancel(
@@ -289,18 +292,19 @@ public class LibraryController {
 		Reservations reservation = reservationsRepository.findById(id).get();
 		reservation.setStatus(3);
 		reservationsRepository.save(reservation);
-		
+
 		// 該当資料のItemsオブジェクトを生成
 		Items item = itemsRepository.findById(reservation.getItemId()).get();
 		//予約確認
-		List<Reservations> reservations = reservationsRepository.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
-		if(reservations.size() > 0) {
+		List<Reservations> reservations = reservationsRepository
+				.findByItemTitleIdAndStatusOrderByOrderedOn(item.getItemTitleId(), 0);
+		if (reservations.size() > 0) {
 			Reservations reserve = reservations.get(0);
 			reserve.setItemId(reservation.getItemId());
 			item.setStatus(2);
 			reservationsRepository.save(reserve);
 			itemsRepository.save(item);
-			
+
 		} else {
 			item.setStatus(6);
 			itemsRepository.save(item);

@@ -21,5 +21,6 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Inte
 	//	List<ItemTitle> findByNameContaining(String keyword);
 	
 	List<Reservations> findByUserIdAndItemIdAndStatus(Integer userId,Integer itemId,Integer status);
+	List<Reservations> findByUserIdAndItemTitleIdAndStatusIn(Integer userId,Integer itemId,Integer[] status);
 
 }
