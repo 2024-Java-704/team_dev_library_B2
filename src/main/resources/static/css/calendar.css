@@ -5,16 +5,16 @@
 }
 
 .calendar-wrap{
-	width: 680px;
+	width: 625px;
 }
 
 .calendar{
-	width: 660px;
+	width: 560px;
 	height: 300px;
 }
 
 
 
 .calendar{
-	min-width: 660px;
+	min-width: 500px;
 }
