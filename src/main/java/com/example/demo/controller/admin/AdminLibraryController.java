@@ -117,8 +117,8 @@ public class AdminLibraryController {
 	// 返却画面を表示する
 	@GetMapping("/admin/return")
 	public String returnBook(Model model) {
-		model.addAttribute("userId", "");
-		model.addAttribute("itemId", "");
+//		model.addAttribute("userId", "");
+//		model.addAttribute("itemId", "");
 
 		return "admin/return";
 	}

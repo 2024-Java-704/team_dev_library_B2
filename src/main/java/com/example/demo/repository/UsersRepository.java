@@ -13,4 +13,7 @@ public interface UsersRepository extends JpaRepository<Users ,Integer> {
 	List<Users> findByStatusOrderByIdAsc(Integer status);
 	List<Users> findByEmailAndPassword(String email, String password);
 	List<Users> findByNameContaining(String name);
+	
+	List<Users> findByEmailLike(String emain);
+	
 }

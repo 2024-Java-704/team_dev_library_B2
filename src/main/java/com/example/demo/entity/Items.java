@@ -127,4 +127,12 @@ public class Items {
 		}
 	}
 	
+	public void addMemo(String str) {
+		memo += "/";
+		memo += str;
+		if(memo.length() >= 300) {
+			memo = memo.substring(0, 299);
+		}
+	}
+	
 }
