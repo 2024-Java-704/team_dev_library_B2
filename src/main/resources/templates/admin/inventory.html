@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="encording">
+<title>在庫管理画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	<br>
+	<span><a th:href="@{/admin/rentalcontrol/inventory?sort=ASC&name={name}(name=${name})}">出版日古い順</a></span>
+	<br>
+	<span><a th:href="@{/admin/rentalcontrol/inventory?sort=DESC&name={name}(name=${name})}">出版日新しい順</a></span>
+	
+	<h1>在庫管理</h1>
+	
+	<!--	検索欄		-->
+	<form action="" method="">
+		<input type="text" name="name" placeholder="資料名" th:value="${name}">
+		<button>検索</button>
+	</form>
+	
+	<br>
+		<table border="1">
+		<tr>
+			<th>資料名</th>
+			<th>著者名</th>
+			<th>出版社</th>
+			<th>出版日</th>
+			<th>あらすじ</th>
+			<th>タイトル編集</th>
+			<th>在庫編集</th>
+		</tr>
+		<tr th:each="itemTitle:${itemTitles}">
+			<td th:text="${itemTitle.name}"></td>
+			<td th:text="${itemTitle.author}"></td>
+			<td th:text="${itemTitle.publisher}"></td>
+			<td th:text="${itemTitle.publicationDate}"></td>
+			<td th:text="${itemTitle.summary}"></td>
+			<td>
+				<form th:action="'/admin/rentalcontrol/inventory/detail/title/'+${itemTitle.id}" method="get">
+					<button type="submit">資料タイトル編集画面へ</button>
+				</form>
+			</td>
+			<td>
+				<form th:action="'/admin/rentalcontrol/inventory/detail/'+${itemTitle.id}" method="get">
+					<button type="submit">在庫数編集画面へ</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+	
+	
+	<br>
+	<h3>新規資料追加</h3>
+	<br>
+		<form action="/admin/rentalcontrol/inventory" method="post">
+		<table border="1">
+			<tr>
+				<th>資料名</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="name" placeholder="タイトル"></td>
+			</tr>
+			<tr>
+				<th>著者名</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="author" placeholder="作者"></td>
+			</tr>
+			<tr>
+				<th>出版社</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="publisher" placeholder="出版社"></td>
+			</tr>
+			<tr>
+				<th>出版日</th>
+				<td><input type="date" name="publicationDate" value = "1990-01-01"></td>
+			</tr>
+			<tr>
+				<th>あらすじ</th>
+				<td><input class="RoundedCornerTextBox" type="text" name="summary" placeholder="あらすじ"></td>
+			</tr>
+			<tr>
+				<th>カテゴリー</th>
+				<td>
+					<div class="cp_ipselect cp_sl01">
+					<select name="categoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="category:${categories}" th:value="${category.id}">[[${category.name}]]
+						</option>
+					</select>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>サブカテゴリー</th>	
+				<td>
+					<div class="cp_ipselect cp_sl01">
+					<select name="subCategoryId" size="1">
+						<option value="0" label="選択なし" selected></option>
+						<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}">
+							[[${subCategory.name}]]</option>
+					</select>
+					</div>
+				</td>			
+			</tr>
+		</table>
+		<br>
+			<button>新規資料追加</button>
+		</form>
+	<br>
+	<form action="/admin/rentalcontrol" method="get">
+		<button type="submit">貸出管理画面へ</button>
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>貸出画面</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<body>
+	<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+
+	<h1>貸出画面</h1>
+
+	<form action = "rental" method = "post">
+	<table border="1">
+	<tr>
+		<th>会員ID</th><td><input type = "number" name = "userId" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"></td>
+	</tr>
+	<tr>
+		<th>資料ID</th>
+		<td><input type = "number" name = "id" min = "1" max = "2147483647 " oninput="javascript: this.value = this.value.slice(0, 9);"></td>
+	</tr>
+	</table>
+	<button>貸出</button>
+	</form>
+	<br>
+	<br>
+	<br>
+	<form action="/admin" method="get">
+		<button>管理者メイン画面へ</button>
+	</form>
+
+</body>
+
+
+
+</html>

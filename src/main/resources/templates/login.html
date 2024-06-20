@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>会員ログイン</title>
+</head>
+<body>
+	<header>
+		<a href="/library"><img th:src="@{/image/reskill.png} " width="420" height="120"></a>
+		<br>
+		
+	<hr>
+		<span><a href="/login/newuser">新規登録</a></span>
+	</header>
+	
+	<hr>
+	
+	<div class="loginBody">
+		
+	<h1>会員ログイン</h1>
+	
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+	<br>
+	<form action="/login" method="post">
+		<input type="email" name="email" placeholder="メールアドレス" th:value="${email}">
+		<br>
+		<br>
+		<input type="password" name="password" placeholder="パスワード">
+		<br>
+		<br>
+		<button>ログイン</button>
+	</form>
+	<br>
+	<br>
+	
+	<a href="/library">メインページへ戻る</a>
+	<br>
+	<br>
+	<a href="/admin/login">管理者ログインはこちら</a>
+<!--	<div class="bottom">-->
+	<footer th:replace="userFooter"></footer>
+<!--	</div>-->
+</div>
+
+</body>
+</html>

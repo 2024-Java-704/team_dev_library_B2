@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="encording">
+	<title>予約一覧</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+
+	<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}" }>
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+	<h1>予約一覧</h1>
+	<br>
+	<table border="1">
+		<tr>
+			<th>予約ID</th>
+			<th>会員ID</th>
+			<th>会員名</th>
+			<th>資料名</th>
+			<th>予約日</th>
+		</tr>
+		<tr th:each="reservation:${reservations}">
+			<td th:text="${reservation.id}"></td>
+			<td><span th:text="${reservation.userId}"></span></td>
+			<td th:text="${reservation.usersName}"></td>
+			<td th:text="${reservation.itemTitleName}"></td>
+			<td th:text="${reservation.orderedOn}"></td>
+	</table>
+	<br>
+	<form action="/admin/rentalcontrol" method="get">
+		<button type="submit">貸出管理画面へ</button>
+	</form>
+
+</body>
+
+</html>

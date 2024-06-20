@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>カレンダー管理</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+		<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+	<h1>閉館日カレンダー管理</h1>
+	
+	<div class="form">
+		<table border="1">
+		<form action="/admin/calendar/add" method="post">
+			<tr>
+				<th colspan="2">追加</th>
+			</tr>
+			<tr>
+				<th>閉館日</th>
+				<td><input type="date" name="date"></td>
+			</tr>
+			<tr>
+				<th>備考</th>
+				<td><input type="text" name="dateDetail" placeholder="休館理由"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button>追加</button></td>
+			</tr>
+		</form>
+		</table>
+			
+	</div>
+	
+	
+	
+	<div class="table">
+		<table border="1">
+			<tr>
+				<th>閉館日</th><th>備考</th><th>削除</th>
+			</tr>
+			<span th:if="${calendars}">
+				<tr th:each="date:${calendars}">
+					<td th:text="${date.closedDate}"></td>
+					<td><span th:text="${date.dateDetail}"></span></td>
+					<td>
+						<form action="/admin/calendar/delete" method="post">
+							<input type="hidden" name="date" th:value="${date.closedDate}">
+							<button>削除</button>
+						</form>
+					</td>
+				</tr>
+			</span>
+		</table>
+	</div>
+	
+	
+	<div class="calendar">
+			<div id="calendar" class="calendar-wrap"></div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<form action="/admin" method="get">
+		<button>管理者メイン画面へ</button>
+	</form>
+	
+	
+</body>
+</html>

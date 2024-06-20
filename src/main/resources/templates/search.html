@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>検索結果</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+	<header th:replace="userHeader"></header>
+	<div th:if="${errorList}" }>
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+	<!--	検索欄		-->
+	<form action="/library/search/more" method="get">
+		<input type="text" name="keyword" placeholder="フリーワード検索" th:value="${keyword}">
+		<button>検索</button>
+	</form>
+
+	<br>
+
+
+	<details class="details">
+		<summary class="details-summary">詳細検索</summary>
+		<div class="details-content">
+			<form action="/library/search/more" method="get">
+				<table border="1">
+				<tr>
+					<th>タイトル</th>
+					<td><input type="text" name="name" th:value="${name}"></td>
+				</tr>
+				<tr>
+					<th>著者</th>
+					<td><input type="text" name="author" th:value="${author}"></td>
+				</tr>
+				<tr>
+					<th>出版社</th>
+					<td><input type="text" name="publisher" th:value="${publisher}"></td>
+				</tr>
+				<tr>
+					<th>カテゴリー</th>
+					<td>
+						<div class="cp_ipselect cp_sl01">
+						<select name="categoryId" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option th:each="category:${categories}" th:value="${category.id}"
+								th:selected="${category.id == categoryId}">[[${category.name}]]</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>サブカテゴリー</th>
+					<td>
+						<div class="cp_ipselect cp_sl01">
+						<select name="subCategoryId" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option th:each="subCategory:${subCategories}" th:value="${subCategory.id}"
+								th:selected="${subCategory.id == subCategoryId}">
+								[[${subCategory.name}]]</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>ソート</th>
+					<td>
+						<div class="cp_ipselect cp_sl01">
+						<select name="sort" size="1">
+							<option value="0" label="選択なし" selected></option>
+							<option value="ASC" label="出版年度古い順" th:selected="${sort}=='ASC'"></option>
+							<option value="DESC" label="出版年度新しい順" th:selected="${sort}=='DESC'"></option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<button>検索</button>
+			</form>
+		</div>
+	</details>
+
+	<h1>検索結果</h1>
+	<table border="1">
+		<tr>
+			<th>タイトル</th>
+			<th>著者名</th>
+			<th>出版社</th>
+			<th>出版日</th>
+			<th>詳細</th>
+		</tr>
+		<tr th:each="item:${itemlist}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.author}"></td>
+			<td th:text="${item.publisher}"></td>
+			<td th:text="${item.publicationDate}"></td>
+			<td>
+				<form th:action="'/library/search/'+${item.id}"><button>詳細</button></form>
+			</td>
+		</tr>
+	</table>
+
+	<footer th:replace="userFooter"></footer>
+
+</body>
+
+</html>

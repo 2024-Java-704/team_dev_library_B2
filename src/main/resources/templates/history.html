@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>貸出履歴</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+	<header th:replace="userHeader"></header>
+		<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+	<h1>貸出履歴</h1>
+	<table border="1">
+		<tr>
+			<th>アイテム名</th>
+			<th>貸出日</th>
+			<th>返却期限</th>
+			<th>返却日</th>
+			<th>貸出状態</th>
+			<th>ボタン</th>
+		</tr>
+		<tr th:each="rental:${rentalHistory}">
+			<td th:text="${rental.itemTitleName}"></td>
+			<td th:text="${rental.rentalDate}"></td>
+			<td th:text="${rental.closingDate}"></td>
+			<td><span th:text="${rental.returnDate}"></span></td>
+			<td th:text="${rental.statusStr}"></td>
+			<td>
+				<span th:if="${rental.status == 0}">
+					<button class="modalOpen" th:attr="data-taskid=${rental.id}" type="button" data-toggle="modal"
+						data-target="#sampleModal">紛失申告</button>
+					<div class="modal" th:id="'modal-'+${rental.id}" tabindex="-1">
+						<div class="modal-content">
+							<div class="modal-header">
+								<span class="modalClose">×</span>
+								<h4 class="modal-title">紛失申告</h4>
+							</div>
+							<div class="modal-body">
+								<p>紛失申告を行いますか？</p>
+							</div>
+							<div class="modal-footer" display="inline-block">
+								<form th:action="'/library/mypage/history'" method="post">
+									<input type="hidden" name="rentalsId" th:value="${rental.id}">
+									<button>申告</button>
+								</form>
+								<form>
+									<button>キャンセル</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</span>
+			</td>
+		</tr>
+	</table>
+
+</body>
+
+<script>
+	// 各削除ボタンをクリックしたときにモーダルを表示する
+	document.querySelectorAll('.modalOpen').forEach(function (button) {
+		button.addEventListener('click', function () {
+			var taskId = button.getAttribute('data-taskid');
+			var modal = document.getElementById('modal-' + taskId);
+			modal.style.display = 'block';
+		});
+	});
+
+	// モーダルの閉じるボタンをクリックしたときにモーダルを閉じる
+	document.querySelectorAll('.modalClose').forEach(function (closeButton) {
+		closeButton.addEventListener('click', function () {
+			var modal = closeButton.closest('.modal');
+			modal.style.display = 'none';
+		});
+	});
+
+	// モーダルの外側をクリックしたときにモーダルを閉じる
+	window.addEventListener('click', function (event) {
+		document.querySelectorAll('.modal').forEach(function (modal) {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		});
+	});
+</script>
+
+<footer th:replace = "userFooter"></footer>
+
+</html>

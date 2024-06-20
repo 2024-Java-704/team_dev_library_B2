@@ -1,0 +1,52 @@
+
+	<header>
+		<h1><a href="/admin">図書館管理機能</a></h1>
+		<span th:if="${@account.name}">
+			<span class="header1" th:text="${@account.name}+'さん'"></span><br>
+		</span>
+		<span class="header1" th:text="'あなたは admin としてログインしています'"></span>
+		<br>
+		 <a href="#" id="logoutButton" class="header1">ログアウト</a>
+		<br>
+	</header>
+	
+	<!-- モーダルウィンドウ -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>確認</h2>
+            </div>
+            <div class="modal-body">
+                <p>本当にログアウトしますか？</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmLogout">ログアウト</button>
+                <button id="cancelLogout">キャンセル</button>
+            </div>
+        </div>
+    </div>
+	
+	 <script type="text/javascript">
+        document.getElementById('logoutButton').onclick = function() {
+            document.getElementById('logoutModal').style.display = "block";
+        };
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('logoutModal').style.display = "none";
+        };
+
+        document.getElementById('cancelLogout').onclick = function() {
+            document.getElementById('logoutModal').style.display = "none";
+        };
+
+        document.getElementById('confirmLogout').onclick = function() {
+            window.location.href = "/logout";
+        };
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('logoutModal')) {
+                document.getElementById('logoutModal').style.display = "none";
+            }
+        };
+    </script>

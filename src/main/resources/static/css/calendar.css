@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.closed{
+	background-color: darkgrey;
+}
+
+.calendar-wrap{
+	width: 625px;
+}
+
+.calendar{
+	width: 560px;
+	height: 300px;
+}
+
+.calendar{
+	min-width: 500px;
+}
+.calendar tr,.calendar td{
+	width:80px;
+}

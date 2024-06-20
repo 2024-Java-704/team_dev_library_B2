@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="encording">
+	<title>在庫編集画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+	
+	<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+	<h1>在庫編集</h1>
+	
+	<h2 th:text="${itemTitle.name}"></h2>
+		<table border="1">
+			<tr>
+			<th>資料ID</th>
+			<th>状態</th>
+			<th>入荷日</th>
+			<th>備考</th>
+			<th>在庫状態編集</th>
+		</tr>
+		<tr th:each="item:${items}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.statusStr}"></td>
+			<td th:text="${item.arrivalDate}"></td>
+			<td th:text="${item.memo}"></td>
+			<td>
+				<form th:action="'/admin/rentalcontrol/inventory/detail/item/'+${item.id}" method="get">
+					<button type="submit">在庫状態編集画面へ</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<h2>この本の在庫を追加する</h2>
+	<form action="/admin/rentalcontrol/inventory/detail" method="post">
+		<input type="hidden" name="id" th:value="${itemTitle.id}">
+		<table border="1">
+			<tr>
+			<th>状態</th>
+			<td>
+				<select name="status">
+					<option value="0" selected>在架</option>
+					<option value="4">利用不可</option>
+				</select>
+			</td>
+			<th>備考</th>
+			<td>
+				<input type="text" name="memo">
+			</td>
+			</tr>
+			<tr>
+				<th>配架日</th>
+				<td colspan="3"><input type="date" name="arrivalDate">
+				<script>
+					    //今日の日時を表示
+					        window.onload = function () {
+					            //今日の日時を表示
+					            var date = new Date()
+					            var year = date.getFullYear()
+					            var month = date.getMonth() + 1
+					            var day = date.getDate()
+					          
+					            var toTwoDigits = function (num, digit) {
+					              num += ''
+					              if (num.length < digit) {
+					                num = '0' + num
+					              }
+					              return num
+					            }
+					            
+					            var yyyy = toTwoDigits(year, 4)
+					            var mm = toTwoDigits(month, 2)
+					            var dd = toTwoDigits(day, 2)
+					            var ymd = yyyy + "-" + mm + "-" + dd;
+					            
+					            document.getElementById("today").value = ymd;
+					        }
+					</script>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<button type="submit">新規在庫追加</button>
+	</form>
+	<br>
+	<form action="/admin/rentalcontrol/inventory" method="get">
+		<button type="submit">在庫管理画面へ</button>
+	</form>
+
+</body>
+
+</html>

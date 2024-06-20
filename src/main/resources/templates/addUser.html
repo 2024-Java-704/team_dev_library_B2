@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>会員新規登録</title>
+</head>
+<body>
+	
+	<header>
+		<a href="/library"><img th:src="@{/image/reskill.png} "width="420" height="120"></a>
+		<br>
+	<hr>
+		<span><a href="/login">ログイン</a></span>
+	<hr>
+	</header>
+	
+	
+	<div class="loginBody">
+	
+	<div th:if="${errorList}"} >
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+	
+<!--	<button type="button" onclick="history.back()">ホームページに戻る</button>-->
+	<h1>会員登録</h1>
+	
+	<form action="/login/newuser" method="post">
+		<table>
+			<tr>
+				<th>氏名</th>
+				<td><input type="text" name="name" placeholder="氏名" th:value="${name}"></td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td><input type="text" name="address" placeholder="住所" th:value="${address}"></td>
+			</tr>
+			<tr>
+				<th>電話番号</th>
+				<td><input type="text" name="tel" placeholder="電話番号" th:value="${tel}"></td>
+			</tr>
+			<tr>
+				<th>メールアドレス</th>
+				<td><input type="email" name="email" placeholder="E-mail" th:value="${email}"></td>
+			</tr>
+			<tr>
+				<th>生年月日</th>
+				<td><input type="date" name="birthday" placeholder="生年月日" value = "1990-01-01"></td>
+			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td><input type="password" name="password" placeholder="パスワード"></td>
+			</tr>
+		</table>
+		<button>登録</button>
+	</form>
+	<a href="/library">メインページに戻る</a>
+	
+<!--	<div class="bottom">-->
+	<footer th:replace="userFooter"></footer>
+<!--	</div>-->
+	</div>
+	
+</body>
+</html>

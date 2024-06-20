@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>貸出中一覧</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+
+	<header th:replace="~{admin/header}"></header>
+	<div th:if="${errorList}" }>
+		<ul class="error">
+			<li th:each="err:${errorList}" th:text="${err}"></li>
+		</ul>
+	</div>
+
+	<h1>貸出中一覧</h1>
+	<table border="1">
+		<tr>
+			<th>会員ID</th>
+			<th>会員名</th>
+			<th>資料名</th>
+			<th>資料ID</th>
+			<th>貸出日</th>
+			<th>返却期限</th>
+			<th>貸出状態</th>
+			<th>紛失申告</th>
+		</tr>
+		<tr th:each="rental:${rentaling}">
+			<td th:text="${rental.userId}"></td>
+			<td th:text="${rental.userName}"></td>
+			<td th:text="${rental.itemTitleName}"></td>
+			<td th:text="${rental.itemId}"></td>
+			<td th:text="${rental.rentalDate}"></td>
+			<td th:text="${rental.closingDate}"></td>
+			<td th:text="${rental.statusStr}"></td>
+			<td><span th:if="${rental.status}==2">
+				<form th:action="@{/admin/rentalcontrol/confirm/{id}(id=${rental.id})}" method="post">
+					<button>確認</button>
+				</form>
+				</span>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<br>
+	<br>
+	<form action="/admin/rentalcontrol" method="get">
+		<button>貸出管理画面へ</button>
+	</form>
+
+
+
+</body>
+
+</html>
